@@ -1,0 +1,251 @@
+/* XGalaga++ Web Edition */
+
+:root {
+  --ink: #050508;
+  --lavender: #c9c9ff;
+  --violet: #8f8fff;
+  --line: rgba(140, 150, 255, 0.22);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--ink);
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: "Courier New", "Lucida Console", Consolas, monospace;
+  color: var(--lavender);
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(70, 60, 160, 0.14), transparent 60%),
+    radial-gradient(circle at 50% 110%, rgba(30, 90, 160, 0.10), transparent 55%),
+    #040407;
+}
+
+#screen {
+  position: relative;
+  width: min(100vw, calc(100dvh * 4 / 3));
+  height: min(100dvh, calc(100vw * 3 / 4));
+  background: #000;
+  overflow: hidden;
+  border: 1px solid rgba(120, 130, 255, 0.16);
+  box-shadow:
+    0 0 60px rgba(80, 70, 255, 0.16),
+    0 0 160px rgba(40, 30, 120, 0.12);
+}
+
+#screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.62);
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+body.playing #game { cursor: none; }
+
+#scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.28) 0,
+    rgba(0, 0, 0, 0.28) 1px,
+    rgba(255, 255, 255, 0.012) 1px,
+    rgba(255, 255, 255, 0.012) 3px
+  );
+  transition: opacity 120ms linear;
+}
+
+body.crt #scanlines { opacity: 1; }
+
+#toolbar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  z-index: 5;
+  opacity: 0.42;
+  transition: opacity 140ms linear;
+}
+
+/* Keep the game field clean during play: the bar only wakes on hover. */
+body.playing #toolbar { opacity: 0.12; }
+
+#toolbar:hover,
+#toolbar:focus-within,
+body.playing #toolbar:hover,
+body.playing #toolbar:focus-within,
+body.state-paused #toolbar,
+body.state-gameover #toolbar,
+body.state-menu #toolbar { opacity: 0.92; }
+
+#toolbar button {
+  appearance: none;
+  border: 1px solid rgba(150, 160, 255, 0.22);
+  border-radius: 2px;
+  background: rgba(8, 8, 18, 0.62);
+  color: rgba(215, 215, 255, 0.72);
+  font-family: inherit;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  padding: 4px 5px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+}
+
+#toolbar button:hover,
+#toolbar button:focus-visible {
+  color: #fff;
+  border-color: rgba(190, 200, 255, 0.65);
+  background: rgba(40, 40, 90, 0.7);
+  outline: none;
+}
+
+#toolbar button:active { transform: translateY(1px); }
+
+/* ---------- high score dialog ---------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(2, 2, 8, 0.74);
+  backdrop-filter: blur(3px);
+}
+
+.modal[hidden] { display: none !important; }
+
+.dialog {
+  width: min(360px, 92vw);
+  padding: 26px 26px 22px;
+  border: 1px solid rgba(150, 160, 255, 0.42);
+  border-radius: 4px;
+  background:
+    linear-gradient(160deg, rgba(28, 26, 66, 0.96), rgba(8, 8, 20, 0.98));
+  box-shadow:
+    0 0 0 1px rgba(90, 90, 200, 0.15),
+    0 24px 70px rgba(0, 0, 0, 0.75),
+    0 0 50px rgba(110, 90, 255, 0.16);
+  color: var(--lavender);
+  font-family: inherit;
+}
+
+.dialog .eyebrow {
+  margin: 0 0 10px;
+  color: #8ff8ff;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.22em;
+}
+
+.dialog h2 {
+  margin: 0 0 20px;
+  color: #ffe28a;
+  font-size: 34px;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(255, 210, 100, 0.35);
+}
+
+.dialog h2 small {
+  color: #8f95c9;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 0.12em;
+}
+
+.dialog label {
+  display: block;
+  margin-bottom: 7px;
+  color: #9fa4d8;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dialog input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(150, 160, 255, 0.38);
+  border-radius: 2px;
+  background: rgba(0, 0, 10, 0.65);
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.dialog input:focus {
+  border-color: #8ff8ff;
+  box-shadow: 0 0 0 2px rgba(100, 240, 255, 0.16);
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dialog-actions button {
+  flex: 1;
+  padding: 10px 8px;
+  border: 1px solid rgba(150, 160, 255, 0.42);
+  border-radius: 2px;
+  background: rgba(70, 70, 150, 0.35);
+  color: #ececff;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.dialog-actions button:hover { background: rgba(100, 100, 210, 0.5); }
+
+.dialog-actions button[type="button"] {
+  flex: 0 0 34%;
+  background: transparent;
+  color: #9fa4d8;
+}
+
+@media (pointer: coarse) {
+  #toolbar button { font-size: 9px; padding: 6px 7px; }
+  #toolbar { opacity: 0.75; }
+  body.playing #toolbar { opacity: 0.55; }
+}

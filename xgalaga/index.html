@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#050508">
+  <meta name="description" content="XGalaga++ Web Edition - the classic X11 arcade shooter, ported to HTML5 canvas.">
+  <title>XGalaga++ &middot; Web Edition</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="stage">
+    <div id="screen">
+      <canvas id="game" width="800" height="600" aria-label="XGalaga++ game field">
+        Your browser needs HTML5 canvas support to play XGalaga++.
+      </canvas>
+      <div id="scanlines" aria-hidden="true"></div>
+      <div id="toolbar" role="group" aria-label="Game options">
+        <button type="button" data-action="scores" title="High scores (H)">SCORES</button>
+        <button type="button" data-action="pause" title="Pause / resume (P)">PAUSE</button>
+        <button type="button" data-action="mute" title="Mute sound (M)">SOUND</button>
+        <button type="button" data-action="fullscreen" title="Fullscreen (F)">FULL</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="score-modal" class="modal" hidden>
+    <form id="score-form" class="dialog" autocomplete="off">
+      <p class="eyebrow">NEW HIGH SCORE</p>
+      <h2><span id="final-score">0</span><small> pts</small></h2>
+      <label for="pilot-name">Pilot name</label>
+      <input id="pilot-name" name="pilot" maxlength="12" spellcheck="false">
+      <div class="dialog-actions">
+        <button type="submit">SAVE SCORE</button>
+        <button type="button" id="score-skip">SKIP</button>
+      </div>
+    </form>
+  </div>
+
+  <noscript>
+    <p style="color:#ddd;text-align:center;padding:2rem;font-family:monospace">
+      XGalaga++ Web Edition needs JavaScript enabled.
+    </p>
+  </noscript>
+
+  <script src="js/xpm-data.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
