@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#3a6ea5">
+  <meta name="description" content="The classic Minesweeper game recreated for the web, complete with a Windows 2000 style desktop.">
+  <title>Minesweeper</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cg stroke='%23000' stroke-width='1.5'%3E%3Cpath d='M8 1v14M1 8h14M3 3l10 10M13 3L3 13'/%3E%3C/g%3E%3Ccircle cx='8' cy='8' r='4.5' fill='%23000'/%3E%3Ccircle cx='6.5' cy='6.5' r='1' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ======================= SVG SPRITE ======================= -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-mine" viewBox="0 0 16 16">
+      <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M8 1.2v13.6M1.2 8h13.6M3.2 3.2l9.6 9.6M12.8 3.2l-9.6 9.6"/>
+      </g>
+      <circle cx="8" cy="8" r="4.1" fill="currentColor"/>
+      <circle cx="6.5" cy="6.5" r="1" fill="#fff"/>
+    </symbol>
+
+    <symbol id="i-flag" viewBox="0 0 16 16">
+      <path d="M6 2v8.6" stroke="#000" stroke-width="1.2"/>
+      <path d="M6.4 2.2 11.6 4.4 6.4 6.6Z" fill="#e00000" stroke="#000" stroke-width=".5"/>
+      <rect x="3.6" y="10.7" width="6" height="1.4" fill="#000"/>
+      <rect x="5" y="9.5" width="3.2" height="1.4" fill="#000"/>
+    </symbol>
+
+    <symbol id="i-win" viewBox="0 0 16 16">
+      <path d="M1.2 3.3 7.4 2.2v5.4H1.2z" fill="#e53935"/>
+      <path d="M8.2 2.1 14.8 1v6.6H8.2z" fill="#43a047"/>
+      <path d="M1.2 8.4h6.2v5.4L1.2 12.7z" fill="#1e88e5"/>
+      <path d="M8.2 8.4h6.6v6.5l-6.6-1.1z" fill="#fdd835"/>
+    </symbol>
+
+    <symbol id="i-folder" viewBox="0 0 16 16">
+      <path d="M1.4 3.4h5.2l1.6 1.6h6.4v7.6H1.4z" fill="#e0b34a" stroke="#000" stroke-width=".7"/>
+      <path d="M2.2 6.2h11.6v5.6H2.2z" fill="#ffe08a" stroke="#000" stroke-width=".7"/>
+    </symbol>
+
+    <symbol id="i-doc" viewBox="0 0 16 16">
+      <path d="M3 1.5h7l3 3v10H3z" fill="#fff" stroke="#000" stroke-width=".8"/>
+      <path d="M10 1.5v3h3" fill="#d9d9d9" stroke="#000" stroke-width=".8"/>
+      <path d="M5 7h6M5 9h6M5 11h4" stroke="#404040" stroke-width=".8"/>
+    </symbol>
+
+    <symbol id="i-trophy" viewBox="0 0 16 16">
+      <path d="M4 2h8v3.2a4 4 0 0 1-8 0z" fill="#f0c040" stroke="#000" stroke-width=".8"/>
+      <path d="M4 3H2v1.8c0 1.5 1 2.2 2 2.2M12 3h2v1.8c0 1.5-1 2.2-2 2.2" fill="none" stroke="#000" stroke-width=".8"/>
+      <path d="M7.2 9h1.6v3H7.2z" fill="#b8860b"/>
+      <path d="M5 12.4h6V14H5z" fill="#b8860b" stroke="#000" stroke-width=".6"/>
+    </symbol>
+
+    <symbol id="i-help" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="6.8" fill="#2b6cb0" stroke="#003a75" stroke-width=".8"/>
+      <text x="8" y="11.7" font-family="Tahoma, sans-serif" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">?</text>
+    </symbol>
+
+    <symbol id="i-info" viewBox="0 0 16 16">
+      <circle cx="8" cy="8" r="6.8" fill="#2b6cb0" stroke="#003a75" stroke-width=".8"/>
+      <text x="8" y="11.7" font-family="Georgia, serif" font-size="11" font-style="italic" font-weight="bold" fill="#fff" text-anchor="middle">i</text>
+    </symbol>
+
+    <symbol id="i-power" viewBox="0 0 16 16">
+      <path d="M8 1.6v6.1" stroke="#a00000" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4.7 3.7a5.6 5.6 0 1 0 6.6 0" fill="none" stroke="#a00000" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ======================= DESKTOP ======================= -->
+  <main class="desktop" id="desktop">
+    <div class="desktop-icons" id="desktop-icons">
+      <button class="desk-icon" data-open="minesweeper" type="button">
+        <span class="desk-icon-img desk-icon-mine">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-mine"/></svg>
+          <span class="mini-window" aria-hidden="true"></span>
+        </span>
+        <span class="desk-icon-label">Minesweeper</span>
+      </button>
+      <button class="desk-icon" data-open="help" type="button">
+        <span class="desk-icon-img desk-icon-doc">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-doc"/></svg>
+        </span>
+        <span class="desk-icon-label">Minesweeper Help</span>
+      </button>
+      <button class="desk-icon" data-open="best" type="button">
+        <span class="desk-icon-img desk-icon-trophy">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-trophy"/></svg>
+        </span>
+        <span class="desk-icon-label">Best Times</span>
+      </button>
+    </div>
+
+    <!-- ======================= MINESWEEPER WINDOW ======================= -->
+    <section class="window" id="win-minesweeper" data-win="minesweeper" aria-label="Minesweeper">
+      <div class="titlebar" data-drag>
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-mine"/></svg></span>
+        <span class="titlebar-text">Minesweeper</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn tb-help" type="button" data-win-action="help" aria-label="Help" title="Help">?</button>
+          <button class="tb-btn" type="button" data-win-action="minimize" aria-label="Minimize" title="Minimize"><span class="glyph-min"></span></button>
+          <button class="tb-btn" type="button" data-win-action="close" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+
+      <div class="window-inner">
+        <div class="menubar" id="menubar">
+          <div class="menu" data-menu>
+            <button class="menu-label" type="button" aria-haspopup="true">Game</button>
+            <div class="menu-popup" role="menu">
+              <button class="menu-item" type="button" data-cmd="new" role="menuitem"><span>New</span><span class="menu-accel">F2</span></button>
+              <div class="menu-sep" role="separator"></div>
+              <button class="menu-item" type="button" data-cmd="beginner" role="menuitem"><span>Beginner</span></button>
+              <button class="menu-item" type="button" data-cmd="intermediate" role="menuitem"><span>Intermediate</span></button>
+              <button class="menu-item" type="button" data-cmd="expert" role="menuitem"><span>Expert</span></button>
+              <button class="menu-item" type="button" data-cmd="custom" role="menuitem"><span>Custom&hellip;</span></button>
+              <div class="menu-sep" role="separator"></div>
+              <button class="menu-item" type="button" data-cmd="marks" role="menuitem"><span>Marks (?)</span></button>
+              <button class="menu-item" type="button" data-cmd="color" role="menuitem"><span>Color</span></button>
+              <div class="menu-sep" role="separator"></div>
+              <button class="menu-item" type="button" data-cmd="best" role="menuitem"><span>Best Times&hellip;</span></button>
+              <div class="menu-sep" role="separator"></div>
+              <button class="menu-item" type="button" data-cmd="exit" role="menuitem"><span>Exit</span></button>
+            </div>
+          </div>
+          <div class="menu" data-menu>
+            <button class="menu-label" type="button" aria-haspopup="true">Help</button>
+            <div class="menu-popup" role="menu">
+              <button class="menu-item" type="button" data-cmd="help" role="menuitem"><span>Contents</span><span class="menu-accel">F1</span></button>
+              <div class="menu-sep" role="separator"></div>
+              <button class="menu-item" type="button" data-cmd="about" role="menuitem"><span>About Minesweeper&hellip;</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="game">
+          <div class="status-panel">
+            <div class="led" id="mine-counter" aria-label="Mines remaining"></div>
+            <button class="smiley" id="smiley" type="button" aria-label="Start a new game" title="New game"></button>
+            <div class="led" id="timer" aria-label="Time elapsed"></div>
+          </div>
+          <div class="board-frame">
+            <div class="board" id="board" role="grid" aria-label="Minefield"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= BEST TIMES WINDOW ======================= -->
+    <section class="window is-hidden" id="win-best" data-win="best" aria-label="Fastest Mine Sweepers">
+      <div class="titlebar" data-drag>
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-trophy"/></svg></span>
+        <span class="titlebar-text">Fastest Mine Sweepers</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn" type="button" data-win-action="minimize" aria-label="Minimize" title="Minimize"><span class="glyph-min"></span></button>
+          <button class="tb-btn" type="button" data-win-action="close" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+      <div class="window-inner">
+        <div class="dialog-body best-times-body">
+          <table class="best-table">
+            <tbody>
+              <tr><th scope="row">Beginner:</th><td class="best-time" data-best-time="beginner">---</td><td class="best-name" data-best-name="beginner"></td></tr>
+              <tr><th scope="row">Intermediate:</th><td class="best-time" data-best-time="intermediate">---</td><td class="best-name" data-best-name="intermediate"></td></tr>
+              <tr><th scope="row">Expert:</th><td class="best-time" data-best-time="expert">---</td><td class="best-name" data-best-name="expert"></td></tr>
+            </tbody>
+          </table>
+          <div class="dialog-buttons">
+            <button class="btn" type="button" data-cmd="reset-scores">Reset Scores</button>
+            <button class="btn" type="button" data-win-action="close">OK</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= HELP WINDOW ======================= -->
+    <section class="window is-hidden" id="win-help" data-win="help" aria-label="Minesweeper Help">
+      <div class="titlebar" data-drag>
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-help"/></svg></span>
+        <span class="titlebar-text">Minesweeper Help</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn" type="button" data-win-action="minimize" aria-label="Minimize" title="Minimize"><span class="glyph-min"></span></button>
+          <button class="tb-btn" type="button" data-win-action="close" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+      <div class="window-inner">
+        <div class="help-body">
+          <div class="help-content">
+            <h1><svg class="help-logo" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-mine"/></svg> Minesweeper</h1>
+            <p>Find every mine without uncovering one. The numbers tell you how many mines touch a square.</p>
+
+            <h2>How to play</h2>
+            <ul>
+              <li><b>Left-click</b> a square to uncover it.</li>
+              <li><b>Right-click</b> to place a flag on a suspected mine. Right-click again for a question mark (when <i>Marks</i> is enabled).</li>
+              <li><b>Double-click</b> a number, or click it with both mouse buttons (or middle-click), to open all of its neighbours once the right number of flags are placed.</li>
+              <li>Click the <b>smiley face</b> to start a new game.</li>
+            </ul>
+
+            <h2>Winning</h2>
+            <p>Uncover every safe square to win. Your fastest times for Beginner, Intermediate and Expert are saved in your browser and can be viewed under <i>Game &rsaquo; Best Times</i>.</p>
+
+            <h2>Keyboard</h2>
+            <table class="help-keys">
+              <tr><td><kbd>F2</kbd></td><td>New game</td></tr>
+              <tr><td><kbd>F1</kbd></td><td>Open this help window</td></tr>
+              <tr><td><kbd>Esc</kbd></td><td>Close menus and dialogs</td></tr>
+            </table>
+
+            <h2>Tips</h2>
+            <ul>
+              <li>Your first click is always safe. The board is generated after you click.</li>
+              <li>A number shows how many mines are in the eight surrounding squares.</li>
+              <li>Use flags to keep track of mines, then chord around numbers to clear space quickly.</li>
+            </ul>
+
+            <p class="help-credit">A web recreation of the Windows 2000 classic, inspired by
+              <a href="https://github.com/AlexAegis/minesweeper" target="_blank" rel="noopener">AlexAegis/minesweeper</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= ABOUT WINDOW ======================= -->
+    <section class="window is-hidden" id="win-about" data-win="about" aria-label="About Minesweeper">
+      <div class="titlebar" data-drag>
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-info"/></svg></span>
+        <span class="titlebar-text">About Minesweeper</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn" type="button" data-win-action="minimize" aria-label="Minimize" title="Minimize"><span class="glyph-min"></span></button>
+          <button class="tb-btn" type="button" data-win-action="close" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+      <div class="window-inner">
+        <div class="dialog-body about-body">
+          <div class="about-icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16"><use href="#i-mine"/></svg>
+            <span class="mini-window"></span>
+          </div>
+          <div class="about-text">
+            <h2>Minesweeper</h2>
+            <p class="about-version">Windows&nbsp;2000 edition &middot; Web version</p>
+            <p>A faithful recreation of the classic Minesweeper, built with plain HTML, CSS and JavaScript. No frameworks, no dependencies, no build step.</p>
+            <p>Inspired by <a href="https://github.com/AlexAegis/minesweeper" target="_blank" rel="noopener">AlexAegis/minesweeper</a> (MIT).</p>
+            <p class="about-small">Right-click to flag &middot; F2 for a new game</p>
+          </div>
+        </div>
+        <div class="dialog-buttons about-buttons">
+          <button class="btn" type="button" data-win-action="close">OK</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= TASKBAR ======================= -->
+  <div class="taskbar" id="taskbar">
+    <button class="start-btn" id="start-btn" type="button" aria-haspopup="true" aria-expanded="false">
+      <svg class="start-logo" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-win"/></svg>
+      <span>Start</span>
+    </button>
+    <div class="taskbar-divider" aria-hidden="true"></div>
+    <div class="task-list" id="task-list" role="toolbar" aria-label="Open programs"></div>
+    <div class="tray" title=""><span id="clock">12:00 PM</span></div>
+  </div>
+
+  <!-- ======================= START MENU ======================= -->
+  <nav class="start-menu" id="start-menu" aria-label="Start menu" hidden>
+    <div class="start-sidebar"><span>Windows 2000</span></div>
+    <div class="start-items">
+      <div class="start-item-wrap">
+        <button class="start-item" type="button" data-submenu>
+          <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"/></svg>
+          <span>Programs</span>
+          <span class="start-chev" aria-hidden="true">&#9654;</span>
+        </button>
+        <div class="start-submenu">
+          <button class="start-item" type="button" data-open="minesweeper">
+            <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-mine"/></svg>
+            <span>Minesweeper</span>
+          </button>
+          <button class="start-item" type="button" data-open="help">
+            <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-help"/></svg>
+            <span>Minesweeper Help</span>
+          </button>
+          <button class="start-item" type="button" data-open="best">
+            <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-trophy"/></svg>
+            <span>Best Times</span>
+          </button>
+        </div>
+      </div>
+      <button class="start-item" type="button" data-open="help">
+        <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-help"/></svg>
+        <span>Help</span>
+      </button>
+      <button class="start-item" type="button" data-open="about">
+        <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-info"/></svg>
+        <span>About</span>
+      </button>
+      <div class="start-sep" role="separator"></div>
+      <button class="start-item disabled" type="button" disabled>
+        <svg class="start-icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-power"/></svg>
+        <span>Shut Down&hellip;</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======================= CUSTOM FIELD DIALOG ======================= -->
+  <div class="modal-layer" id="custom-overlay" hidden>
+    <section class="window modal-window" role="dialog" aria-modal="true" aria-labelledby="custom-title">
+      <div class="titlebar">
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-mine"/></svg></span>
+        <span class="titlebar-text" id="custom-title">Custom Field</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn" type="button" data-close-modal="custom-overlay" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+      <div class="dialog-body custom-body">
+        <div class="field-row"><label for="custom-height">Height:</label><input id="custom-height" type="number" min="9" max="50" step="1" inputmode="numeric"></div>
+        <div class="field-row"><label for="custom-width">Width:</label><input id="custom-width" type="number" min="9" max="50" step="1" inputmode="numeric"></div>
+        <div class="field-row"><label for="custom-mines">Mines:</label><input id="custom-mines" type="number" min="10" step="1" inputmode="numeric"></div>
+        <div class="dialog-error" id="custom-error" role="alert"></div>
+        <div class="dialog-buttons">
+          <button class="btn" id="custom-ok" type="button">OK</button>
+          <button class="btn" type="button" data-close-modal="custom-overlay">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================= HIGH SCORE DIALOG ======================= -->
+  <div class="modal-layer" id="score-overlay" hidden>
+    <section class="window modal-window" role="dialog" aria-modal="true" aria-labelledby="score-title">
+      <div class="titlebar">
+        <span class="titlebar-icon" aria-hidden="true"><svg viewBox="0 0 16 16"><use href="#i-trophy"/></svg></span>
+        <span class="titlebar-text" id="score-title">Fastest Mine Sweepers</span>
+        <div class="titlebar-buttons">
+          <button class="tb-btn" type="button" data-close-modal="score-overlay" aria-label="Close" title="Close"><span class="glyph-close"></span></button>
+        </div>
+      </div>
+      <div class="dialog-body score-body">
+        <p id="score-text"></p>
+        <div class="name-row">
+          <label for="score-name">Name:</label>
+          <input id="score-name" type="text" maxlength="16" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="dialog-buttons">
+          <button class="btn" id="score-ok" type="button">OK</button>
+          <button class="btn" type="button" data-close-modal="score-overlay">Cancel</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <noscript>
+    <div class="no-script">Minesweeper needs JavaScript enabled to run.</div>
+  </noscript>
+
+  <script src="app.js"></script>
+</body>
+</html>
