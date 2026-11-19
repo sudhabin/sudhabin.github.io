@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortune! — Unix Classic | Sudhabin</title>
+<meta name="Microsoft Theme" content="sudhabin 011, default">
+<style>
+  :root {
+    --bg-body: #faf7f2;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f7f3ec;
+    --border-theme: #cc9966;
+    --border-theme-dark: #996600;
+    --border-subtle: #e6dac8;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --text-dim: #78716c;
+    --accent-green: #336633;
+    --accent-green-dark: #254d25;
+    --accent-green-light: #e8f0e8;
+    --accent-gold: #996600;
+    --accent-gold-light: #fef3c7;
+    --accent-maroon: #993333;
+    --accent-navy: #333399;
+    --font-theme: "Trebuchet MS", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --shadow-card: 0 2px 6px rgba(153, 102, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 4px 12px rgba(153, 102, 0, 0.15);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+  }
+  [data-theme="dark"] {
+    --bg-body: #0d121d;
+    --bg-card: #151d2d;
+    --bg-card-alt: #1c263b;
+    --border-theme: #3d4f6e;
+    --border-theme-dark: #64748b;
+    --border-subtle: #25334c;
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --text-dim: #94a3b8;
+    --accent-green: #22c55e;
+    --accent-green-dark: #16a34a;
+    --accent-green-light: rgba(34, 197, 94, 0.15);
+    --accent-gold: #f59e0b;
+    --accent-gold-light: rgba(245, 158, 11, 0.15);
+    --accent-maroon: #f87171;
+    --accent-navy: #60a5fa;
+    --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-body);
+    background-image: url('_themes/sudhabin/nabkgnd.jpg');
+    background-repeat: repeat;
+    color: var(--text-main);
+    font-family: var(--font-theme);
+    line-height: 1.5;
+    padding: 16px 20px 40px;
+    min-height: 100vh;
+  }
+  .container { max-width: 1040px; width: 100%; margin: 0 auto; }
+  .site-nav-bar {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    gap: 12px; padding: 8px 16px; background: var(--bg-card);
+    border: 1px solid var(--border-theme); border-radius: var(--radius-sm);
+    margin-bottom: 16px; box-shadow: var(--shadow-card); font-size: 13px;
+  }
+  .site-breadcrumbs { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-weight: 600; }
+  .site-breadcrumbs a { color: var(--accent-maroon); text-decoration: none; }
+  .site-breadcrumbs a:hover { color: var(--accent-green); text-decoration: underline; }
+  .site-breadcrumbs span.sep { color: var(--border-theme-dark); }
+  .site-quick-links { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .nav-btn-chip {
+    background: var(--bg-card-alt); color: var(--accent-green); border: 1px solid var(--border-theme);
+    padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all .2s;
+  }
+  .nav-btn-chip:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-green-dark); }
+  header.theme-header {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+    border: 2px solid var(--border-theme-dark); border-radius: var(--radius-md);
+    padding: 20px 28px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+  }
+  .header-titles h1 {
+    font-size: 26px; font-weight: 700; letter-spacing: -.3px; display: flex;
+    align-items: center; gap: 10px; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,.35); flex-wrap: wrap;
+  }
+  .header-titles h1 span.badge {
+    background: var(--accent-gold); color: #fff; font-size: 11px; font-weight: 800;
+    padding: 3px 8px; border-radius: var(--radius-sm); text-transform: uppercase; letter-spacing: .5px;
+    border: 1px solid #ffd700;
+  }
+  .header-titles p { color: #f7ede2; font-size: 13px; margin-top: 4px; max-width: 680px; }
+  .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  button.btn-theme-action {
+    background: #fdfaf5; color: var(--accent-green-dark); border: 1px solid var(--border-theme-dark);
+    padding: 7px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s; box-shadow: 0 1px 3px rgba(0,0,0,.1); font-family: var(--font-theme);
+  }
+  button.btn-theme-action:hover { background: #fff; color: var(--accent-gold); border-color: #ffd700; transform: translateY(-1px); }
+  .theme-card {
+    background: var(--bg-card); border: 1px solid var(--border-theme); border-top: 3px solid var(--accent-green);
+    border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: 700; color: var(--accent-green); margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;
+  }
+  .card-title .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: var(--radius-sm); font-weight: 700;
+    background: var(--accent-green-light); color: var(--accent-green); border: 1px solid var(--border-theme);
+    letter-spacing: .4px; text-transform: uppercase; white-space: nowrap;
+  }
+  /* Terminal */
+  .terminal-card {
+    background: #0a1110;
+    border: 1px solid #2c4a38;
+    border-radius: 9px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.28), inset 0 0 0 1px rgba(123,226,197,.05);
+    overflow: hidden;
+    position: relative;
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(#15221b, #101a15);
+    border-bottom: 1px solid #25402f;
+    padding: 9px 13px;
+  }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .term-dot.r { background: #ff5f57; } .term-dot.y { background: #febc2e; } .term-dot.g { background: #28c840; }
+  .terminal-title {
+    margin-left: 8px; font-family: var(--font-mono); font-size: 11.5px; color: #7f9b8a;
+    letter-spacing: .2px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .terminal-tag { font-family: var(--font-mono); font-size: 10px; color: #7be2e5; border: 1px solid #2d5b58; background: rgba(123,226,197,.07); padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: .6px; }
+  .terminal-body {
+    position: relative;
+    padding: 32px 34px 24px;
+    min-height: 330px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(45,120,85,.18), transparent 62%),
+      linear-gradient(180deg, #0b1311 0%, #08100e 100%);
+  }
+  .terminal-body::after {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(180deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px);
+    opacity: .55;
+  }
+  .prompt-line {
+    font-family: var(--font-mono); font-size: 13px; color: #7be2e5; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 8px; position: relative; z-index: 1;
+  }
+  .prompt-line .user { color: #d6b36a; }
+  .prompt-line .path { color: #8fb7a0; }
+  .prompt-line .cmd { color: #f1f7f2; }
+  .fortune-text {
+    font-family: var(--font-mono); font-size: clamp(17px, 2.1vw, 23px);
+    line-height: 1.6; color: #d8ffe2; text-shadow: 0 0 10px rgba(123,226,197,.16);
+    white-space: pre-wrap; position: relative; z-index: 1;
+    min-height: 150px;
+  }
+  .fortune-text.fade { animation: fortuneIn .35s ease-out; }
+  @keyframes fortuneIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+  .cursor {
+    display: inline-block; width: 9px; height: 20px; background: #9df5b5;
+    margin-left: 5px; vertical-align: -3px; animation: blink 1.05s step-end infinite;
+    box-shadow: 0 0 8px rgba(157,245,181,.5);
+  }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  .terminal-meta {
+    margin-top: 26px; padding-top: 12px; border-top: 1px dashed #25402f;
+    font-family: var(--font-mono); font-size: 11.5px; color: #6f8f7a;
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .terminal-meta .lucky { color: #c9a95c; }
+  /* Controls */
+  .fortune-controls {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 16px;
+  }
+  .btn-fortune {
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
+    color: #fff; border: 1px solid var(--accent-green-dark); padding: 11px 18px;
+    border-radius: var(--radius-sm); font-size: 14px; font-weight: 800; cursor: pointer;
+    font-family: var(--font-theme); display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 3px 8px rgba(51,102,51,.25); transition: all .15s;
+  }
+  .btn-fortune:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(51,102,51,.3); }
+  .btn-fortune:active { transform: translateY(0); }
+  .btn-fortune .cookie { display: inline-block; transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .btn-fortune:hover .cookie { transform: rotate(-14deg) scale(1.1); }
+  .btn-copy {
+    background: var(--bg-card-alt); color: var(--accent-green); border: 1px solid var(--border-theme);
+    padding: 10px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+    cursor: pointer; font-family: var(--font-theme); display: inline-flex; align-items: center; gap: 6px;
+    transition: all .15s;
+  }
+  .btn-copy:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-green-dark); }
+  .category-wrap { display: flex; align-items: center; gap: 7px; margin-left: auto; font-size: 12px; font-weight: 700; color: var(--text-muted); }
+  select#category {
+    background: var(--bg-card); border: 1px solid var(--border-theme); color: var(--text-main);
+    padding: 8px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600;
+    font-family: var(--font-theme); cursor: pointer; max-width: 190px;
+  }
+  [data-theme="dark"] select#category { background: #111827; color: #fff; }
+  .hint-line { margin-top: 10px; font-size: 11.5px; color: var(--text-dim); }
+  kbd {
+    font-family: var(--font-mono); font-size: 10.5px; border: 1px solid var(--border-theme);
+    border-bottom-width: 2px; background: var(--bg-card-alt); color: var(--text-main);
+    padding: 1px 5px; border-radius: 3px;
+  }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .info-box { background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 15px; }
+  .info-box h3 { font-size: 13px; color: var(--accent-green); margin-bottom: 6px; }
+  .info-box p, .info-box li { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; }
+  .info-box ul { padding-left: 18px; margin-top: 4px; }
+  .info-box code { font-family: var(--font-mono); font-size: .95em; background: var(--accent-green-light); color: var(--accent-green-dark); padding: 1px 5px; border-radius: 3px; font-weight: 700; }
+  [data-theme="dark"] .info-box code { color: #86efac; }
+  footer.site-footer {
+    margin-top: 28px; padding-top: 16px; border-top: 2px solid var(--border-theme); color: var(--text-dim);
+    font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  footer.site-footer a { color: var(--accent-maroon); text-decoration: none; font-weight: 600; }
+  footer.site-footer a:hover { color: var(--accent-green); text-decoration: underline; }
+  @media (max-width: 620px) {
+    body { padding: 10px 10px 28px; }
+    .terminal-body { padding: 24px 20px 18px; }
+    .category-wrap { margin-left: 0; width: 100%; }
+    select#category { flex: 1; max-width: none; }
+  }
+  @media print {
+    body { background: #fff !important; padding: 0; }
+    .site-nav-bar, header.theme-header, footer.site-footer, .fortune-controls, .hint-line, .info-grid { display: none !important; }
+    .theme-card { border: none; box-shadow: none; padding: 0; }
+    .terminal-card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="site-nav-bar">
+    <div class="site-breadcrumbs">
+      <a href="index.html">🏠 Home</a><span class="sep">&gt;</span>
+      <a href="softwares.htm">Software</a><span class="sep">&gt;</span>
+      <span style="color: var(--text-main);">Fortune!</span>
+    </div>
+    <div class="site-quick-links">
+      <a href="softwares.htm" class="nav-btn-chip">⬅ Software</a>
+      <a href="microwave.htm" class="nav-btn-chip">Microwave Circuits</a>
+      <a href="signal_source_lab.htm" class="nav-btn-chip">Signal Source Lab</a>
+    </div>
+  </div>
+
+  <header class="theme-header">
+    <div class="header-titles">
+      <h1><span>Fortune!</span><span class="badge">Unix Classic</span></h1>
+      <p>A browser version of the old Linux <strong>fortune</strong> command — random proverbs, geek wisdom, and microwave humour. No network required.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-action" id="themeToggle">🌓 Theme</button>
+      <button class="btn-theme-action" id="printBtn">🖨 Print</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="theme-card" style="padding:16px;">
+      <div class="terminal-card">
+        <div class="terminal-bar">
+          <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+          <span class="terminal-title">fortune — /usr/games/fortune</span>
+          <span class="terminal-tag" id="fortuneTag">classic</span>
+        </div>
+        <div class="terminal-body">
+          <div class="prompt-line"><span class="user">guest@sudhabin</span><span class="path">:~$</span><span class="cmd">fortune</span></div>
+          <div class="fortune-text" id="fortuneText">Loading a fortune…</div>
+          <div class="terminal-meta">
+            <span id="fortuneCounter">Fortune 1</span>
+            <span class="lucky" id="luckyNumbers">Lucky numbers: —</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fortune-controls">
+        <button class="btn-fortune" id="refreshBtn" title="Show another fortune (Space or N)">
+          <span class="cookie">🥠</span> Another Fortune
+        </button>
+        <button class="btn-copy" id="copyBtn" title="Copy this fortune">📋 Copy</button>
+        <div class="category-wrap">
+          <label for="category">Category</label>
+          <select id="category">
+            <option value="all" selected>All fortunes</option>
+            <option value="classic">Classic</option>
+            <option value="geek">Geek</option>
+            <option value="microwave">Microwave</option>
+            <option value="deadline">Deadline</option>
+          </select>
+        </div>
+      </div>
+      <div class="hint-line">Press <kbd>Space</kbd> or <kbd>N</kbd> for another fortune. Every quote is stored locally in this page.</div>
+    </div>
+
+    <div class="theme-card">
+      <div class="card-title"><span>What is <code style="font-family:var(--font-mono);">fortune</code>?</span><span class="tag">About</span></div>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>🐧 The original command</h3>
+          <p><code>fortune</code> is a small Unix/Linux program that prints a random epigram, proverb, joke, or piece of “fortune cookie” wisdom. It has been part of the Unix culture for decades and is often used in login messages and shell startup files.</p>
+        </div>
+        <div class="info-box">
+          <h3>🌐 This web version</h3>
+          <p>All fortunes are embedded in the page, so it works offline. The category selector narrows the pool; the refresh button picks a new quote without immediately repeating the previous one.</p>
+        </div>
+        <div class="info-box">
+          <h3>⌨️ Handy shortcuts</h3>
+          <ul>
+            <li><kbd>Space</kbd> or <kbd>N</kbd> — another fortune</li>
+            <li><kbd>C</kbd> — copy the current fortune</li>
+            <li><kbd>P</kbd> — print the current fortune</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a href="softwares.htm">Software</a> &bull;
+      <a href="microwave.htm">Microwave Planar Circuits</a> &bull;
+      <a href="index.html">Home</a> &bull;
+      <a href="interest.htm">Interests</a>
+    </div>
+    <div>Fortune! &bull; a small Unix classic for <a href="https://sudhabin.github.io/">sudhabin.github.io</a></div>
+  </footer>
+</div>
+
+<script>
+'use strict';
+const FORTUNES = [
+  { c: 'classic', t: 'You will soon receive good news from a distant friend.' },
+  { c: 'classic', t: 'A pleasant surprise is waiting for you in the place you least expect.' },
+  { c: 'classic', t: 'Your patience will be rewarded — eventually.' },
+  { c: 'classic', t: 'You will travel far, but your luggage will travel farther.' },
+  { c: 'classic', t: 'A small kindness today will return to you at an inconvenient moment.' },
+  { c: 'classic', t: 'You will find what you are looking for in the last place you look.' },
+  { c: 'classic', t: 'The next person you meet will change your mind about something unimportant.' },
+  { c: 'classic', t: 'You will be given a second chance. Try to notice it the first time.' },
+  { c: 'classic', t: 'Your lucky number is 42. The question is still missing.' },
+  { c: 'classic', t: 'You will be hungry again in an hour.' },
+  { c: 'classic', t: 'You will be misunderstood by someone you love. Apologise to the cat.' },
+  { c: 'classic', t: 'A closed mouth gathers no foot.' },
+  { c: 'classic', t: 'The early bird gets the worm, but the second mouse gets the cheese.' },
+  { c: 'classic', t: 'Do not mistake motion for progress.' },
+  { c: 'classic', t: 'The shortest distance between two points is under construction.' },
+  { c: 'classic', t: 'You cannot have everything. Where would you put it?' },
+  { c: 'classic', t: 'A conclusion is the place where you got tired of thinking.' },
+  { c: 'classic', t: 'Change is inevitable, except from a vending machine.' },
+  { c: 'classic', t: 'Experience is something you do not get until just after you need it.' },
+  { c: 'classic', t: 'If everything seems to be going well, you have obviously overlooked something.' },
+  { c: 'classic', t: 'Nothing is impossible for the person who does not have to do it.' },
+  { c: 'classic', t: 'Procrastination is the art of keeping up with yesterday.' },
+  { c: 'classic', t: 'The trouble with doing something right the first time is that nobody appreciates how difficult it was.' },
+  { c: 'classic', t: 'You will soon be the centre of attention — probably at the worst possible moment.' },
+  { c: 'classic', t: 'Your future is as bright as your screen at 3 a.m.' },
+  { c: 'classic', t: 'May you live in interesting times. May they be brief.' },
+  { c: 'classic', t: 'A journey of a thousand miles begins with a single stack trace.' },
+  { c: 'classic', t: 'You will meet a tall, dark stranger. They will ask for the Wi-Fi password.' },
+  { c: 'classic', t: 'Today is a good day to back up something you love.' },
+  { c: 'classic', t: 'You will receive an urgent message. It can wait.' },
+  { c: 'classic', t: 'Your ability to juggle many tasks will take you far — and then drop something.' },
+  { c: 'classic', t: 'You will discover that a shortcut is the longest distance between two points.' },
+  { c: 'classic', t: 'The next bug you find will be the one you just fixed.' },
+  { c: 'classic', t: 'A clean desk is a sign of a cluttered drawer.' },
+  { c: 'classic', t: 'You will be successful in your work, provided you define success narrowly enough.' },
+  { c: 'classic', t: 'An optimist believes we live in the best of all possible worlds. A pessimist fears this is true.' },
+  { c: 'classic', t: 'Never put off until tomorrow what you can avoid altogether.' },
+  { c: 'classic', t: 'The only thing standing between you and your goal is the story you keep telling yourself.' },
+  { c: 'classic', t: 'You will find a penny on the ground. It will be heads up.' },
+  { c: 'classic', t: 'Some days you are the pigeon; some days you are the statue.' },
+  { c: 'classic', t: 'A pessimist is never disappointed, only occasionally pleasantly surprised.' },
+  { c: 'classic', t: 'The early worm gets eaten. Sleep in.' },
+  { c: 'classic', t: 'You will remember the thing you forgot — five minutes after it matters.' },
+  { c: 'classic', t: 'A good plan today is better than a perfect plan next week.' },
+  { c: 'classic', t: 'You will receive exactly the advice you least want to hear, and it will be correct.' },
+  { c: 'classic', t: 'The grass is always greener where you forgot to water it.' },
+  { c: 'classic', t: 'You will be late for something that starts late.' },
+  { c: 'classic', t: 'A little knowledge is a dangerous thing. A lot of knowledge is worse.' },
+  { c: 'classic', t: 'The person who says it cannot be done is usually interrupted by someone doing it.' },
+  { c: 'classic', t: 'You will find the missing item exactly where you already looked.' },
+
+  { c: 'geek', t: 'There are 10 types of people: those who understand binary and those who do not.' },
+  { c: 'geek', t: 'There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.' },
+  { c: 'geek', t: 'A SQL query walks into a bar, walks up to two tables and asks, “Can I join you?”' },
+  { c: 'geek', t: 'I would tell you a UDP joke, but you might not get it.' },
+  { c: 'geek', t: 'There is no place like 127.0.0.1.' },
+  { c: 'geek', t: 'Unix is user-friendly. It is just very particular about who its friends are.' },
+  { c: 'geek', t: 'Linux is only free if your time has no value.' },
+  { c: 'geek', t: 'The best way to accelerate a Windows machine is at 9.8 m/s².' },
+  { c: 'geek', t: 'Never underestimate the bandwidth of a station wagon full of tapes.' },
+  { c: 'geek', t: 'The cloud is just someone else’s computer.' },
+  { c: 'geek', t: 'It works on my machine.' },
+  { c: 'geek', t: 'Have you tried turning it off and on again?' },
+  { c: 'geek', t: 'Your code is 99% complete. The remaining 1% will take 99% of the time.' },
+  { c: 'geek', t: 'Deleted code is debugged code.' },
+  { c: 'geek', t: 'Documentation is a love letter that your code writes to your future self.' },
+  { c: 'geek', t: 'Code is like humour. When you have to explain it, it is bad.' },
+  { c: 'geek', t: 'Debugging: being the detective in a crime movie where you are also the murderer.' },
+  { c: 'geek', t: 'A user interface is like a joke. If you have to explain it, it is not that good.' },
+  { c: 'geek', t: 'The most dangerous phrase in the language is, “We have always done it this way.”' },
+  { c: 'geek', t: 'If at first you do not succeed, call it version 1.0.' },
+  { c: 'geek', t: 'I do not have a bug; I have an undocumented feature.' },
+  { c: 'geek', t: 'Keep calm and grep on.' },
+  { c: 'geek', t: 'Never trust a computer you cannot throw out a window.' },
+  { c: 'geek', t: 'To err is human; to blame it on the computer is even more so.' },
+  { c: 'geek', t: 'The “S” in IoT stands for security.' },
+  { c: 'geek', t: 'Deleted code is good code. Undeleted code is job security.' },
+  { c: 'geek', t: 'May your packets never drop and your latency stay low.' },
+  { c: 'geek', t: 'May your code compile on the first try and your tests always pass.' },
+  { c: 'geek', t: 'May your coffee be strong and your merge conflicts weak.' },
+  { c: 'geek', t: 'Your password is the last eight digits of pi. So is everyone else’s.' },
+  { c: 'geek', t: 'A byte is just eight bits looking for a purpose.' },
+  { c: 'geek', t: 'The best camera is the one you have with you. The best backup is the one you tested.' },
+  { c: 'geek', t: 'You will find the bug in the last place you look. That is because you stop looking once you find it.' },
+  { c: 'geek', t: 'If it is not broken, it does not have enough features yet.' },
+  { c: 'geek', t: 'The first 90% of the code accounts for the first 90% of the development time. The remaining 10% accounts for the other 90%.' },
+  { c: 'geek', t: 'You never finish a program; you just stop working on it.' },
+  { c: 'geek', t: 'Real programmers do not comment their code. It was hard to write; it should be hard to understand.' },
+  { c: 'geek', t: 'A computer scientist is someone who fixes things that are not broken.' },
+  { c: 'geek', t: 'Artificial intelligence is no match for natural stupidity.' },
+  { c: 'geek', t: 'The best thing about a boolean is that even if you are wrong, you are only off by a bit.' },
+  { c: 'geek', t: 'There is no place like ~.' },
+  { c: 'geek', t: 'A recursive joke is a joke that tells itself a joke.' },
+  { c: 'geek', t: 'Your code will work perfectly until someone demonstrates it.' },
+  { c: 'geek', t: 'The bug is not in the compiler. The bug is never in the compiler. Check anyway.' },
+  { c: 'geek', t: 'A good sysadmin is like a good referee: invisible until something goes wrong.' },
+  { c: 'geek', t: 'You will fix the bug by changing one character. You will not know which one.' },
+  { c: 'geek', t: 'The safest place for a backup is the drive you have not tested yet.' },
+  { c: 'geek', t: 'Read the error message. Then read it again. Then read the line above it.' },
+  { c: 'geek', t: 'There are only two hard problems in distributed systems: exactly-once delivery, and naming things.' },
+  { c: 'geek', t: 'A byte walks into a bar and orders a pint. The bartender says, “You look a bit off.”' },
+
+  { c: 'microwave', t: 'Your matching network will be perfect — at the frequency you no longer need.' },
+  { c: 'microwave', t: 'You will find the 50 Ω termination just after you finish troubleshooting.' },
+  { c: 'microwave', t: 'A Smith chart is just a circle of trust.' },
+  { c: 'microwave', t: 'Your transmission line is matched. Your deadline is not.' },
+  { c: 'microwave', t: 'The resonance you are looking for is always slightly higher in frequency.' },
+  { c: 'microwave', t: 'You will spend three hours finding a 0.1 dB discrepancy. It will be the cable.' },
+  { c: 'microwave', t: 'Every connector has a torque specification. Every student has a torque wrench.' },
+  { c: 'microwave', t: 'The spectrum analyser knows what you did last summer.' },
+  { c: 'microwave', t: 'Your filter will be sharp, narrow, and two weeks late.' },
+  { c: 'microwave', t: 'A ground plane is only a ground plane if you remember to connect it.' },
+  { c: 'microwave', t: 'The best antenna is the one that is already installed.' },
+  { c: 'microwave', t: 'You will discover that the coax was connected to the wrong port. Again.' },
+  { c: 'microwave', t: 'Your return loss is excellent. Your return date is not.' },
+  { c: 'microwave', t: 'The only thing radiating more than your antenna is your anxiety.' },
+  { c: 'microwave', t: 'A decibel is a tenth of a bel, and a bel is a unit of story.' },
+  { c: 'microwave', t: 'You will debug the circuit for an hour before noticing the power switch.' },
+  { c: 'microwave', t: 'Your S-parameters will be beautiful, provided you ignore port three.' },
+  { c: 'microwave', t: 'The impedance of free space is 377 Ω. The impedance of a deadline is infinite.' },
+  { c: 'microwave', t: 'You will finally understand the Smith chart the day after the exam.' },
+  { c: 'microwave', t: 'May your VSWR be low and your expectations realistic.' },
+  { c: 'microwave', t: 'The best filter is the one you did not need to tune.' },
+  { c: 'microwave', t: 'You will find the source of the interference in the last cable you check.' },
+  { c: 'microwave', t: 'A spectrum analyser is a machine for turning curiosity into expensive connectors.' },
+  { c: 'microwave', t: 'Your 50 Ω cable is 75 Ω. The mystery is solved.' },
+  { c: 'microwave', t: 'You will notice the missing ground on the third prototype.' },
+
+  { c: 'deadline', t: 'The deadline is a feature.' },
+  { c: 'deadline', t: 'You will finish the report five minutes after the meeting starts.' },
+  { c: 'deadline', t: 'A deliverable is just a draft with a date attached.' },
+  { c: 'deadline', t: 'Your best ideas will arrive in the shower, where you cannot write them down.' },
+  { c: 'deadline', t: 'You will be asked for a quick estimate. It will not be quick.' },
+  { c: 'deadline', t: 'The last 10% of the project will consume the next 90% of your life.' },
+  { c: 'deadline', t: 'You will receive the missing information after you submit the form.' },
+  { c: 'deadline', t: 'Your meeting could have been an email. Your email could have been a nap.' },
+  { c: 'deadline', t: 'You will be praised for finishing early and then asked to do it again.' },
+  { c: 'deadline', t: 'The printer will jam on the only page that matters.' },
+  { c: 'deadline', t: 'A two-minute task will take two hours because you will improve it first.' },
+  { c: 'deadline', t: 'You will find the typo in the title after the document is printed.' },
+  { c: 'deadline', t: 'The final version will be called final_final_v3_really.pdf.' },
+  { c: 'deadline', t: 'You will be ready ten minutes before the deadline and spend them worrying.' },
+  { c: 'deadline', t: 'The review comments will arrive one minute before the resubmission deadline.' }
+];
+
+const catLabels = { classic: 'Classic', geek: 'Geek', microwave: 'Microwave', deadline: 'Deadline' };
+const textEl = document.getElementById('fortuneText');
+const tagEl = document.getElementById('fortuneTag');
+const counterEl = document.getElementById('fortuneCounter');
+const luckyEl = document.getElementById('luckyNumbers');
+const categoryEl = document.getElementById('category');
+let lastIndex = -1;
+let drawCount = 0;
+
+function secureRandomInt(n) {
+  if (n <= 0) return 0;
+  if (window.crypto && window.crypto.getRandomValues) {
+    const a = new Uint32Array(1);
+    window.crypto.getRandomValues(a);
+    return a[0] % n;
+  }
+  return Math.floor(Math.random() * n);
+}
+
+function currentPool() {
+  const cat = categoryEl.value;
+  const indices = [];
+  FORTUNES.forEach((f, i) => { if (cat === 'all' || f.c === cat) indices.push(i); });
+  return indices;
+}
+
+function luckyNumbers() {
+  const set = new Set();
+  while (set.size < 6) set.add(1 + secureRandomInt(49));
+  return Array.from(set).sort((a, b) => a - b).join(' · ');
+}
+
+function showFortune() {
+  const pool = currentPool();
+  if (!pool.length) return;
+  let idx;
+  if (pool.length > 1) {
+    do { idx = pool[secureRandomInt(pool.length)]; } while (idx === lastIndex);
+  } else {
+    idx = pool[0];
+  }
+  lastIndex = idx;
+  drawCount += 1;
+  const f = FORTUNES[idx];
+  textEl.textContent = f.t;
+  textEl.classList.remove('fade');
+  void textEl.offsetWidth;
+  textEl.classList.add('fade');
+  tagEl.textContent = f.c;
+  counterEl.textContent = `Fortune ${drawCount} · ${catLabels[f.c] || f.c} · ${pool.length} in pool`;
+  luckyEl.textContent = 'Lucky numbers: ' + luckyNumbers();
+  document.title = 'Fortune! — ' + f.t.slice(0, 55) + ' | Sudhabin';
+}
+
+function copyFortune() {
+  const text = textEl.textContent + '\n\n— fortune(6), sudhabin.github.io/fortune.htm';
+  navigator.clipboard.writeText(text).then(
+    () => {
+      const b = document.getElementById('copyBtn');
+      const old = b.textContent;
+      b.textContent = '✓ Copied';
+      setTimeout(() => { b.textContent = old; }, 1200);
+    },
+    () => alert('Clipboard access was blocked by the browser.')
+  );
+}
+
+document.getElementById('refreshBtn').addEventListener('click', showFortune);
+document.getElementById('copyBtn').addEventListener('click', copyFortune);
+categoryEl.addEventListener('change', () => { lastIndex = -1; showFortune(); });
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const root = document.documentElement;
+  root.dataset.theme = root.dataset.theme === 'dark' ? '' : 'dark';
+});
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+document.addEventListener('keydown', (e) => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'select' || tag === 'textarea') return;
+  if (e.code === 'Space' || e.key.toLowerCase() === 'n') {
+    e.preventDefault();
+    showFortune();
+  } else if (e.key.toLowerCase() === 'c') {
+    copyFortune();
+  } else if (e.key.toLowerCase() === 'p') {
+    e.preventDefault();
+    window.print();
+  }
+});
+
+showFortune();
+</script>
+</body>
+</html>
