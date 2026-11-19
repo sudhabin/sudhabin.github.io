@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Source Lab — EMC §1.5.2 | Microwave Planar Circuits</title>
+<meta name="Microsoft Theme" content="sudhabin 011, default">
+<style>
+  :root {
+    --bg-body: #faf7f2;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f7f3ec;
+    --bg-card-hover: #f3ebe0;
+    --border-theme: #cc9966;
+    --border-theme-dark: #996600;
+    --border-subtle: #e6dac8;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --text-dim: #78716c;
+    --accent-green: #336633;
+    --accent-green-dark: #254d25;
+    --accent-green-light: #e8f0e8;
+    --accent-gold: #996600;
+    --accent-gold-light: #fef3c7;
+    --accent-maroon: #993333;
+    --accent-navy: #333399;
+    --font-theme: "Trebuchet MS", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --shadow-card: 0 2px 6px rgba(153, 102, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 4px 12px rgba(153, 102, 0, 0.15);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+  }
+  [data-theme="dark"] {
+    --bg-body: #0d121d;
+    --bg-card: #151d2d;
+    --bg-card-alt: #1c263b;
+    --bg-card-hover: #22304a;
+    --border-theme: #3d4f6e;
+    --border-theme-dark: #64748b;
+    --border-subtle: #25334c;
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --text-dim: #94a3b8;
+    --accent-green: #22c55e;
+    --accent-green-dark: #16a34a;
+    --accent-green-light: rgba(34, 197, 94, 0.15);
+    --accent-gold: #f59e0b;
+    --accent-gold-light: rgba(245, 158, 11, 0.15);
+    --accent-maroon: #f87171;
+    --accent-navy: #60a5fa;
+    --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--bg-body);
+    background-image: url('_themes/sudhabin/nabkgnd.jpg');
+    background-repeat: repeat;
+    color: var(--text-main);
+    font-family: var(--font-theme);
+    line-height: 1.5;
+    padding: 16px 20px 40px;
+    min-height: 100vh;
+  }
+  .container { max-width: 1280px; width: 100%; margin: 0 auto; }
+  .site-nav-bar {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    gap: 12px; padding: 8px 16px; background: var(--bg-card);
+    border: 1px solid var(--border-theme); border-radius: var(--radius-sm);
+    margin-bottom: 16px; box-shadow: var(--shadow-card); font-size: 13px;
+  }
+  .site-breadcrumbs { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-weight: 600; }
+  .site-breadcrumbs a { color: var(--accent-maroon); text-decoration: none; }
+  .site-breadcrumbs a:hover { color: var(--accent-green); text-decoration: underline; }
+  .site-breadcrumbs span.sep { color: var(--border-theme-dark); }
+  .site-quick-links { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .nav-btn-chip {
+    background: var(--bg-card-alt); color: var(--accent-green); border: 1px solid var(--border-theme);
+    padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all .2s;
+  }
+  .nav-btn-chip:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-green-dark); }
+  header.theme-header {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+    border: 2px solid var(--border-theme-dark); border-radius: var(--radius-md);
+    padding: 20px 28px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    color: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+  }
+  .header-titles h1 {
+    font-size: 24px; font-weight: 700; letter-spacing: -.3px; display: flex;
+    align-items: center; gap: 10px; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,.35); flex-wrap: wrap;
+  }
+  .header-titles h1 span.badge {
+    background: var(--accent-gold); color: #fff; font-size: 11px; font-weight: 800;
+    padding: 3px 8px; border-radius: var(--radius-sm); text-transform: uppercase; letter-spacing: .5px;
+    border: 1px solid #ffd700;
+  }
+  .header-titles p { color: #f7ede2; font-size: 13px; margin-top: 4px; max-width: 760px; }
+  .header-titles p em { color: #fff; }
+  .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  button.btn-theme-action {
+    background: #fdfaf5; color: var(--accent-green-dark); border: 1px solid var(--border-theme-dark);
+    padding: 7px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    transition: all .2s; box-shadow: 0 1px 3px rgba(0,0,0,.1); font-family: var(--font-theme);
+  }
+  button.btn-theme-action:hover { background: #fff; color: var(--accent-gold); border-color: #ffd700; transform: translateY(-1px); }
+  .tab-nav {
+    display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px;
+  }
+  .tab-btn {
+    background: var(--bg-card); border: 1px solid var(--border-theme); color: var(--text-main);
+    padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all .15s;
+    white-space: nowrap; user-select: none; font-family: var(--font-theme);
+  }
+  .tab-btn:hover { background: var(--bg-card-alt); border-color: var(--accent-green); color: var(--accent-green); }
+  .tab-btn.active { background: var(--accent-green); border-color: var(--accent-green-dark); color: #fff; box-shadow: 0 2px 6px rgba(51,102,51,.35); }
+  .tab-btn .tab-icon {
+    font-family: var(--font-mono); background: rgba(0,0,0,.08); color: inherit; width: 22px; height: 22px;
+    border-radius: 4px; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+  }
+  .tab-btn.active .tab-icon { background: rgba(255,255,255,.25); color: #fff; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .theme-card {
+    background: var(--bg-card); border: 1px solid var(--border-theme); border-top: 3px solid var(--accent-green);
+    border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 15px; font-weight: 700; color: var(--accent-green); margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;
+  }
+  .card-title .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: var(--radius-sm); font-weight: 700;
+    background: var(--accent-green-light); color: var(--accent-green); border: 1px solid var(--border-theme);
+    letter-spacing: .4px; text-transform: uppercase; white-space: nowrap;
+  }
+  .lead { font-size: 14px; color: var(--text-muted); max-width: 900px; }
+  .lead strong { color: var(--text-main); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .main-grid { display: grid; grid-template-columns: 430px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 1050px) { .main-grid, .two-col, .three-col { grid-template-columns: 1fr; } }
+  .form-group { margin-bottom: 16px; }
+  .form-group:last-child { margin-bottom: 0; }
+  .form-label { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+  .form-label span.desc { font-weight: 400; font-size: 11px; color: var(--text-dim); text-align: right; }
+  .input-wrapper { position: relative; flex: 1; }
+  input[type="number"], input[type="text"], select {
+    width: 100%; background: #fff; border: 1px solid var(--border-theme); color: #000;
+    padding: 8px 12px; border-radius: var(--radius-sm); font-size: 14px;
+    font-family: var(--font-mono); font-weight: 600; transition: all .15s;
+  }
+  [data-theme="dark"] input[type="number"], [data-theme="dark"] input[type="text"], [data-theme="dark"] select {
+    background: #111827; color: #fff;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent-green); box-shadow: 0 0 0 3px rgba(51,102,51,.2); }
+  .unit-addon {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--text-dim); font-size: 12px; font-family: var(--font-mono); pointer-events: none; font-weight: 600;
+  }
+  input[type="range"] { width: 100%; accent-color: var(--accent-green); margin-top: 7px; cursor: pointer; }
+  .chip-container { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .chip {
+    background: var(--bg-card-alt); border: 1px solid var(--border-theme); color: var(--text-main);
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-sm);
+    cursor: pointer; transition: all .15s; font-family: var(--font-theme);
+  }
+  .chip:hover { border-color: var(--accent-green); color: var(--accent-green); background: #fff; }
+  .chip.active { background: var(--accent-green); border-color: var(--accent-green-dark); color: #fff; font-weight: 700; }
+  .chip.highlight { border: 1.5px solid var(--accent-gold); color: var(--accent-gold); background: var(--accent-gold-light); font-weight: 700; }
+  .chip.highlight.active { background: var(--accent-green); border-color: var(--accent-gold); color: #fff; }
+  .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 14px; }
+  .result-box {
+    background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm);
+    padding: 12px 14px; transition: all .15s;
+  }
+  .result-box:hover { border-color: var(--accent-green); background: #fff; box-shadow: var(--shadow-hover); }
+  .result-title { font-size: 10px; color: var(--accent-green); font-weight: 700; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 3px; }
+  .result-value-large { font-size: 21px; font-weight: 800; font-family: var(--font-mono); color: var(--text-main); line-height: 1.2; }
+  .result-sub { font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); font-weight: 600; margin-top: 3px; }
+  table.specs-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 14px; border: 1px solid var(--border-theme); }
+  table.specs-table th, table.specs-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-theme); vertical-align: top; }
+  table.specs-table th { background: var(--accent-green); color: #fff; font-weight: 700; text-align: left; font-size: 11px; text-transform: uppercase; }
+  table.specs-table tr:nth-child(even) td { background: var(--bg-card-alt); }
+  table.specs-table td.val-col { text-align: right; font-family: var(--font-mono); font-weight: 700; color: var(--text-main); white-space: nowrap; }
+  table.specs-table td.note-col { color: var(--text-muted); }
+  .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 14px; }
+  .ref-box { background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 14px; }
+  .ref-box h4 { font-size: 13px; color: var(--accent-green); margin-bottom: 6px; }
+  .ref-box p, .ref-box li { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+  .ref-box ul, .ref-box ol { padding-left: 18px; margin-top: 4px; }
+  .ref-box code, .eq {
+    font-family: var(--font-mono); background: var(--accent-green-light); color: var(--accent-green-dark);
+    padding: 1px 5px; border-radius: 3px; font-size: .96em; font-weight: 700;
+  }
+  [data-theme="dark"] .ref-box code, [data-theme="dark"] .eq { color: #86efac; }
+  .eq-block {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 700; background: var(--bg-card-alt);
+    border-left: 3px solid var(--accent-green); padding: 9px 12px; margin: 8px 0; color: var(--text-main);
+    overflow-x: auto;
+  }
+  .note-box {
+    border-left: 4px solid var(--accent-gold); background: var(--accent-gold-light);
+    padding: 12px 14px; border-radius: var(--radius-sm); font-size: 12.5px; color: var(--text-main);
+  }
+  .note-box strong { color: var(--accent-gold); }
+  .warn-box { border-left-color: var(--accent-maroon); background: rgba(153,51,51,.08); }
+  .warn-box strong { color: var(--accent-maroon); }
+  .status-strip {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap; background: var(--bg-card-alt);
+    border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 12px;
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+  }
+  .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent-green); box-shadow: 0 0 0 3px var(--accent-green-light); flex: 0 0 auto; }
+  .status-dot.warn { background: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-light); }
+  .schematic-viewport {
+    background: #fcfaf6; border: 1px solid var(--border-theme); border-radius: var(--radius-sm);
+    min-height: 240px; display: flex; align-items: center; justify-content: center; padding: 12px;
+    overflow: hidden; margin-bottom: 14px;
+  }
+  [data-theme="dark"] .schematic-viewport { background: #090e17; border-color: #334155; }
+  .schematic-viewport svg { width: 100%; height: auto; max-height: 300px; }
+  .sch-line { stroke: var(--accent-green); stroke-width: 2.4; fill: none; stroke-linecap: round; }
+  .sch-thin { stroke: var(--border-theme-dark); stroke-width: 1.4; fill: none; }
+  .sch-label { fill: var(--text-main); font-family: var(--font-mono); font-size: 12px; font-weight: 700; }
+  .sch-small { fill: var(--text-muted); font-family: var(--font-theme); font-size: 11px; font-weight: 600; }
+  .sch-accent { fill: var(--accent-green); font-family: var(--font-mono); font-size: 13px; font-weight: 800; }
+  .sch-gold { fill: var(--accent-gold); font-family: var(--font-mono); font-size: 12px; font-weight: 800; }
+  .sch-box { fill: var(--bg-card); stroke: var(--border-theme); stroke-width: 1.5; rx: 6; }
+  .sch-dash { stroke: var(--accent-gold); stroke-width: 1.3; stroke-dasharray: 4 4; fill: none; }
+  .plot-wrap { background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 10px; margin-top: 12px; }
+  .plot-wrap svg { width: 100%; height: auto; display: block; }
+  .plot-grid { stroke: var(--border-subtle); stroke-width: 1; }
+  .plot-axis { stroke: var(--border-theme-dark); stroke-width: 1.4; }
+  .plot-line { stroke: var(--accent-green); stroke-width: 2.6; fill: none; }
+  .plot-marker { fill: var(--accent-gold); stroke: #fff; stroke-width: 1.5; }
+  .plot-label { fill: var(--text-dim); font-family: var(--font-mono); font-size: 10px; }
+  .plot-title { fill: var(--text-main); font-family: var(--font-theme); font-size: 12px; font-weight: 700; }
+  .plot-note { fill: var(--text-muted); font-family: var(--font-theme); font-size: 10.5px; }
+  .step-list { list-style: none; counter-reset: step; margin: 0; padding: 0; }
+  .step-list li { position: relative; padding: 9px 0 9px 38px; border-bottom: 1px dashed var(--border-subtle); font-size: 12.5px; color: var(--text-muted); }
+  .step-list li:last-child { border-bottom: none; }
+  .step-list li::before {
+    counter-increment: step; content: counter(step); position: absolute; left: 0; top: 9px;
+    width: 24px; height: 24px; border-radius: 50%; background: var(--accent-green); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-family: var(--font-mono);
+    font-size: 11px; font-weight: 800;
+  }
+  .step-list li strong { color: var(--text-main); }
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 16px; }
+  .problem-card {
+    background: var(--bg-card); border: 1px solid var(--border-theme); border-top: 3px solid var(--accent-gold);
+    border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow-card); display: flex; flex-direction: column;
+  }
+  .problem-card .pc-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .problem-card h3 { font-size: 14px; color: var(--accent-green); }
+  .problem-card .pc-tag { font-size: 10px; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; background: var(--accent-gold-light); color: var(--accent-gold); border: 1px solid var(--border-theme); padding: 2px 7px; border-radius: 3px; }
+  .problem-card p { font-size: 12.5px; color: var(--text-muted); margin-bottom: 8px; }
+  .problem-card .givens { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-main); background: var(--bg-card-alt); border: 1px dashed var(--border-theme); padding: 6px 8px; border-radius: 3px; margin-bottom: 8px; }
+  .problem-card .answer-line { font-size: 12px; font-weight: 700; color: var(--accent-green); background: var(--accent-green-light); border-left: 3px solid var(--accent-green); padding: 7px 9px; border-radius: 3px; margin-bottom: 8px; }
+  .problem-card details { margin-top: auto; }
+  .problem-card summary { cursor: pointer; font-size: 12px; font-weight: 700; color: var(--accent-maroon); padding: 4px 0; }
+  .problem-card summary:hover { text-decoration: underline; }
+  .problem-card .sol { font-size: 12px; color: var(--text-muted); padding-top: 6px; }
+  .problem-card .sol ol { padding-left: 18px; }
+  .problem-card .sol li { margin-bottom: 4px; }
+  .problem-card .pc-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .btn-sm {
+    background: var(--bg-card-alt); border: 1px solid var(--border-theme); color: var(--accent-green);
+    padding: 5px 9px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;
+    cursor: pointer; font-family: var(--font-theme); transition: all .15s;
+  }
+  .btn-sm:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-green-dark); }
+  .converter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+  .conv-item { background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 9px 12px; }
+  .conv-item .k { font-size: 10px; text-transform: uppercase; letter-spacing: .4px; color: var(--accent-green); font-weight: 800; }
+  .conv-item .v { font-family: var(--font-mono); font-size: 16px; font-weight: 800; color: var(--text-main); }
+  .teacher-layout { display: grid; grid-template-columns: 390px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 1050px) { .teacher-layout { grid-template-columns: 1fr; } }
+  .teacher-controls { position: sticky; top: 12px; }
+  @media (max-width: 1050px) { .teacher-controls { position: static; } }
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin-top: 6px; }
+  .check-grid label { display: flex; gap: 6px; align-items: flex-start; font-size: 11.5px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+  .check-grid input { accent-color: var(--accent-green); margin-top: 2px; }
+  .btn-primary {
+    background: var(--accent-green); color: #fff; border: 1px solid var(--accent-green-dark);
+    padding: 9px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 800;
+    cursor: pointer; font-family: var(--font-theme); transition: all .15s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { background: var(--accent-green-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--bg-card-alt); color: var(--accent-green); border: 1px solid var(--border-theme);
+    padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 700;
+    cursor: pointer; font-family: var(--font-theme); transition: all .15s; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .btn-secondary:hover { background: var(--accent-green); color: #fff; border-color: var(--accent-green-dark); }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .teacher-output-wrap { background: var(--bg-card); border: 1px solid var(--border-theme); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); min-height: 300px; }
+  .teacher-placeholder { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+  .teacher-placeholder .big { font-size: 44px; margin-bottom: 10px; }
+  .teacher-sheet { border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 20px; background: #fff; color: #111; }
+  .teacher-sheet h2 { font-size: 19px; margin-bottom: 5px; color: #1c1917; }
+  .teacher-sheet h3 { font-size: 15px; margin: 8px 0 10px; color: #254d25; }
+  .teacher-sheet .sheet-brand { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #996600; font-weight: 800; margin-bottom: 6px; }
+  .teacher-sheet .sheet-instructions { font-size: 12px; color: #444; margin-bottom: 10px; }
+  .teacher-sheet .sheet-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: #333; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 8px 0; margin-bottom: 14px; }
+  .ws-list { padding-left: 22px; }
+  .ws-list > li { margin-bottom: 16px; font-size: 13px; line-height: 1.55; color: #111; }
+  .ws-list .ws-tag { font-size: 9px; text-transform: uppercase; letter-spacing: .5px; color: #996600; font-weight: 800; }
+  .ws-lines { border-bottom: 1px solid #bbb; height: 22px; margin-top: 7px; }
+  .ws-lines.short { width: 60%; }
+  .answer-key { background: #fbfdf9; border: 1px solid #b7d7b7; }
+  .answer-key .key-list > li { margin-bottom: 14px; font-size: 12.5px; color: #222; }
+  .answer-key .key-answer { font-weight: 800; color: #254d25; }
+  .answer-key .key-steps { margin: 5px 0 0 16px; color: #444; font-size: 11.5px; }
+  .answer-key .key-steps li { margin-bottom: 3px; }
+  .answer-key { display: none; }
+  body.show-key .answer-key { display: block; }
+  .small-note { font-size: 11px; color: var(--text-dim); margin-top: 8px; line-height: 1.5; }
+  footer.site-footer {
+    margin-top: 28px; padding-top: 16px; border-top: 2px solid var(--border-theme); color: var(--text-dim);
+    font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  footer.site-footer a { color: var(--accent-maroon); text-decoration: none; font-weight: 600; }
+  footer.site-footer a:hover { color: var(--accent-green); text-decoration: underline; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+  @media print {
+    body { background: #fff !important; padding: 0 !important; }
+    .site-nav-bar, header.theme-header, .tab-nav, footer.site-footer, .teacher-controls,
+    .no-print { display: none !important; }
+    .container { max-width: none; }
+    .tab-panel { display: none !important; }
+    .tab-panel.active { display: block !important; }
+    body.print-worksheet #tab-teacher, body.print-key #tab-teacher { display: block !important; }
+    .teacher-layout { display: block; }
+    .teacher-output-wrap { border: none; padding: 0; box-shadow: none; min-height: 0; }
+    .teacher-sheet { border: none; padding: 0; margin: 0; }
+    .answer-key { display: none !important; }
+    body.print-key .answer-key { display: block !important; }
+    body.print-key #worksheetSheet { display: none !important; }
+    body.print-worksheet #answerSheet { display: none !important; }
+    .ws-list > li { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="site-nav-bar">
+    <div class="site-breadcrumbs">
+      <a href="index.html">🏠 Home</a><span class="sep">&gt;</span>
+      <a href="microwave.htm">Microwave Planar Circuits</a><span class="sep">&gt;</span>
+      <span style="color: var(--text-main);">Signal Source Lab · EMC §1.5.2</span>
+    </div>
+    <div class="site-quick-links">
+      <a href="microwave.htm" class="nav-btn-chip">⬅ Microwave Circuits</a>
+      <a href="transmission_line_calculator.htm" class="nav-btn-chip">Transmission Line</a>
+      <a href="attenuator_designer.htm" class="nav-btn-chip">Attenuator</a>
+    </div>
+  </div>
+
+  <header class="theme-header">
+    <div class="header-titles">
+      <h1><span>Signal Source Lab</span><span class="badge">EMC · §1.5.2</span></h1>
+      <p>Thevenin sources, dBm ↔ dBµV, matched loads, cable loss, and mismatch — built around Clayton R. Paul, <em>Introduction to Electromagnetic Compatibility</em>, Chapter 1.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-action" id="btnHelp" title="Jump to the quick guide">📘 Quick Guide</button>
+      <button class="btn-theme-action" id="themeToggle" title="Toggle light / dark mode">🌓 Theme</button>
+      <button class="btn-theme-action" id="btnPrintPage" title="Print the current view">🖨 Print</button>
+    </div>
+  </header>
+
+  <nav class="tab-nav" id="mainTabs" aria-label="Lab sections">
+    <button class="tab-btn active" data-tab="learn"><span class="tab-icon">📘</span><span>Learn</span></button>
+    <button class="tab-btn" data-tab="workbench"><span class="tab-icon">🧮</span><span>Workbench</span></button>
+    <button class="tab-btn" data-tab="bank"><span class="tab-icon">📚</span><span>Book Problems</span></button>
+    <button class="tab-btn" data-tab="teacher"><span class="tab-icon">🧑‍🏫</span><span>Teacher Studio</span></button>
+  </nav>
+
+  <main>
+    <!-- ================= LEARN ================= -->
+    <section class="tab-panel active" id="tab-learn">
+      <div class="theme-card">
+        <div class="card-title"><span>What is a “signal source specification”?</span><span class="tag">Section 1.5.2</span></div>
+        <p class="lead">A signal source is not just a voltage. It is a <strong>Thevenin equivalent</strong>: an open-circuit voltage <span class="eq">V<sub>OC</sub></span> behind a source resistance <span class="eq">R<sub>S</sub></span>. Almost every RF instrument uses <span class="eq">R<sub>S</sub> = 50 Ω</span>, and most receivers, spectrum analyzers, and coaxial cables are also designed for <span class="eq">50 Ω</span>. The meter on a generator is calibrated as the power that would be delivered to a <strong>50 Ω</strong> load — even when the real load is something else.</p>
+        <div class="three-col" style="margin-top:16px;">
+          <div class="ref-box">
+            <h4>1 · The source setting</h4>
+            <p><strong>P<sub>set</sub></strong> in dBm is the power the generator would deliver to a matched 50 Ω load. It assumes <span class="eq">R<sub>S</sub> = 50 Ω</span>.</p>
+          </div>
+          <div class="ref-box">
+            <h4>2 · The Thevenin model</h4>
+            <p><span class="eq">V<sub>OC</sub> = 2 V<sub>out,50</sub></span> when <span class="eq">R<sub>S</sub> = 50 Ω</span>. That is a <strong>+6 dB</strong> step from the matched-load voltage to the open-circuit voltage.</p>
+          </div>
+          <div class="ref-box">
+            <h4>3 · The real load</h4>
+            <p>If <span class="eq">R<sub>L</sub> ≠ 50 Ω</span>, use voltage division: <span class="eq">V<sub>out</sub> = V<sub>OC</sub> R<sub>L</sub>/(R<sub>S</sub>+R<sub>L</sub>)</span>. The meter reading no longer equals the power in the load.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="card-title"><span>The 60 dB trap: dBµV vs dBmV</span><span class="tag">Unit check</span></div>
+        <div class="note-box warn-box">
+          <strong>Read this first.</strong> EMC voltages are almost always quoted in <strong>dBµV</strong> (1 µV reference), not dBmV (1 mV reference). The two differ by exactly <strong>60 dB</strong>: <span class="eq">dBµV = dBmV + 60</span>. A value like “84.5 dBµV” is 16.8 mV RMS — a perfectly ordinary signal level. If you read it as 84.5 dBmV, you would get 16.8 V, which is 1000× too large.
+        </div>
+        <div class="two-col" style="margin-top:14px;">
+          <div>
+            <div class="eq-block">dBµV = 20 log₁₀( V<sub>RMS</sub> / 1 µV )</div>
+            <div class="eq-block">dBmV = 20 log₁₀( V<sub>RMS</sub> / 1 mV ) = dBµV − 60</div>
+            <div class="eq-block">dBm  = 10 log₁₀( P / 1 mW )</div>
+            <div class="eq-block">At 50 Ω:  dBµV = 107 + dBm</div>
+            <div class="eq-block">At 50 Ω:  dBmV = 47 + dBm</div>
+          </div>
+          <div class="ref-box">
+            <h4>Anchor points worth memorising (50 Ω)</h4>
+            <table class="specs-table" style="margin-top:6px;">
+              <thead><tr><th>Power</th><th>V<sub>RMS</sub></th><th>dBµV</th><th>dBmV</th></tr></thead>
+              <tbody>
+                <tr><td>0 dBm (1 mW)</td><td class="val-col">223.6 mV</td><td class="val-col">107</td><td class="val-col">47</td></tr>
+                <tr><td>−10 dBm</td><td class="val-col">70.7 mV</td><td class="val-col">97</td><td class="val-col">37</td></tr>
+                <tr><td>−20 dBm</td><td class="val-col">22.4 mV</td><td class="val-col">87</td><td class="val-col">27</td></tr>
+                <tr><td>−30 dBm</td><td class="val-col">7.07 mV</td><td class="val-col">77</td><td class="val-col">17</td></tr>
+                <tr><td>−40 dBm</td><td class="val-col">2.24 mV</td><td class="val-col">67</td><td class="val-col">7</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="card-title"><span>Equations used in this lab</span><span class="tag">Formula sheet</span></div>
+        <div class="ref-grid">
+          <div class="ref-box">
+            <h4>Source &amp; load</h4>
+            <div class="eq-block">V<sub>out</sub> = V<sub>OC</sub> · R<sub>L</sub> / (R<sub>S</sub> + R<sub>L</sub>)</div>
+            <p>When <span class="eq">R<sub>L</sub> = R<sub>S</sub> = 50 Ω</span>: <span class="eq">V<sub>out</sub> = V<sub>OC</sub>/2</span>, i.e. <span class="eq">V<sub>OC,dBµV</sub> = V<sub>out,dBµV</sub> + 6 dB</span>.</p>
+            <div class="eq-block">P<sub>out</sub> = V<sub>out,RMS</sub>² / R<sub>L</sub></div>
+          </div>
+          <div class="ref-box">
+            <h4>Matched cable</h4>
+            <div class="eq-block">V<sub>rec,dBµV</sub> = V<sub>source,dBµV</sub> + cable gain<sub>dB</sub></div>
+            <p>A cable loss of 4.5 dB/100 ft over 200 ft is <strong>−9 dB</strong> of gain. Loss is subtracted; gain is negative dB.</p>
+            <div class="eq-block">P<sub>rec,dBm</sub> = P<sub>source,dBm</sub> + cable gain<sub>dB</sub></div>
+          </div>
+          <div class="ref-box">
+            <h4>RMS, peak &amp; power</h4>
+            <div class="eq-block">V<sub>peak</sub> = √2 · V<sub>RMS</sub></div>
+            <div class="eq-block">P<sub>dBm</sub> = 10 log₁₀(P / 1 mW)</div>
+            <p>Instrument voltages are RMS unless “peak” is stated explicitly. The <span class="eq">½</span> in <span class="eq">P = V<sub>peak</sub>²/(2R)</span> is already absorbed when you use RMS volts in <span class="eq">P = V<sub>RMS</sub>²/R</span>.</p>
+          </div>
+          <div class="ref-box">
+            <h4>Mismatch</h4>
+            <p>The meter assumes 50 Ω. With a different load, first find <span class="eq">V<sub>OC</sub></span>, then use voltage division. The “mismatch loss” is</p>
+            <div class="eq-block">L<sub>mismatch,dB</sub> = 10 log₁₀(P<sub>set</sub> / P<sub>load</sub>)</div>
+            <p>It is zero only when the load equals the source resistance (conjugate match for real impedances).</p>
+          </div>
+        </div>
+        <p class="small-note">Textbook equations referenced: (1.69) voltage division · (1.70)–(1.71) power and dBm · (1.72) dBµV = 107 + dBm at 50 Ω · (1.73)–(1.75) cable loss and received voltage.</p>
+      </div>
+
+      <div class="theme-card">
+        <div class="card-title"><span>Worked example: −26 dBm into a 150 Ω load</span><span class="tag">Paul, Fig. 1.12</span></div>
+        <p class="lead">This is the exact numerical example from Section 1.5.2. Follow each step, then load it into the Workbench and change one number at a time.</p>
+        <ol class="step-list" style="margin-top:12px;">
+          <li><strong>Convert dBm to power.</strong> <span class="eq">P = 10<sup>−26/10</sup> mW = 0.002512 mW = 2.512 µW</span>.</li>
+          <li><strong>Find the voltage across a 50 Ω load.</strong> <span class="eq">V<sub>50</sub> = √(50 × 2.512×10<sup>−6</sup>) = 11.2 mV</span> = <span class="eq">80.99 dBµV</span>.</li>
+          <li><strong>Open-circuit voltage.</strong> <span class="eq">V<sub>OC</sub> = 2 × 11.2 mV = 22.4 mV = 87 dBµV</span> (the +6 dB step).</li>
+          <li><strong>Voltage division with 150 Ω.</strong> <span class="eq">V<sub>out</sub> = 150/(50+150) × 22.4 mV = 16.8 mV = 84.5 dBµV</span>.</li>
+          <li><strong>Shortcut in dB.</strong> <span class="eq">20 log₁₀(150/200) = −2.5 dB</span>, so <span class="eq">87 − 2.5 = 84.5 dBµV</span>. The load power is <span class="eq">(16.8 mV)²/150 = 1.88 µW = −27.3 dBm</span>.</li>
+        </ol>
+        <div class="btn-row">
+          <button class="btn-primary" data-preset="ex_example">⚡ Load this example in the Workbench</button>
+        </div>
+      </div>
+
+      <div class="theme-card">
+        <div class="card-title"><span>Quick unit converter (50 Ω system)</span><span class="tag">Try it</span></div>
+        <div class="two-col">
+          <div>
+            <div class="form-group">
+              <div class="form-label"><span>Input value</span><span class="desc">RMS unless peak selected</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="convValue" value="-30" step="any" />
+                <span class="unit-addon" id="convAddon">dBm</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-label"><span>Input unit</span></div>
+              <select id="convUnit">
+                <option value="dbm" selected>dBm (power into 50 Ω)</option>
+                <option value="dbuv">dBµV (RMS voltage)</option>
+                <option value="dbmv">dBmV (RMS voltage)</option>
+                <option value="vrms">V RMS</option>
+                <option value="vpeak">V peak</option>
+                <option value="dbw">dBW (power)</option>
+              </select>
+            </div>
+            <p class="small-note">Conversions assume a pure 50 Ω resistance. At another impedance, use the Workbench instead: the 107 dB constant only applies at 50 Ω.</p>
+          </div>
+          <div class="converter-grid" id="convResults"></div>
+        </div>
+      </div>
+    </section>
+    <!-- ================= WORKBENCH ================= -->
+    <section class="tab-panel" id="tab-workbench">
+      <div class="theme-card" style="padding:14px 20px;">
+        <div class="card-title" style="margin-bottom:10px;"><span>Load a scenario</span><span class="tag">One click</span></div>
+        <div class="chip-container" id="presetChips">
+          <button class="chip highlight active" data-preset="matched">★ Matched 50 Ω</button>
+          <button class="chip" data-preset="p158cable">Book 1.5.8 · cable</button>
+          <button class="chip" data-preset="p158load">Book 1.5.8 · 100 Ω</button>
+          <button class="chip" data-preset="p159">Book 1.5.9</button>
+          <button class="chip" data-preset="p1510">Book 1.5.10 · 300 Ω</button>
+          <button class="chip" data-preset="p1511">Book 1.5.11 · 150 Ω</button>
+          <button class="chip" data-preset="p1512">Book 1.5.12 · scope</button>
+          <button class="chip" data-preset="r18">Review 1.8 · 25 Ω</button>
+          <button class="chip" data-preset="r19">Review 1.9</button>
+          <button class="chip" data-preset="ex_example">−26 dBm → 150 Ω</button>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="controls-column">
+          <div class="theme-card">
+            <div class="card-title"><span>Source, cable &amp; load</span><span class="tag" id="wbModeTag">50 Ω system</span></div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Source meter reading (P<sub>set</sub>)</span><span class="desc">dBm into assumed 50 Ω</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inDbm" value="-30" min="-90" max="30" step="0.5" />
+                <span class="unit-addon">dBm</span>
+              </div>
+              <input type="range" id="inDbmSlider" min="-60" max="10" step="0.5" value="-30" aria-label="Source level slider" />
+              <div class="chip-container">
+                <button class="chip" data-dbm="-40">−40 dBm</button>
+                <button class="chip" data-dbm="-30">−30 dBm</button>
+                <button class="chip" data-dbm="-20">−20 dBm</button>
+                <button class="chip" data-dbm="-10">−10 dBm</button>
+                <button class="chip" data-dbm="0">0 dBm</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Source resistance (R<sub>S</sub>)</span><span class="desc">Thevenin resistance</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inRs" value="50" min="1" max="1000" step="1" />
+                <span class="unit-addon">Ω</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Operating frequency (f)</span><span class="desc">Used for cable phase &amp; C<sub>in</sub></span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inFreq" value="100" min="0.001" max="40000" step="1" />
+                <span class="unit-addon">MHz</span>
+              </div>
+              <div class="chip-container">
+                <button class="chip" data-freq="1">1 MHz</button>
+                <button class="chip" data-freq="10">10 MHz</button>
+                <button class="chip highlight active" data-freq="100">★ 100 MHz</button>
+                <button class="chip" data-freq="500">500 MHz</button>
+                <button class="chip" data-freq="1000">1 GHz</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Cable length (l)</span><span class="desc">0 = direct connection</span></div>
+              <div style="display:flex;gap:8px;">
+                <div class="input-wrapper">
+                  <input type="number" id="inLen" value="100" min="0" max="100000" step="1" />
+                  <span class="unit-addon" id="lenAddon">ft</span>
+                </div>
+                <select id="inLenUnit" style="width:95px;flex:0 0 auto;padding:4px 6px;font-size:12px;">
+                  <option value="ft" selected>ft</option>
+                  <option value="m">m</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Cable loss specification</span><span class="desc">Matched-line loss</span></div>
+              <div style="display:flex;gap:8px;">
+                <div class="input-wrapper">
+                  <input type="number" id="inLoss" value="4.5" min="0" max="200" step="0.1" />
+                  <span class="unit-addon" id="lossAddon">dB</span>
+                </div>
+                <select id="inLossUnit" style="width:130px;flex:0 0 auto;padding:4px 6px;font-size:12px;">
+                  <option value="ft" selected>dB/100 ft</option>
+                  <option value="m">dB/100 m</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Cable characteristic impedance (Z<sub>C</sub>)</span><span class="desc">Usually 50 Ω</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inZ0" value="50" min="5" max="1000" step="1" />
+                <span class="unit-addon">Ω</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Velocity factor (v<sub>f</sub>)</span><span class="desc">RG-58U ≈ 0.66</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inVf" value="0.66" min="0.1" max="1" step="0.01" />
+                <span class="unit-addon">× c</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Load resistance (R<sub>L</sub>)</span><span class="desc">Receiver / device input</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inRl" value="50" min="0.1" max="10000000" step="1" />
+                <span class="unit-addon">Ω</span>
+              </div>
+              <div class="chip-container">
+                <button class="chip" data-rl="25">25 Ω</button>
+                <button class="chip" data-rl="50">50 Ω</button>
+                <button class="chip" data-rl="75">75 Ω</button>
+                <button class="chip" data-rl="100">100 Ω</button>
+                <button class="chip" data-rl="150">150 Ω</button>
+                <button class="chip" data-rl="300">300 Ω</button>
+                <button class="chip" data-rl="1000000">1 MΩ</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label"><span>Load input capacitance (C<sub>in</sub>)</span><span class="desc">0 pF for a pure resistor</span></div>
+              <div class="input-wrapper">
+                <input type="number" id="inCin" value="0" min="0" max="10000" step="1" />
+                <span class="unit-addon">pF</span>
+              </div>
+              <div class="chip-container">
+                <button class="chip" data-cin="0">0 pF</button>
+                <button class="chip" data-cin="10">10 pF</button>
+                <button class="chip" data-cin="22">22 pF</button>
+                <button class="chip" data-cin="47">47 pF (scope)</button>
+                <button class="chip" data-cin="100">100 pF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="display-column">
+          <div class="theme-card" style="margin-bottom:20px;">
+            <div class="card-title"><span>Signal path</span><span class="tag" id="pathTag">Matched</span></div>
+            <div class="status-strip" id="statusStrip"><span class="status-dot"></span><span id="statusText">Matched 50 Ω system.</span></div>
+            <div class="schematic-viewport" id="schematicBox"></div>
+            <div class="result-grid">
+              <div class="result-box">
+                <div class="result-title">Load voltage</div>
+                <div class="result-value-large" id="resDbuv">—</div>
+                <div class="result-sub" id="resDbuvSub">dBµV RMS</div>
+              </div>
+              <div class="result-box">
+                <div class="result-title">Load RMS voltage</div>
+                <div class="result-value-large" id="resVrms">—</div>
+                <div class="result-sub" id="resVpeakSub">peak —</div>
+              </div>
+              <div class="result-box">
+                <div class="result-title">Power in load</div>
+                <div class="result-value-large" id="resDbm">—</div>
+                <div class="result-sub" id="resDbmSub">—</div>
+              </div>
+              <div class="result-box">
+                <div class="result-title">Open-circuit voltage</div>
+                <div class="result-value-large" id="resVoc">—</div>
+                <div class="result-sub" id="resVocSub">V<sub>OC</sub> · dBµV</div>
+              </div>
+            </div>
+            <table class="specs-table" id="wbTable">
+              <thead><tr><th>Quantity</th><th style="text-align:right;">Value</th><th>Notes</th></tr></thead>
+              <tbody id="wbTableBody"></tbody>
+            </table>
+          </div>
+
+          <div class="theme-card">
+            <div class="card-title"><span>What if…? sweep</span><span class="tag">See matching</span></div>
+            <div class="form-label"><span>Plot load voltage vs.</span></div>
+            <select id="sweepType">
+              <option value="load" selected>Load resistance (1 Ω → 1 MΩ)</option>
+              <option value="length">Cable length</option>
+              <option value="freq">Frequency (1 MHz → 1 GHz)</option>
+            </select>
+            <div class="plot-wrap" id="plotBox"></div>
+          </div>
+
+          <div class="theme-card">
+            <div class="card-title"><span>Step-by-step solution</span><span class="tag">Numerical</span></div>
+            <ol class="step-list" id="wbSteps"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ================= BOOK PROBLEMS ================= -->
+    <section class="tab-panel" id="tab-bank">
+      <div class="theme-card">
+        <div class="card-title"><span>Chapter 1 problems on signal-source specification</span><span class="tag">Verified solutions</span></div>
+        <p class="lead">These problems are restated from <strong>Section 1.5.2, Signal Source Specification</strong>, and the Review Exercises that accompany it. All voltage answers are in <strong>dBµV</strong>, as printed in the book. Each card includes a full numerical solution and, where useful, a one-click Workbench preset.</p>
+        <div class="note-box" style="margin-top:12px;">
+          <strong>Note on units.</strong> The scanned text layer of some PDF copies renders “µ” as “m”. In the printed book these problems ask for <strong>dBµV</strong>, not dBmV. The Workbench shows both units so the distinction becomes automatic.
+        </div>
+      </div>
+      <div class="problem-grid" id="bookGrid"></div>
+    </section>
+
+    <!-- ================= TEACHER STUDIO ================= -->
+    <section class="tab-panel" id="tab-teacher">
+      <div class="teacher-layout">
+        <div class="theme-card teacher-controls no-print">
+          <div class="card-title"><span>Problem set generator</span><span class="tag">Teacher</span></div>
+
+          <div class="form-group">
+            <div class="form-label"><span>Worksheet title</span></div>
+            <input type="text" id="tTitle" value="EMC Signal Source Practice" />
+          </div>
+
+          <div class="form-group">
+            <div class="form-label"><span>Instructions / class</span></div>
+            <input type="text" id="tSubtitle" value="Show all working. Assume 50 Ω unless stated otherwise." />
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div class="form-group">
+              <div class="form-label"><span>Questions</span></div>
+              <input type="number" id="tCount" value="10" min="3" max="40" step="1" />
+            </div>
+            <div class="form-group">
+              <div class="form-label"><span>Seed</span></div>
+              <input type="number" id="tSeed" value="2026" min="1" max="999999" step="1" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label"><span>Problem types</span><span class="desc">Pick one or more</span></div>
+            <div class="check-grid" id="templateChecks">
+              <label><input type="checkbox" value="A" checked /> dBm → dBµV / V</label>
+              <label><input type="checkbox" value="B" checked /> dBµV → dBm / V</label>
+              <label><input type="checkbox" value="C" checked /> Mismatched load</label>
+              <label><input type="checkbox" value="D" checked /> Cable chain</label>
+              <label><input type="checkbox" value="E" /> Reverse cable chain</label>
+              <label><input type="checkbox" value="F" checked /> High-Z scope peak</label>
+              <label><input type="checkbox" value="G" checked /> Unit ladder</label>
+              <label><input type="checkbox" value="H" /> Mismatch loss</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label"><span>Answer key</span></div>
+            <label style="display:flex;gap:7px;align-items:center;font-size:12px;font-weight:600;color:var(--text-muted);">
+              <input type="checkbox" id="tShowKey" checked style="accent-color:var(--accent-green);" />
+              Show answer key on screen
+            </label>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn-primary" id="btnGenerate">🎲 Generate set</button>
+            <button class="btn-secondary" id="btnRandomSeed">↻ New seed</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn-secondary" id="btnPrintWorksheet">🖨 Print worksheet</button>
+            <button class="btn-secondary" id="btnPrintKey">🔑 Print key</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn-secondary" id="btnDownload">💾 Download HTML</button>
+            <button class="btn-secondary" id="btnCopyWorksheet">📋 Copy worksheet text</button>
+          </div>
+          <p class="small-note">The seed makes a set reproducible: same seed + same selected types = same questions. Change one number and regenerate to create a parallel version for another section.</p>
+        </div>
+
+        <div class="teacher-output-wrap" id="teacherOutputWrap">
+          <div class="teacher-placeholder" id="teacherPlaceholder">
+            <div class="big">🧑‍🏫</div>
+            <p>Choose the problem types and press <strong>Generate set</strong>.</p>
+            <p class="small-note">A printable worksheet and a separate step-by-step answer key will appear here.</p>
+          </div>
+          <div id="teacherOutput"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div>
+      <a href="microwave.htm">Microwave Planar Circuits</a> &bull;
+      <a href="transmission_line_calculator.htm">Transmission Line Calculator</a> &bull;
+      <a href="index.html">Home</a> &bull;
+      <a href="interest.htm">Interests</a>
+    </div>
+    <div>Signal Source Lab &bull; EMC §1.5.2 &bull; Suitable for <a href="https://sudhabin.github.io/microwave.htm">sudhabin.github.io</a></div>
+  </footer>
+</div>
+<script>
+'use strict';
+/* ============================================================
+   Signal Source Lab — core numerics
+   All voltages are RMS unless the label says peak.
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const C0 = 299792458;
+const SQ2 = Math.SQRT2;
+
+function numberOr(x, fallback) {
+  const n = parseFloat(x);
+  return Number.isFinite(n) ? n : fallback;
+}
+function clamp(x, a, b) { return Math.min(b, Math.max(a, x)); }
+function sig(x, n = 4) {
+  if (!Number.isFinite(x)) return '—';
+  if (x === 0) return '0';
+  const a = Math.abs(x);
+  if (a >= 1e-3 && a < 1e5) {
+    const d = Math.max(0, n - 1 - Math.floor(Math.log10(a)));
+    return x.toFixed(Math.min(d, 8)).replace(/\.?0+$/, '');
+  }
+  return x.toExponential(Math.max(0, n - 1)).replace('e+', '×10^').replace('e-', '×10^−');
+}
+function fmt(x, d = 2) {
+  if (!Number.isFinite(x)) return '—';
+  if (Math.abs(x) < Math.pow(10, -d - 1)) return (0).toFixed(d);
+  return x.toFixed(d);
+}
+function vStr(v) {
+  if (!Number.isFinite(v)) return '—';
+  const a = Math.abs(v);
+  if (a >= 1) return fmt(v, 4) + ' V';
+  if (a >= 1e-3) return fmt(v * 1e3, 4) + ' mV';
+  if (a >= 1e-6) return fmt(v * 1e6, 3) + ' µV';
+  if (a >= 1e-9) return fmt(v * 1e9, 3) + ' nV';
+  return v.toExponential(3) + ' V';
+}
+function pStr(w) {
+  if (!Number.isFinite(w)) return '—';
+  const a = Math.abs(w);
+  if (a >= 1) return fmt(w, 4) + ' W';
+  if (a >= 1e-3) return fmt(w * 1e3, 4) + ' mW';
+  if (a >= 1e-6) return fmt(w * 1e6, 4) + ' µW';
+  if (a >= 1e-9) return fmt(w * 1e9, 4) + ' nW';
+  return w.toExponential(3) + ' W';
+}
+function dbmToW(dbm) { return Math.pow(10, dbm / 10) * 1e-3; }
+function wToDbm(w) { return 10 * Math.log10(w / 1e-3); }
+function vToDbuv(v) { return 20 * Math.log10(v / 1e-6); }
+function dbuvToV(dbuv) { return 1e-6 * Math.pow(10, dbuv / 20); }
+function vToDbmv(v) { return vToDbuv(v) - 60; }
+function dbuvToDbm(dbuv) { return dbuv - 107; }
+function dbmToDbuv(dbm) { return dbm + 107; }
+function angleDeg(z) { return Math.atan2(z.im, z.re) * 180 / Math.PI; }
+
+/* Complex helpers (phasors are RMS) */
+const cx = (re, im = 0) => ({ re, im });
+const cadd = (a, b) => cx(a.re + b.re, a.im + b.im);
+const csub = (a, b) => cx(a.re - b.re, a.im - b.im);
+const cmul = (a, b) => cx(a.re * b.re - a.im * b.im, a.re * b.im + a.im * b.re);
+const cdiv = (a, b) => {
+  const d = b.re * b.re + b.im * b.im;
+  return cx((a.re * b.re + a.im * b.im) / d, (a.im * b.re - a.re * b.im) / d);
+};
+const cinv = (a) => cdiv(cx(1, 0), a);
+const cabs2 = (a) => a.re * a.re + a.im * a.im;
+const cabs = (a) => Math.hypot(a.re, a.im);
+function ccosh(g) { return cx(Math.cosh(g.re) * Math.cos(g.im), Math.sinh(g.re) * Math.sin(g.im)); }
+function csinh(g) { return cx(Math.sinh(g.re) * Math.cos(g.im), Math.cosh(g.re) * Math.sin(g.im)); }
+
+/* ============================================================
+   Solve a source → cable → load chain
+   ============================================================ */
+function solve(st) {
+  const f = st.fMHz * 1e6;
+  const w = 2 * Math.PI * f;
+  const lenM = st.lenUnit === 'ft' ? st.len * 0.3048 : st.len;
+  const lossDbMatched = st.lossUnit === 'ft'
+    ? st.loss * (st.len / 100)
+    : st.loss * (lenM / 100);
+
+  const PsetW = dbmToW(st.dbm);
+  const V50 = Math.sqrt(PsetW * 50);
+  const Voc = V50 * (st.rs + 50) / 50;
+
+  let ZL;
+  if (st.cinF > 0) {
+    ZL = cinv(cx(1 / st.rl, w * st.cinF));
+  } else {
+    ZL = cx(st.rl, 0);
+  }
+
+  const alpha = lenM > 1e-12 ? (lossDbMatched / 8.686) / lenM : 0;
+  const beta = w / (C0 * st.vf);
+  const z0c = cx(st.z0, 0);
+
+  let Zin, V1, V2, matchedLine = false;
+  if (lenM > 1e-12) {
+    const g = cx(alpha * lenM, beta * lenM);
+    const ch = ccosh(g);
+    const sh = csinh(g);
+    const th = cdiv(sh, ch);
+    Zin = cmul(z0c, cdiv(cadd(ZL, cmul(z0c, th)), cadd(z0c, cmul(ZL, th))));
+    V1 = cmul(cx(Voc, 0), cdiv(Zin, cadd(cx(st.rs, 0), Zin)));
+    V2 = cmul(V1, cdiv(ZL, cadd(cmul(ZL, ch), cmul(z0c, sh))));
+    matchedLine = Math.abs(ZL.im) < 1e-9 && Math.abs(ZL.re - st.z0) / st.z0 < 1e-6;
+  } else {
+    Zin = ZL;
+    V1 = cmul(cx(Voc, 0), cdiv(ZL, cadd(cx(st.rs, 0), ZL)));
+    V2 = V1;
+    matchedLine = Math.abs(ZL.im) < 1e-9 && Math.abs(ZL.re - st.rs) / st.rs < 1e-6;
+  }
+
+  const Vload = cabs(V2);
+  const Pin = cabs2(V1) * cinv(Zin).re;
+  const Pload = cabs2(V2) * cinv(ZL).re;
+  const Pdbm = Pload > 0 ? wToDbm(Pload) : -Infinity;
+  const dbuv = vToDbuv(Vload);
+  const lineLossDb = (Pin > 0 && Pload > 0) ? 10 * Math.log10(Pin / Pload) : 0;
+  const sourceMismatchDb = (Pin > 0) ? st.dbm - wToDbm(Pin) : Infinity;
+  const totalLossDb = st.dbm - Pdbm;
+
+  return {
+    st, lenM, lossDbMatched, PsetW, V50, Voc, ZL, Zin, V1, V2,
+    Vload, Vpeak: Vload * SQ2, Pin, Pload, Pdbm, dbuv, dbmv: dbuv - 60,
+    vocDbuv: vToDbuv(Voc), vocDbmv: vToDbmv(Voc),
+    v50Dbuv: vToDbuv(V50), v50Dbmv: vToDbmv(V50),
+    zlAbs: cabs(ZL), zlAng: angleDeg(ZL),
+    zinAbs: cabs(Zin), zinAng: angleDeg(Zin),
+    lineLossDb, sourceMismatchDb, totalLossDb,
+    matchedLine,
+    matchedSystem: Math.abs(cabs(Zin) - 50) < 0.01 && Math.abs(angleDeg(Zin)) < 0.01
+  };
+}
+
+function readState() {
+  return {
+    dbm: clamp(numberOr($('inDbm').value, -30), -200, 100),
+    rs: clamp(numberOr($('inRs').value, 50), 0.001, 1e7),
+    fMHz: clamp(numberOr($('inFreq').value, 100), 1e-6, 1e6),
+    len: clamp(numberOr($('inLen').value, 0), 0, 1e8),
+    lenUnit: $('inLenUnit').value,
+    loss: clamp(numberOr($('inLoss').value, 0), 0, 1e5),
+    lossUnit: $('inLossUnit').value,
+    z0: clamp(numberOr($('inZ0').value, 50), 0.1, 1e6),
+    vf: clamp(numberOr($('inVf').value, 0.66), 0.01, 1),
+    rl: clamp(numberOr($('inRl').value, 50), 0.001, 1e9),
+    cinF: clamp(numberOr($('inCin').value, 0), 0, 1e9) * 1e-12
+  };
+}
+
+function setInput(id, value) { const el = $(id); if (el) el.value = value; }
+
+/* ============================================================
+   Presets
+   ============================================================ */
+const PRESETS = {
+  matched:      { dbm: -30, rs: 50, f: 100, len: 100, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 50, cin: 0 },
+  p158cable:    { dbm: -41.5, rs: 50, f: 100, len: 200, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 50, cin: 0 },
+  p158load:     { dbm: -41.5, rs: 50, f: 100, len: 0, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 100, cin: 0 },
+  p159:         { dbm: -30, rs: 50, f: 100, len: 200, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 50, cin: 0 },
+  p1510:        { dbm: -30, rs: 50, f: 100, len: 100, lenUnit: 'ft', loss: 10, lossUnit: 'ft', z0: 300, vf: 0.66, rl: 300, cin: 0 },
+  p1511:        { dbm: -20, rs: 50, f: 100, len: 0, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 150, cin: 0 },
+  p1512:        { dbm: -30, rs: 50, f: 100, len: 0, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 1000000, cin: 47 },
+  r18:          { dbm: -20, rs: 50, f: 100, len: 0, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 25, cin: 0 },
+  r19:          { dbm: -15, rs: 50, f: 100, len: 300, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 50, cin: 0 },
+  ex_example:   { dbm: -26, rs: 50, f: 100, len: 0, lenUnit: 'ft', loss: 4.5, lossUnit: 'ft', z0: 50, vf: 0.66, rl: 150, cin: 0 }
+};
+
+function applyPreset(name) {
+  const p = PRESETS[name];
+  if (!p) return;
+  setInput('inDbm', p.dbm);
+  setInput('inDbmSlider', clamp(p.dbm, -60, 10));
+  setInput('inRs', p.rs);
+  setInput('inFreq', p.f);
+  setInput('inLen', p.len);
+  $('inLenUnit').value = p.lenUnit;
+  setInput('inLoss', p.loss);
+  $('inLossUnit').value = p.lossUnit;
+  setInput('inZ0', p.z0);
+  setInput('inVf', p.vf);
+  setInput('inRl', p.rl);
+  setInput('inCin', p.cin);
+  updateUnits();
+  document.querySelectorAll('#presetChips .chip').forEach(c => c.classList.toggle('active', c.dataset.preset === name));
+  updateWorkbench();
+  switchTab('workbench');
+}
+
+/* ============================================================
+   UI plumbing: tabs, theme, unit labels
+   ============================================================ */
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  if (name === 'workbench') updateWorkbench();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateUnits() {
+  $('lenAddon').textContent = $('inLenUnit').value;
+  $('lossAddon').textContent = $('inLossUnit').value === 'ft' ? 'dB' : 'dB';
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+document.querySelectorAll('#presetChips .chip').forEach(btn => {
+  btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+});
+document.querySelectorAll('[data-preset]').forEach(btn => {
+  if (!btn.closest('#presetChips')) btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+});
+document.querySelectorAll('[data-dbm]').forEach(btn => btn.addEventListener('click', () => {
+  setInput('inDbm', btn.dataset.dbm); setInput('inDbmSlider', btn.dataset.dbm); updateWorkbench();
+}));
+document.querySelectorAll('[data-freq]').forEach(btn => btn.addEventListener('click', () => { setInput('inFreq', btn.dataset.freq); updateWorkbench(); }));
+document.querySelectorAll('[data-rl]').forEach(btn => btn.addEventListener('click', () => { setInput('inRl', btn.dataset.rl); updateWorkbench(); }));
+document.querySelectorAll('[data-cin]').forEach(btn => btn.addEventListener('click', () => { setInput('inCin', btn.dataset.cin); updateWorkbench(); }));
+
+$('inDbm').addEventListener('input', () => { setInput('inDbmSlider', clamp(numberOr($('inDbm').value, -30), -60, 10)); updateWorkbench(); });
+$('inDbmSlider').addEventListener('input', () => { setInput('inDbm', $('inDbmSlider').value); updateWorkbench(); });
+$('inLenUnit').addEventListener('change', () => { updateUnits(); updateWorkbench(); });
+$('inLossUnit').addEventListener('change', () => { updateUnits(); updateWorkbench(); });
+['inRs', 'inFreq', 'inLen', 'inLoss', 'inZ0', 'inVf', 'inRl', 'inCin'].forEach(id => {
+  $(id).addEventListener('input', updateWorkbench);
+});
+$('sweepType').addEventListener('change', renderSweep);
+
+$('themeToggle').addEventListener('click', () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme === 'dark';
+  root.dataset.theme = dark ? '' : 'dark';
+});
+$('btnHelp').addEventListener('click', () => switchTab('learn'));
+$('btnPrintPage').addEventListener('click', () => window.print());
+
+/* ============================================================
+   Quick converter
+   ============================================================ */
+function updateConverter() {
+  const unit = $('convUnit').value;
+  let raw = numberOr($('convValue').value, 0);
+  let dbm, dbuv;
+  if (unit === 'dbm') { dbm = raw; dbuv = dbm + 107; }
+  else if (unit === 'dbuv') { dbuv = raw; dbm = dbuv - 107; }
+  else if (unit === 'dbmv') { dbuv = raw + 60; dbm = dbuv - 107; }
+  else if (unit === 'vrms') { dbuv = vToDbuv(raw); dbm = dbuv - 107; }
+  else if (unit === 'vpeak') { dbuv = vToDbuv(raw / SQ2); dbm = dbuv - 107; }
+  else if (unit === 'dbw') { dbm = raw + 30; dbuv = dbm + 107; }
+  const v = dbuvToV(dbuv);
+  const p = dbmToW(dbm);
+  $('convAddon').textContent = ({ dbm: 'dBm', dbuv: 'dBµV', dbmv: 'dBmV', vrms: 'V', vpeak: 'V', dbw: 'dBW' })[unit] || '';
+  const items = [
+    ['Power', fmt(dbm, 2) + ' dBm'],
+    ['Voltage', fmt(dbuv, 2) + ' dBµV'],
+    ['Voltage', fmt(dbuv - 60, 2) + ' dBmV'],
+    ['RMS voltage', vStr(v)],
+    ['Peak voltage', vStr(v * SQ2)],
+    ['Power', pStr(p)],
+    ['Power', fmt(dbm + 30, 2) + ' dBW']
+  ];
+  $('convResults').innerHTML = items.map(([k, val]) =>
+    `<div class="conv-item"><div class="k">${k}</div><div class="v">${val}</div></div>`).join('');
+}
+$('convValue').addEventListener('input', updateConverter);
+$('convUnit').addEventListener('change', updateConverter);
+
+/* ============================================================
+   Workbench rendering
+   ============================================================ */
+function updateWorkbench() {
+  const st = readState();
+  const r = solve(st);
+
+  /* status */
+  let status = '', warn = false, tag = '';
+  if (r.lenM < 1e-9) {
+    if (r.matchedLine) { status = `Direct connection, matched: R_L = R_S = ${fmt(st.rs, 2)} Ω. V_out = V_OC / 2.`; tag = 'Matched'; }
+    else { status = `Direct connection, mismatched: R_L = ${fmt(st.rl, 2)} Ω ≠ R_S = ${fmt(st.rs, 2)} Ω. Use voltage division.`; warn = true; tag = 'Mismatch'; }
+  } else if (r.matchedLine) {
+    status = `Matched line: Z_L = Z_C = ${fmt(st.z0, 2)} Ω. The cable presents ${fmt(r.zinAbs, 2)} Ω at its input and the loss is a clean ${fmt(r.lossDbMatched, 2)} dB.`; tag = 'Matched';
+  } else {
+    status = `Mismatched line: Z_L = ${fmt(r.zlAbs, 2)}∠${fmt(r.zlAng, 1)}° Ω, Z_C = ${fmt(st.z0, 2)} Ω. Standing waves make Z_in and V_out vary with frequency and length.`; warn = true; tag = 'Mismatch';
+  }
+  if (!(st.rs === 50)) { status += ` Source R_S is ${fmt(st.rs, 2)} Ω, not the usual 50 Ω.`; warn = true; }
+  $('statusText').textContent = status;
+  $('statusStrip').querySelector('.status-dot').classList.toggle('warn', warn);
+  $('pathTag').textContent = tag;
+  $('wbModeTag').textContent = `${fmt(st.z0, 0)} Ω system`;
+
+  /* headline results */
+  $('resDbuv').textContent = fmt(r.dbuv, 2) + ' dBµV';
+  $('resDbuvSub').textContent = fmt(r.dbmv, 2) + ' dBmV · RMS';
+  $('resVrms').textContent = vStr(r.Vload);
+  $('resVpeakSub').textContent = 'peak ' + vStr(r.Vpeak);
+  $('resDbm').textContent = fmt(r.Pdbm, 2) + ' dBm';
+  $('resDbmSub').textContent = pStr(r.Pload) + ' in R_L';
+  $('resVoc').textContent = fmt(r.vocDbuv, 1) + ' dBµV';
+  $('resVocSub').textContent = vStr(r.Voc) + ' · V_OC';
+
+  /* detailed table */
+  const rows = [
+    ['Source meter reading', fmt(st.dbm, 2) + ' dBm', `P_set = ${pStr(r.PsetW)} into an assumed 50 Ω`],
+    ['Voltage across 50 Ω (calibration)', vStr(r.V50), `${fmt(r.v50Dbuv, 2)} dBµV · ${fmt(r.v50Dbmv, 2)} dBmV`],
+    ['Open-circuit voltage V_OC', vStr(r.Voc), `${fmt(r.vocDbuv, 2)} dBµV · +6 dB when R_S = 50 Ω`],
+    ['Source resistance R_S', fmt(st.rs, 2) + ' Ω', 'Thevenin resistance'],
+    ['Load impedance Z_L', `${fmt(r.zlAbs, 3)} ∠ ${fmt(r.zlAng, 1)}° Ω`, st.cinF > 0 ? `R_L = ${fmt(st.rl, 0)} Ω in parallel with ${fmt(st.cinF * 1e12, 0)} pF` : 'Pure resistance'],
+    ['Cable input impedance Z_in', `${fmt(r.zinAbs, 3)} ∠ ${fmt(r.zinAng, 1)}° Ω`, r.lenM > 1e-9 ? 'What the source actually sees' : 'Direct connection'],
+    ['Matched cable loss', fmt(r.lossDbMatched, 2) + ' dB', r.lenM > 1e-9 ? `${fmt(st.loss, 2)} dB/100 ${st.lossUnit} × ${fmt(st.len, 2)} ${st.lenUnit}` : 'No cable'],
+    ['Actual line loss', fmt(r.lineLossDb, 2) + ' dB', 'Power in / power out of the line'],
+    ['Source-to-load loss', fmt(r.totalLossDb, 2) + ' dB', 'Includes mismatch and cable loss'],
+    ['Load voltage V_out', vStr(r.Vload) + ' RMS', `${fmt(r.dbuv, 2)} dBµV · ${fmt(r.dbmv, 2)} dBmV`],
+    ['Load peak voltage', vStr(r.Vpeak), '√2 × RMS'],
+    ['Power delivered to load', pStr(r.Pload), `${fmt(r.Pdbm, 2)} dBm`]
+  ];
+  $('wbTableBody').innerHTML = rows.map(([q, v, n]) =>
+    `<tr><td>${q}</td><td class="val-col">${v}</td><td class="note-col">${n}</td></tr>`).join('');
+
+  renderSchematic(r);
+  renderSteps(r);
+  renderSweep();
+}
+
+function zigzagH(x1, y, x2, amp = 7, n = 6) {
+  const step = (x2 - x1) / n;
+  let d = `M ${x1} ${y}`;
+  for (let i = 0; i < n; i++) {
+    const x = x1 + step * (i + 0.5);
+    d += ` L ${x} ${y + (i % 2 === 0 ? -amp : amp)}`;
+  }
+  return d + ` L ${x2} ${y}`;
+}
+
+function renderSchematic(r) {
+  const st = r.st;
+  const cable = r.lenM > 1e-9;
+  const loadLabel = st.cinF > 0
+    ? `${fmt(st.rl, 0)} Ω ∥ ${fmt(st.cinF * 1e12, 0)} pF`
+    : `${fmt(st.rl, 2)} Ω`;
+  const dIn = fmt(r.dbuv, 2);
+  const svg = `
+  <svg viewBox="0 0 760 250" role="img" aria-label="Signal source Thevenin equivalent feeding a cable and load">
+    <rect class="sch-box" x="16" y="38" width="196" height="150" rx="8"></rect>
+    <text class="sch-small" x="28" y="58">THEVENIN SOURCE</text>
+    <circle cx="66" cy="120" r="25" fill="none" stroke="var(--accent-green)" stroke-width="2.4"></circle>
+    <path class="sch-line" d="M 51 120 Q 58 106 66 120 T 81 120"></path>
+    <path class="sch-line" d="M 66 95 L 66 81 L 94 81"></path>
+    <path class="sch-line" d="M 66 145 L 66 159 L 94 159"></path>
+    <path class="sch-line" d="${zigzagH(94, 81, 150, 6, 5)}"></path>
+    <text class="sch-label" x="100" y="70">R_S</text>
+    <text class="sch-label" x="156" y="76">${fmt(st.rs, 1)} Ω</text>
+    <text class="sch-label" x="98" y="139">V_OC</text>
+    <text class="sch-label" x="98" y="155">${fmt(r.vocDbuv, 1)} dBµV</text>
+    <text class="sch-small" x="28" y="178">P_set = ${fmt(st.dbm, 1)} dBm into 50 Ω</text>
+
+    <path class="sch-line" d="M 212 81 L 246 81" marker-end="url(#arrow)"></path>
+    <text class="sch-gold" x="256" y="28" style="font-size:10.5px;">V_in = ${dIn} dBµV</text>
+
+    <rect class="sch-box" x="254" y="38" width="240" height="150" rx="8"></rect>
+    <text class="sch-small" x="268" y="58">${cable ? 'COAXIAL CABLE' : 'DIRECT CONNECTION'}</text>
+    ${cable ? `
+      <path class="sch-line" d="M 276 103 L 464 103"></path>
+      <path class="sch-line" d="M 276 121 L 464 121"></path>
+      <path class="sch-line" d="M 276 103 L 276 121"></path>
+      <path class="sch-line" d="M 464 103 L 464 121"></path>
+      <text class="sch-label" x="300" y="88">Z_C = ${fmt(st.z0, 2)} Ω</text>
+      <text class="sch-label" x="300" y="145">l = ${fmt(st.len, 2)} ${st.lenUnit}</text>
+      <text class="sch-small" x="300" y="162">${fmt(st.loss, 2)} dB/100 ${st.lossUnit} → ${fmt(r.lossDbMatched, 2)} dB matched loss</text>
+    ` : `
+      <path class="sch-line" d="M 276 112 L 464 112"></path>
+      <text class="sch-label" x="310" y="100">No cable loss</text>
+      <text class="sch-small" x="300" y="145">Source feeds the load directly</text>
+    `}
+    <text class="sch-small" x="268" y="180">Z_in = ${fmt(r.zinAbs, 1)} ∠ ${fmt(r.zinAng, 1)}° Ω</text>
+    <text class="sch-gold" x="398" y="180">${fmt(r.dbuv, 1)} dBµV</text>
+
+    <path class="sch-line" d="M 502 81 L 536 81" marker-end="url(#arrow)"></path>
+
+    <rect class="sch-box" x="546" y="38" width="198" height="150" rx="8"></rect>
+    <text class="sch-small" x="560" y="58">LOAD</text>
+    <path class="sch-line" d="${zigzagH(600, 91, 670, 7, 5)}"></path>
+    <path class="sch-line" d="M 574 91 L 600 91 M 670 91 L 690 91"></path>
+    <path class="sch-line" d="M 574 91 L 574 121 M 690 91 L 690 121"></path>
+    <path class="sch-line" d="${zigzagH(600, 121, 670, 7, 5)}"></path>
+    <path class="sch-line" d="M 574 121 L 600 121 M 670 121 L 690 121"></path>
+    ${st.cinF > 0 ? `
+      <path class="sch-thin" d="M 620 145 L 620 153 M 610 153 L 630 153 M 610 160 L 630 160 M 620 160 L 620 168"></path>
+      <text class="sch-small" x="638" y="158">${fmt(st.cinF * 1e12, 0)} pF</text>
+    ` : ''}
+    <text class="sch-small" x="560" y="172">${loadLabel}</text>
+    <text class="sch-gold" x="560" y="188" style="font-size:11px;">V_out = ${fmt(r.dbuv, 1)} dBµV</text>
+
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--accent-green)"></path>
+      </marker>
+    </defs>
+  </svg>`;
+  $('schematicBox').innerHTML = svg;
+}
+
+function renderSteps(r) {
+  const st = r.st;
+  const out = [];
+  const P_mW = Math.pow(10, st.dbm / 10);
+  out.push(`<strong>Source setting.</strong> ${st.dbm} dBm means ${r.PsetW.toExponential(4)} W = ${P_mW.toFixed(4)} mW would be delivered to a matched 50 Ω load.`);
+  out.push(`<strong>Voltage across 50 Ω.</strong> <span class="eq">V₅₀ = √(P·50) = ${vStr(r.V50)}</span> RMS = <span class="eq">${fmt(r.v50Dbuv, 2)} dBµV</span> = <span class="eq">${fmt(r.v50Dbmv, 2)} dBmV</span>.`);
+  out.push(`<strong>Open circuit.</strong> <span class="eq">V_OC = V₅₀(R_S+50)/50 = ${vStr(r.Voc)}</span> RMS = <span class="eq">${fmt(r.vocDbuv, 2)} dBµV</span>${st.rs === 50 ? ' — the familiar +6 dB step.' : `. (R_S = ${fmt(st.rs, 1)} Ω, not 50 Ω.)`}`);
+  if (st.cinF > 0) {
+    const Xc = 1 / (2 * Math.PI * st.fMHz * 1e6 * st.cinF);
+    out.push(`<strong>Load impedance.</strong> <span class="eq">X_C = 1/(2πfC) = ${fmt(Xc, 2)} Ω</span>. In parallel with ${fmt(st.rl, 0)} Ω: <span class="eq">Z_L = ${fmt(r.zlAbs, 2)} ∠ ${fmt(r.zlAng, 1)}° Ω</span>.`);
+  } else {
+    out.push(`<strong>Load impedance.</strong> <span class="eq">Z_L = ${fmt(st.rl, 2)} Ω</span> (pure resistance).`);
+  }
+  if (r.lenM > 1e-9) {
+    const betaL = 2 * Math.PI * st.fMHz * 1e6 / (C0 * st.vf) * r.lenM;
+    out.push(`<strong>Cable.</strong> Matched loss <span class="eq">${fmt(st.loss, 2)} dB/100 ${st.lossUnit} × ${fmt(st.len, 2)} ${st.lenUnit} = ${fmt(r.lossDbMatched, 2)} dB</span>. Electrical length <span class="eq">βl = ${fmt(betaL * 180 / Math.PI, 1)}°</span> at ${fmt(st.fMHz, 3)} MHz.`);
+    out.push(`<strong>Input impedance.</strong> The line transforms the load to <span class="eq">Z_in = ${fmt(r.zinAbs, 2)} ∠ ${fmt(r.zinAng, 1)}° Ω</span>.`);
+    out.push(`<strong>Voltage at the cable input.</strong> <span class="eq">V_in = V_OC · Z_in/(R_S+Z_in) = ${vStr(cabs(r.V1))} = ${fmt(vToDbuv(cabs(r.V1)), 2)} dBµV</span>.`);
+    out.push(`<strong>Voltage at the load.</strong> ${r.matchedLine ? 'The line is matched, so the voltage simply falls by the cable loss:' : 'The line is mismatched, so use the full transmission-line solution:'} <span class="eq">V_out = ${vStr(r.Vload)} = ${fmt(r.dbuv, 2)} dBµV</span>.`);
+  } else {
+    out.push(`<strong>Voltage division.</strong> <span class="eq">V_out = V_OC · Z_L/(R_S+Z_L) = ${vStr(r.Vload)} = ${fmt(r.dbuv, 2)} dBµV</span>.`);
+  }
+  out.push(`<strong>Power in the load.</strong> <span class="eq">P = V_out²/R_L = ${pStr(r.Pload)} = ${fmt(r.Pdbm, 2)} dBm</span>. Source-to-load loss = <span class="eq">${fmt(r.totalLossDb, 2)} dB</span> (mismatch + cable).`);
+  out.push(`<strong>Peak and unit check.</strong> <span class="eq">V_peak = √2 · ${vStr(r.Vload)} = ${vStr(r.Vpeak)}</span>. In dBmV this is <span class="eq">${fmt(r.dbmv, 2)} dBmV</span>; remember <span class="eq">dBµV = dBmV + 60</span>.`);
+  $('wbSteps').innerHTML = out.map(s => `<li>${s}</li>`).join('');
+}
+
+function niceStep(raw) {
+  if (!Number.isFinite(raw) || raw <= 0) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(raw)));
+  const n = raw / p;
+  const m = n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10;
+  return m * p;
+}
+
+/* ============================================================
+   Sweep plot
+   ============================================================ */
+function renderSweep() {
+  const st = readState();
+  const type = $('sweepType').value;
+  let xs = [], xmin, xmax, log = false, xLabel = '', title = '', note = '';
+  let current = 0, currentLabel = '';
+
+  if (type === 'load') {
+    xmin = 1; xmax = 1e6; log = true; current = st.rl;
+    for (let i = 0; i <= 90; i++) xs.push(Math.pow(10, Math.log10(xmin) + (Math.log10(xmax) - Math.log10(xmin)) * i / 90));
+    xLabel = 'Load resistance R_L (Ω)';
+    title = 'Load voltage vs load resistance';
+    note = 'Maximum power is transferred when R_L = R_S. The open-circuit voltage is the R_L → ∞ limit.';
+    currentLabel = `R_L = ${fmt(st.rl, st.rl >= 1000 ? 0 : 2)} Ω`;
+  } else if (type === 'length') {
+    xmin = 0; xmax = Math.max(st.len * 2, st.lenUnit === 'ft' ? 500 : 150); current = st.len;
+    for (let i = 0; i <= 80; i++) xs.push(xmin + (xmax - xmin) * i / 80);
+    xLabel = `Cable length (${st.lenUnit})`;
+    title = 'Load voltage vs cable length';
+    note = r_note(st);
+    currentLabel = `l = ${fmt(st.len, 1)} ${st.lenUnit}`;
+  } else {
+    xmin = 1; xmax = 1000; log = true; current = st.fMHz;
+    for (let i = 0; i <= 90; i++) xs.push(Math.pow(10, Math.log10(xmin) + (Math.log10(xmax) - Math.log10(xmin)) * i / 90));
+    xLabel = 'Frequency (MHz)';
+    title = 'Load voltage vs frequency';
+    note = 'A matched system is flat with frequency. Mismatch creates standing waves and ripple.';
+    currentLabel = `f = ${fmt(st.fMHz, st.fMHz >= 10 ? 1 : 3)} MHz`;
+  }
+
+  const ys = xs.map(x => {
+    const s = Object.assign({}, st);
+    if (type === 'load') s.rl = x;
+    if (type === 'length') s.len = x;
+    if (type === 'freq') s.fMHz = x;
+    return solve(s).dbuv;
+  });
+
+  let lo = Math.min(...ys), hi = Math.max(...ys);
+  if (!Number.isFinite(lo) || !Number.isFinite(hi)) { lo = 0; hi = 100; }
+  let pad = (hi - lo) * 0.12;
+  if (pad < 0.8) pad = 5;
+  lo -= pad; hi += pad;
+
+  const W = 700, H = 290, ml = 54, mr = 18, mt = 30, mb = 44;
+  const pw = W - ml - mr, ph = H - mt - mb;
+  const xToPx = (x) => {
+    const t = log ? (Math.log10(x) - Math.log10(xmin)) / (Math.log10(xmax) - Math.log10(xmin))
+                  : (x - xmin) / (xmax - xmin);
+    return ml + t * pw;
+  };
+  const yToPx = (y) => mt + (hi - y) / (hi - lo) * ph;
+
+  let grid = '';
+  const yStep = niceStep((hi - lo) / 5);
+  const yStart = Math.ceil(lo / yStep) * yStep;
+  for (let y = yStart; y <= hi + 1e-9; y += yStep) {
+    const py = yToPx(y);
+    grid += `<line class="plot-grid" x1="${ml}" y1="${py}" x2="${W - mr}" y2="${py}"></line>`;
+    grid += `<text class="plot-label" x="${ml - 7}" y="${py + 3}" text-anchor="end">${fmt(y, yStep < 1 ? 1 : 0)}</text>`;
+  }
+  let xTicks = '';
+  if (log) {
+    const d0 = Math.ceil(Math.log10(xmin)), d1 = Math.floor(Math.log10(xmax));
+    const dStep = Math.max(1, Math.ceil((d1 - d0 + 1) / 7));
+    for (let d = d0; d <= d1; d += dStep) {
+      const x = Math.pow(10, d);
+      const px = xToPx(x);
+      xTicks += `<line class="plot-grid" x1="${px}" y1="${mt}" x2="${px}" y2="${H - mb}"></line>`;
+      const lab = x >= 1e6 ? (x / 1e6).toFixed(0) + 'M' : x >= 1e3 ? (x / 1e3).toFixed(0) + 'k' : x.toFixed(0);
+      xTicks += `<text class="plot-label" x="${px}" y="${H - mb + 16}" text-anchor="middle">${lab}</text>`;
+    }
+  } else {
+    for (let i = 0; i <= 5; i++) {
+      const x = xmin + (xmax - xmin) * i / 5;
+      const px = xToPx(x);
+      xTicks += `<line class="plot-grid" x1="${px}" y1="${mt}" x2="${px}" y2="${H - mb}"></line>`;
+      xTicks += `<text class="plot-label" x="${px}" y="${H - mb + 16}" text-anchor="middle">${fmt(x, xmax > 100 ? 0 : 1)}</text>`;
+    }
+  }
+  let d = '';
+  xs.forEach((x, i) => { d += (i === 0 ? 'M' : 'L') + ` ${xToPx(x).toFixed(2)} ${yToPx(ys[i]).toFixed(2)} `; });
+  const inRange = current >= xmin && current <= xmax;
+  let marker = '';
+  if (inRange) {
+    const cst = Object.assign({}, st, type === 'load' ? { rl: current } : type === 'length' ? { len: current } : { fMHz: current });
+    const cy = yToPx(solve(cst).dbuv);
+    const cx = xToPx(current);
+    const labelX = clamp(cx, ml + 44, W - mr - 44);
+    marker = `<circle class="plot-marker" cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="5"></circle>
+      <text class="plot-label" x="${labelX.toFixed(2)}" y="${Math.max(mt + 14, cy - 10).toFixed(2)}" text-anchor="middle">${currentLabel}</text>`;
+  }
+
+  $('plotBox').innerHTML = `
+  <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}">
+    <text class="plot-title" x="${ml}" y="16">${title}</text>
+    ${grid}${xTicks}
+    <line class="plot-axis" x1="${ml}" y1="${H - mb}" x2="${W - mr}" y2="${H - mb}"></line>
+    <line class="plot-axis" x1="${ml}" y1="${mt}" x2="${ml}" y2="${H - mb}"></line>
+    <path class="plot-line" d="${d}"></path>
+    ${marker}
+    <text class="plot-label" x="${ml + pw / 2}" y="${H - 8}" text-anchor="middle">${xLabel}</text>
+    <text class="plot-label" x="14" y="${mt + ph / 2}" text-anchor="middle" transform="rotate(-90 14 ${mt + ph / 2})">V_out (dBµV RMS)</text>
+    <text class="plot-note" x="${ml}" y="${H - mb - 8}">${note}</text>
+  </svg>`;
+  function r_note(s) {
+    return Math.abs(s.rl - s.z0) < 1e-6
+      ? 'Matched load: the line is a pure attenuator, so voltage falls linearly with length.'
+      : 'Mismatched load: reflections produce standing waves, so voltage ripples with length.';
+  }
+}
+
+/* ============================================================
+   Book problems (Chapter 1, Section 1.5.2 and review exercises)
+   ============================================================ */
+const BOOK_PROBLEMS = [
+  {
+    id: '1.5.8',
+    tag: 'Cable + mismatch',
+    title: 'Problem 1.5.8',
+    text: 'A 50 Ω source is tuned to 100 MHz and connected to a 50 Ω spectrum analyzer through 200 ft of 50 Ω coax with 4.5 dB/100 ft loss. The analyzer reads 56.5 dBµV. The cable is then removed and the source is connected directly to a 100 Ω load. Find the voltage across the load and the source meter reading.',
+    givens: 'f = 100 MHz · l = 200 ft · loss = 4.5 dB/100 ft · V_RX = 56.5 dBµV · R_L = 100 Ω',
+    answer: 'V_load = 67.98 dBµV (2.51 mV RMS); source meter = −41.5 dBm.',
+    steps: [
+      'Cable loss = 4.5 dB/100 ft × 200 ft / 100 = 9.0 dB.',
+      'Source terminal voltage = 56.5 dBµV + 9.0 dB = 65.5 dBµV (1.883 mV RMS).',
+      'Source setting = 65.5 − 107 = −41.5 dBm (into 50 Ω).',
+      'Open-circuit voltage = 65.5 + 6 = 71.5 dBµV (3.766 mV RMS).',
+      'Direct 100 Ω load: V_out = 71.5 + 20 log₁₀(100/150) = 71.5 − 3.52 = 67.98 dBµV.'
+    ],
+    presets: [['p158cable', 'Load cable case'], ['p158load', 'Load 100 Ω case']]
+  },
+  {
+    id: '1.5.9',
+    tag: 'Cable chain',
+    title: 'Problem 1.5.9',
+    text: 'A 50 Ω source feeds a 50 Ω receiver through 200 ft of RG58U coax (4.5 dB/100 ft at 100 MHz). The source meter reads −30 dBm. Find the receiver voltage in dBµV. If the source terminal voltage is then measured as 30 mV, find the receiver level in dBm. If the receiver instead measures −50 dBm, find the source terminal voltage in dBµV.',
+    givens: 'l = 200 ft · loss = 4.5 dB/100 ft · P_set = −30 dBm · R_S = R_L = 50 Ω',
+    answer: '68 dBµV; −26.45 dBm; 66 dBµV.',
+    steps: [
+      'Cable loss = 4.5 × 200/100 = 9 dB.',
+      '−30 dBm into 50 Ω gives V_source = 107 − 30 = 77 dBµV.',
+      'Receiver voltage = 77 − 9 = 68 dBµV (2.512 mV RMS).',
+      'If V_source = 30 mV = 89.54 dBµV, then V_RX = 89.54 − 9 = 80.54 dBµV. Into 50 Ω, P_RX = 80.54 − 107 = −26.46 dBm.',
+      'If P_RX = −50 dBm, then V_RX = 107 − 50 = 57 dBµV. Add 9 dB back: V_source = 57 + 9 = 66 dBµV.'
+    ],
+    presets: [['p159', 'Load in Workbench']]
+  },
+  {
+    id: '1.5.10',
+    tag: 'Different Z₀',
+    title: 'Problem 1.5.10',
+    text: 'A 50 Ω source is attached to a 300 Ω receiver through 100 ft of 300 Ω twin lead. The line loss is 10 dB/100 ft at the operating frequency. The source indicates −30 dBm. Find the voltage at the receiver input in dBµV.',
+    givens: 'R_S = 50 Ω · Z_C = 300 Ω · R_L = 300 Ω · l = 100 ft · loss = 10 dB/100 ft · P_set = −30 dBm',
+    answer: '71.7 dBµV (3.84 mV RMS).',
+    steps: [
+      '−30 dBm into 50 Ω: V_50 = 7.071 mV = 76.99 dBµV.',
+      'Open circuit: V_OC = 2 × 7.071 mV = 14.142 mV = 83.0 dBµV.',
+      'The cable is matched at the load (300 Ω), so its input is also 300 Ω. Voltage division at the cable input: V_in = 300/(50+300) × 14.142 mV = 12.121 mV = 81.67 dBµV.',
+      'Line loss = 10 dB/100 ft × 100 ft / 100 = 10 dB.',
+      'V_receiver = 81.67 − 10 = 71.67 ≈ 71.7 dBµV.'
+    ],
+    presets: [['p1510', 'Load in Workbench']]
+  },
+  {
+    id: '1.5.11',
+    tag: 'Mismatched load',
+    title: 'Problem 1.5.11',
+    text: 'A 50 Ω oscillator is set to −20 dBm according to its meter. A 150 Ω load is placed across its terminals. Determine the output voltage in dBµV.',
+    givens: 'P_set = −20 dBm · R_S = 50 Ω · R_L = 150 Ω',
+    answer: '90.5 dBµV (33.5 mV RMS).',
+    steps: [
+      '−20 dBm into 50 Ω: V_50 = 22.36 mV = 86.99 dBµV.',
+      'Open circuit: V_OC = 44.72 mV = 93.0 dBµV.',
+      'Voltage division: V_out = 150/(50+150) × 44.72 mV = 33.54 mV.',
+      'In dB: 20 log₁₀(150/200) = −2.50 dB, so V_out = 93.0 − 2.5 = 90.5 dBµV.'
+    ],
+    presets: [['p1511', 'Load in Workbench']]
+  },
+  {
+    id: '1.5.12',
+    tag: 'High-Z scope',
+    title: 'Problem 1.5.12',
+    text: 'A 50 Ω oscillator is connected to the high-impedance input of an oscilloscope (47 pF in parallel with 1 MΩ). The source is set to −30 dBm at 100 MHz. Determine the peak voltage of the sinusoid displayed on the scope.',
+    givens: 'P_set = −30 dBm · f = 100 MHz · C_in = 47 pF · R_in = 1 MΩ',
+    answer: '11.22 mV peak (7.93 mV RMS).',
+    steps: [
+      '−30 dBm into 50 Ω: V_50 = 7.071 mV RMS = 76.99 dBµV.',
+      'Open circuit: V_OC = 14.142 mV RMS = 83.0 dBµV.',
+      'X_C = 1/(2π × 100 MHz × 47 pF) = 33.86 Ω. The 1 MΩ resistance is negligible beside it, so Z_L ≈ 33.86∠−90° Ω.',
+      '|V_out| = |V_OC| × |Z_L| / |50 + Z_L| = 14.142 × 33.86 / √(50² + 33.86²) = 7.93 mV RMS.',
+      'Peak = √2 × 7.93 mV = 11.22 mV.'
+    ],
+    presets: [['p1512', 'Load in Workbench']]
+  },
+  {
+    id: 'Review 1.8',
+    tag: 'Mismatch',
+    title: 'Review Exercise 1.8',
+    text: 'A 50 Ω signal generator is attached to a signal measurer whose input impedance is 25 Ω. The generator dial says −20 dBm. Determine the voltage at the measurer input in dBµV.',
+    givens: 'P_set = −20 dBm · R_S = 50 Ω · R_L = 25 Ω',
+    answer: '83.5 dBµV (14.9 mV RMS).',
+    steps: [
+      '−20 dBm into 50 Ω: V_50 = 22.36 mV = 86.99 dBµV.',
+      'V_OC = 2 × 22.36 mV = 44.72 mV = 93.0 dBµV.',
+      'V_out = 25/(50+25) × 44.72 mV = 14.91 mV.',
+      '20 log₁₀(14.91 mV / 1 µV) = 83.5 dBµV.'
+    ],
+    presets: [['r18', 'Load in Workbench']]
+  },
+  {
+    id: 'Review 1.9',
+    tag: 'Cable chain',
+    title: 'Review Exercise 1.9',
+    text: 'A 50 Ω source is attached to a 50 Ω signal measurer with 300 ft of RG58U cable. The source is tuned to 100 MHz and the dial indicates −15 dBm. Determine the voltage at the measurer input in dBµV.',
+    givens: 'l = 300 ft · loss = 4.5 dB/100 ft · P_set = −15 dBm · R_S = R_L = 50 Ω',
+    answer: '78.5 dBµV.',
+    steps: [
+      'Cable loss = 4.5 × 300/100 = 13.5 dB.',
+      '−15 dBm into 50 Ω gives 107 − 15 = 92 dBµV at the source terminals.',
+      'Receiver voltage = 92 − 13.5 = 78.5 dBµV.'
+    ],
+    presets: [['r19', 'Load in Workbench']]
+  },
+  {
+    id: '1.5.2',
+    tag: 'Conversion drill',
+    title: 'Problem 1.5.2 (selected parts)',
+    text: 'Convert each quantity to volts: (a) −26 dBmV, (b) −35 dBm into 50 Ω, (c) −16 dBm into 50 Ω, (d) 36 dBmV, (e) 20 dBm into 50 Ω.',
+    givens: 'dBmV reference = 1 mV · dBm reference = 1 mW · R = 50 Ω',
+    answer: '(a) 50.1 µV; (b) 3.98 mV; (c) 35.4 mV; (d) 63.1 mV; (e) 2.24 V.',
+    steps: [
+      '(a) V = 1 mV × 10^(−26/20) = 0.0501 mV = 50.1 µV.',
+      '(b) P = 10^(−35/10) mW = 3.162×10⁻⁴ mW = 3.162×10⁻⁷ W; V = √(50P) = 3.98 mV.',
+      '(c) P = 10^(−16/10) mW = 0.02512 mW = 2.512×10⁻⁵ W; V = √(50P) = 35.4 mV.',
+      '(d) V = 1 mV × 10^(36/20) = 63.1 mV.',
+      '(e) P = 10^(20/10) mW = 100 mW = 0.1 W; V = √(50 × 0.1) = 2.236 V.'
+    ],
+    presets: []
+  }
+];
+
+function renderBookProblems() {
+  $('bookGrid').innerHTML = BOOK_PROBLEMS.map(p => `
+    <div class="problem-card">
+      <div class="pc-top"><h3>${p.title}</h3><span class="pc-tag">${p.tag}</span></div>
+      <p>${p.text}</p>
+      <div class="givens">${p.givens}</div>
+      <div class="answer-line">Answer: ${p.answer}</div>
+      <details><summary>Show worked solution</summary>
+        <div class="sol"><ol>${p.steps.map(s => `<li>${s}</li>`).join('')}</ol></div>
+      </details>
+      <div class="pc-actions">
+        ${p.presets.map(([key, label]) => `<button class="btn-sm" data-preset="${key}">${label}</button>`).join('')}
+      </div>
+    </div>`).join('');
+}
+$('bookGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-preset]');
+  if (b) applyPreset(b.dataset.preset);
+});
+
+/* ============================================================
+   Teacher Studio — randomized problem generation
+   ============================================================ */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function randInt(rng, a, b) { return Math.floor(rng() * (b - a + 1)) + a; }
+function pick(rng, arr) { return arr[Math.floor(rng() * arr.length)]; }
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function nice(x, d = 2) { return String(Number(x.toFixed(d))); }
+
+const GEN = {
+  A: (rng) => {
+    const dbm = randInt(rng, -45, 0);
+    const p_mW = Math.pow(10, dbm / 10);
+    const v = Math.sqrt(p_mW * 1e-3 * 50);
+    const dbuv = dbm + 107, dbmv = dbuv - 60;
+    return {
+      tag: 'dBm → dBµV',
+      prompt: `A 50 Ω source is set to ${dbm} dBm. Find its RMS voltage in dBµV, in dBmV, and in volts.`,
+      answer: `${dbuv} dBµV = ${dbmv} dBmV = ${vStr(v)} RMS`,
+      steps: [
+        `P = 10^(${dbm}/10) mW = ${nice(p_mW, 4)} mW = ${nice(p_mW * 1e-3, 4)} W.`,
+        `V_RMS = √(P R) = √(${nice(p_mW * 1e-3, 4)} × 50) = ${vStr(v)}.`,
+        `V(dBµV) = 20 log₁₀(${vStr(v)} / 1 µV) = ${nice(dbuv, 2)} dBµV.`,
+        `Shortcut at 50 Ω: dBµV = 107 + dBm = 107 + (${dbm}) = ${dbuv}. Then dBmV = dBµV − 60 = ${dbmv}.`
+      ]
+    };
+  },
+  B: (rng) => {
+    const dbuv = randInt(rng, 55, 125);
+    const v = dbuvToV(dbuv);
+    const dbm = dbuv - 107, dbmv = dbuv - 60;
+    return {
+      tag: 'dBµV → dBm',
+      prompt: `A 50 Ω receiver measures ${dbuv} dBµV. Express this level in dBm, dBmV, and RMS volts.`,
+      answer: `${dbm} dBm = ${dbmv} dBmV = ${vStr(v)} RMS`,
+      steps: [
+        `At 50 Ω: dBm = dBµV − 107 = ${dbuv} − 107 = ${dbm} dBm.`,
+        `dBmV = dBµV − 60 = ${dbuv} − 60 = ${dbmv} dBmV.`,
+        `V_RMS = 1 µV × 10^(${dbuv}/20) = ${vStr(v)}.`,
+        `Check: P = V²/50 = ${pStr(v * v / 50)} = ${dbm} dBm.`
+      ]
+    };
+  },
+  C: (rng) => {
+    const S = randInt(rng, -40, 0);
+    const RL = pick(rng, [25, 75, 100, 150, 200, 300, 600, 1000]);
+    const v50 = Math.sqrt(50 * dbmToW(S));
+    const voc = 2 * v50;
+    const vout = voc * RL / (50 + RL);
+    const dbuv = vToDbuv(vout);
+    const pdbm = wToDbm(vout * vout / RL);
+    return {
+      tag: 'Mismatch',
+      prompt: `A 50 Ω source is set to ${S} dBm and connected directly to a ${RL} Ω load. Find the load voltage in dBµV and the power delivered to the load in dBm.`,
+      answer: `V_L = ${nice(dbuv, 2)} dBµV (${vStr(vout)} RMS); P_L = ${nice(pdbm, 2)} dBm.`,
+      steps: [
+        `Convert the meter setting: P = 10^(${S}/10) mW = ${nice(Math.pow(10, S / 10), 4)} mW.`,
+        `Voltage across a 50 Ω load: V₅₀ = √(50P) = ${vStr(v50)} = ${nice(107 + S, 2)} dBµV.`,
+        `Open circuit: V_OC = 2V₅₀ = ${vStr(voc)} = ${nice(107 + S + 6.0206, 2)} dBµV.`,
+        `Voltage division: V_L = ${RL}/(50+${RL}) × V_OC = ${vStr(vout)} = ${nice(dbuv, 2)} dBµV.`,
+        `P_L = V_L²/R_L = ${pStr(vout * vout / RL)} = ${nice(pdbm, 2)} dBm. Mismatch loss = ${nice(S - pdbm, 2)} dB.`
+      ]
+    };
+  },
+  D: (rng) => {
+    const S = randInt(rng, -40, 0);
+    const len = pick(rng, [50, 100, 150, 200, 250, 300, 400, 500]);
+    const loss = pick(rng, [1, 2, 3, 4, 4.5, 5, 6, 8, 10]);
+    const total = loss * len / 100;
+    const vrx = 107 + S - total;
+    const prx = S - total;
+    return {
+      tag: 'Cable chain',
+      prompt: `A 50 Ω source is set to ${S} dBm and feeds a matched 50 Ω receiver through ${len} ft of coax with ${loss} dB/100 ft loss. Find the receiver voltage in dBµV and the receiver power in dBm.`,
+      answer: `V_RX = ${nice(vrx, 2)} dBµV; P_RX = ${nice(prx, 2)} dBm.`,
+      steps: [
+        `Cable loss = ${loss} dB/100 ft × ${len} ft / 100 = ${nice(total, 2)} dB.`,
+        `Source terminal voltage = 107 + (${S}) = ${107 + S} dBµV.`,
+        `Receiver voltage = ${107 + S} − ${nice(total, 2)} = ${nice(vrx, 2)} dBµV.`,
+        `Receiver power = ${S} − ${nice(total, 2)} = ${nice(prx, 2)} dBm.`,
+        `Equivalently, P_RX = V_RX − 107 = ${nice(vrx - 107, 2)} dBm.`
+      ]
+    };
+  },
+  E: (rng) => {
+    const prx = randInt(rng, -80, -20);
+    const len = pick(rng, [50, 100, 150, 200, 250, 300, 400, 500]);
+    const loss = pick(rng, [1, 2, 3, 4, 4.5, 5, 6, 8, 10]);
+    const total = loss * len / 100;
+    const psrc = prx + total;
+    const vsrc = psrc + 107;
+    return {
+      tag: 'Reverse chain',
+      prompt: `A matched 50 Ω receiver reads ${prx} dBm after ${len} ft of coax with ${loss} dB/100 ft loss. What is the source meter setting in dBm, and what is the source terminal voltage in dBµV?`,
+      answer: `Source = ${nice(psrc, 2)} dBm = ${nice(vsrc, 2)} dBµV.`,
+      steps: [
+        `Cable loss = ${loss} × ${len}/100 = ${nice(total, 2)} dB.`,
+        `Add the loss back: P_source = ${prx} + ${nice(total, 2)} = ${nice(psrc, 2)} dBm.`,
+        `Convert to voltage: V_source = 107 + (${nice(psrc, 2)}) = ${nice(vsrc, 2)} dBµV.`,
+        `Check: receiver voltage = ${nice(vsrc, 2)} − ${nice(total, 2)} = ${nice(vsrc - total, 2)} dBµV, and 107 + (${prx}) = ${107 + prx} dBµV.`
+      ]
+    };
+  },
+  F: (rng) => {
+    const S = randInt(rng, -40, -10);
+    const f = pick(rng, [10, 50, 100, 200, 500]);
+    const cin = pick(rng, [10, 15, 22, 33, 47, 68, 100]);
+    const w = 2 * Math.PI * f * 1e6;
+    const Xc = 1 / (w * cin * 1e-12);
+    const ZL = cinv(cx(1 / 1e6, w * cin * 1e-12));
+    const voc = 2 * Math.sqrt(50 * dbmToW(S));
+    const vout = cabs(cmul(cx(voc, 0), cdiv(ZL, cadd(cx(50, 0), ZL))));
+    const peak = vout * SQ2;
+    return {
+      tag: 'Scope / high-Z',
+      prompt: `A 50 Ω source is set to ${S} dBm at ${f} MHz and connected to a scope input of 1 MΩ in parallel with ${cin} pF. Find the peak voltage displayed.`,
+      answer: `${nice(peak * 1e3, 2)} mV peak (${vStr(vout)} RMS).`,
+      steps: [
+        `Meter setting gives V₅₀ = √(50P) = ${vStr(Math.sqrt(50 * dbmToW(S)))} RMS; V_OC = 2V₅₀ = ${vStr(voc)} RMS.`,
+        `X_C = 1/(2πfC) = 1/(2π × ${f}×10⁶ × ${cin}×10⁻¹²) = ${nice(Xc, 2)} Ω.`,
+        `The 1 MΩ resistor is negligible in parallel: |Z_L| ≈ ${nice(cabs(ZL), 2)} Ω at ${nice(angleDeg(ZL), 1)}°.`,
+        `|V_out| = |V_OC| × |Z_L| / |50 + Z_L| = ${vStr(vout)} RMS.`,
+        `Peak = √2 × ${vStr(vout)} = ${nice(peak * 1e3, 2)} mV.`
+      ]
+    };
+  },
+  G: (rng) => {
+    const vmV = pick(rng, [0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200]);
+    const v = vmV * 1e-3;
+    const dbuv = vToDbuv(v);
+    const dbmv = dbuv - 60;
+    const dbm = dbuv - 107;
+    return {
+      tag: 'Unit ladder',
+      prompt: `A 50 Ω instrument measures ${vmV} mV RMS. Express the level in dBµV, dBmV, and dBm.`,
+      answer: `${nice(dbuv, 2)} dBµV = ${nice(dbmv, 2)} dBmV = ${nice(dbm, 2)} dBm.`,
+      steps: [
+        `dBµV = 20 log₁₀(${vmV} mV / 1 µV) = 20 log₁₀(${nice(vmV * 1000, 4)}) = ${nice(dbuv, 2)} dBµV.`,
+        `dBmV = dBµV − 60 = ${nice(dbmv, 2)} dBmV.`,
+        `At 50 Ω: dBm = dBµV − 107 = ${nice(dbm, 2)} dBm.`,
+        `Check: P = V²/50 = ${pStr(v * v / 50)} = ${nice(dbm, 2)} dBm.`
+      ]
+    };
+  },
+  H: (rng) => {
+    const S = randInt(rng, -40, 0);
+    const RL = pick(rng, [25, 75, 100, 150, 200, 300, 600]);
+    const pset = dbmToW(S);
+    const v50 = Math.sqrt(pset * 50);
+    const voc = 2 * v50;
+    const vout = voc * RL / (50 + RL);
+    const pl = vout * vout / RL;
+    const mismatch = 10 * Math.log10(pset / pl);
+    return {
+      tag: 'Mismatch loss',
+      prompt: `A 50 Ω source is set to ${S} dBm and terminated in ${RL} Ω. Find the load voltage in dBµV, the load power in dBm, and the mismatch loss in dB.`,
+      answer: `V_L = ${nice(vToDbuv(vout), 2)} dBµV; P_L = ${nice(wToDbm(pl), 2)} dBm; mismatch loss = ${nice(mismatch, 2)} dB.`,
+      steps: [
+        `V_OC = 2√(50 × 10^(${S}/10) mW) = ${vStr(voc)} RMS.`,
+        `V_L = ${RL}/(50+${RL}) × V_OC = ${vStr(vout)} = ${nice(vToDbuv(vout), 2)} dBµV.`,
+        `P_L = V_L²/${RL} = ${pStr(pl)} = ${nice(wToDbm(pl), 2)} dBm.`,
+        `Mismatch loss = 10 log₁₀(P_set/P_L) = 10 log₁₀(${pStr(pset)} / ${pStr(pl)}) = ${nice(mismatch, 2)} dB.`
+      ]
+    };
+  }
+};
+
+let lastProblems = [];
+let lastMeta = { title: '', subtitle: '' };
+
+function selectedTemplates() {
+  return Array.from(document.querySelectorAll('#templateChecks input:checked')).map(i => i.value);
+}
+
+function generateSet() {
+  const keys = selectedTemplates();
+  if (!keys.length) { alert('Select at least one problem type.'); return; }
+  const count = clamp(parseInt($('tCount').value, 10) || 10, 3, 40);
+  let seed = parseInt($('tSeed').value, 10);
+  if (!Number.isFinite(seed) || seed <= 0) { seed = Math.floor(Math.random() * 999999) + 1; $('tSeed').value = seed; }
+  const rng = mulberry32(seed);
+  const problems = [];
+  for (let i = 0; i < count; i++) {
+    const key = keys[Math.floor(rng() * keys.length)];
+    problems.push(GEN[key](rng));
+  }
+  lastProblems = problems;
+  lastMeta = { title: $('tTitle').value.trim() || 'EMC Signal Source Practice', subtitle: $('tSubtitle').value.trim() };
+  renderTeacherOutput();
+  $('teacherPlaceholder').style.display = 'none';
+  document.body.classList.toggle('show-key', $('tShowKey').checked);
+}
+
+function renderTeacherOutput() {
+  const title = esc(lastMeta.title || 'EMC Signal Source Practice');
+  const subtitle = esc(lastMeta.subtitle || '');
+  const date = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  const ws = lastProblems.map((p, i) => `
+    <li>
+      <div class="ws-tag">${esc(p.tag)}</div>
+      <div>${p.prompt}</div>
+      <div class="ws-lines"></div>
+      <div class="ws-lines short"></div>
+    </li>`).join('');
+  const key = lastProblems.map((p, i) => `
+    <li>
+      <div class="ws-tag">${i + 1} · ${esc(p.tag)}</div>
+      <div class="key-answer">${p.answer}</div>
+      <ol class="key-steps">${p.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    </li>`).join('');
+
+  $('teacherOutput').innerHTML = `
+    <div class="teacher-sheet" id="worksheetSheet">
+      <div class="sheet-brand">Microwave Planar Circuits · EMC §1.5.2</div>
+      <h2>${title}</h2>
+      ${subtitle ? `<div class="sheet-instructions">${subtitle}</div>` : ''}
+      <div class="sheet-meta"><span>Name: ______________________</span><span>Date: ${date}</span><span>Score: ______ / ${lastProblems.length}</span></div>
+      <ol class="ws-list">${ws}</ol>
+      <div style="margin-top:18px;font-size:10px;color:#777;border-top:1px solid #ddd;padding-top:6px;">
+        Assume 50 Ω and RMS voltages unless a question says otherwise. Show all working.
+      </div>
+    </div>
+    <div class="teacher-sheet answer-key" id="answerSheet">
+      <div class="sheet-brand">Instructor copy · Answer key</div>
+      <h2>${title} — Answers</h2>
+      ${subtitle ? `<div class="sheet-instructions">${subtitle}</div>` : ''}
+      <ol class="key-list">${key}</ol>
+      <div style="margin-top:12px;font-size:10px;color:#666;border-top:1px solid #cde3cd;padding-top:6px;">
+        Generated with seed ${esc($('tSeed').value)} · ${lastProblems.length} questions · dBµV = dBmV + 60.
+      </div>
+    </div>`;
+  $('teacherOutputWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function printMode(mode) {
+  if (!lastProblems.length) { alert('Generate a problem set first.'); return; }
+  document.body.classList.remove('print-worksheet', 'print-key');
+  document.body.classList.add(mode);
+  window.print();
+  setTimeout(() => document.body.classList.remove(mode), 1500);
+}
+window.addEventListener('afterprint', () => document.body.classList.remove('print-worksheet', 'print-key'));
+
+function standaloneHTML() {
+  const css = `
+    body{font-family:"Trebuchet MS",Arial,sans-serif;color:#1c1917;background:#fff;margin:28px;line-height:1.5}
+    h2{font-size:20px;margin:0 0 5px;color:#254d25}h3{font-size:15px;color:#254d25}
+    .brand{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#996600;font-weight:800;margin-bottom:6px}
+    .instr{font-size:12px;color:#444;margin-bottom:10px}
+    .meta{display:flex;gap:24px;flex-wrap:wrap;font-size:12px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:8px 0;margin-bottom:14px}
+    ol{padding-left:22px}ol>li{margin-bottom:16px;font-size:13px}
+    .tag{font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#996600;font-weight:800}
+    .line{border-bottom:1px solid #bbb;height:22px;margin-top:7px}.short{width:60%}
+    .key{border-top:2px solid #b7d7b7;margin-top:30px;padding-top:16px}
+    .ans{font-weight:800;color:#254d25}.steps{font-size:11.5px;color:#444}
+    .foot{font-size:10px;color:#777;border-top:1px solid #ddd;margin-top:18px;padding-top:6px}
+    @media print{body{margin:0}.pagebreak{page-break-before:always}}
+  `;
+  const title = esc(lastMeta.title || 'EMC Signal Source Practice');
+  const subtitle = esc(lastMeta.subtitle || '');
+  const ws = lastProblems.map(p => `<li><div class="tag">${esc(p.tag)}</div><div>${p.prompt}</div><div class="line"></div><div class="line short"></div></li>`).join('');
+  const key = lastProblems.map((p, i) => `<li><div class="tag">${i + 1} · ${esc(p.tag)}</div><div class="ans">${p.answer}</div><ol class="steps">${p.steps.map(s => `<li>${s}</li>`).join('')}</ol></li>`).join('');
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${title}</title><style>${css}</style></head><body>
+    <div class="brand">Microwave Planar Circuits · EMC §1.5.2</div>
+    <h2>${title}</h2>${subtitle ? `<div class="instr">${subtitle}</div>` : ''}
+    <div class="meta"><span>Name: ______________________</span><span>Date: ____________</span><span>Score: ______ / ${lastProblems.length}</span></div>
+    <ol>${ws}</ol>
+    <div class="foot">Assume 50 Ω and RMS voltages unless stated otherwise. Show all working.</div>
+    <div class="key pagebreak"><div class="brand">Instructor copy · Answer key</div><h2>${title} — Answers</h2><ol>${key}</ol></div>
+  </body></html>`;
+}
+
+$('btnGenerate').addEventListener('click', generateSet);
+$('btnRandomSeed').addEventListener('click', () => { $('tSeed').value = Math.floor(Math.random() * 999999) + 1; });
+$('tShowKey').addEventListener('change', () => document.body.classList.toggle('show-key', $('tShowKey').checked));
+$('btnPrintWorksheet').addEventListener('click', () => printMode('print-worksheet'));
+$('btnPrintKey').addEventListener('click', () => printMode('print-key'));
+$('btnDownload').addEventListener('click', () => {
+  if (!lastProblems.length) { alert('Generate a problem set first.'); return; }
+  const blob = new Blob([standaloneHTML()], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (lastMeta.title || 'emc-problem-set').replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '.html';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+});
+$('btnCopyWorksheet').addEventListener('click', () => {
+  if (!lastProblems.length) { alert('Generate a problem set first.'); return; }
+  const text = `${lastMeta.title}\n${lastMeta.subtitle}\n\n` + lastProblems.map((p, i) => `${i + 1}. ${p.prompt}`).join('\n\n');
+  navigator.clipboard.writeText(text).then(
+    () => { const b = $('btnCopyWorksheet'); const old = b.textContent; b.textContent = '✓ Copied'; setTimeout(() => b.textContent = old, 1200); },
+    () => alert('Clipboard access was blocked by the browser.')
+  );
+});
+
+/* ============================================================
+   Boot
+   ============================================================ */
+renderBookProblems();
+updateConverter();
+updateUnits();
+updateWorkbench();
+document.body.classList.add('show-key');
+</script>
+</body>
+</html>
