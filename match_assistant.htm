@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impedance Match Assistant — Microwave Planar Circuits</title>
+  <title>Match Assistant — Microwave Planar Circuits</title>
   <meta name="Microsoft Theme" content="sudhabin 011, default">
   <style>
     :root {
@@ -802,7 +802,7 @@
   <header class="theme-header">
     <div class="header-titles">
       <h1>
-        <span>Impedance Match Assistant</span>
+        <span>Match Assistant</span>
         <span class="badge">Microwave CAD</span>
       </h1>
       <p>Automated Synthesis of L-Match, Pi (π), T-Networks &amp; Microstrip Stub Matching</p>
@@ -1077,13 +1077,13 @@
       <a href="attenuator_designer.htm">Attenuator Designer</a> &bull;
       <a href="index.html">Home</a>
     </div>
-    <div>Impedance Match Assistant &bull; Suitable for <a href="https://sudhabin.github.io/microwave.htm">sudhabin.github.io</a></div>
+    <div>Match Assistant &bull; Suitable for <a href="https://sudhabin.github.io/microwave.htm">sudhabin.github.io</a></div>
   </footer>
 </div>
 
 <script>
 /**
- * Impedance Match Assistant Simulation & Synthesis Engine
+ * Match Assistant Simulation & Synthesis Engine
  */
 
 const E24_MULT = [1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1];
@@ -1740,7 +1740,7 @@ function renderSchematicSvg(sol) {
       ${circuit}
 
       <!-- Bottom Watermark -->
-      <text x="${w - 18}" y="${h - 12}" fill="#854d0e" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="end">IMPEDANCE MATCH ASSISTANT • CAD SCHEMATIC</text>
+      <text x="${w - 18}" y="${h - 12}" fill="#854d0e" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="end">MATCH ASSISTANT • CAD SCHEMATIC</text>
     </svg>
   `;
 }
@@ -2320,7 +2320,7 @@ document.getElementById('themeToggle').addEventListener('click', () => {
 // Copy Report
 document.getElementById('btnCopyReport').addEventListener('click', () => {
   const cur = state.solutions[state.selectedSolIndex];
-  let text = `=== IMPEDANCE MATCH ASSISTANT SYNTHESIS REPORT ===\n`;
+  let text = `=== MATCH ASSISTANT SYNTHESIS REPORT ===\n`;
   text += `Frequency: ${(state.freqHz / 1e6).toFixed(2)} MHz\n`;
   text += `Source Zs: ${state.Zs.r} + j(${state.Zs.x}) Ω\n`;
   text += `Load ZL: ${state.Zl.r} + j(${state.Zl.x}) Ω\n`;
