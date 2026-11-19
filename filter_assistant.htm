@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Assistant — Microwave Planar Circuits</title>
+  <meta name="Microsoft Theme" content="sudhabin 011, default">
+  <style>
+    :root {
+      /* Theme: sudhabin 011 / Microwave Planar Circuits */
+      --bg-body: #faf7f2;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f7f3ec;
+      --bg-card-hover: #f3ebe0;
+      --border-theme: #cc9966;
+      --border-theme-dark: #996600;
+      --border-subtle: #e6dac8;
+      --text-main: #1c1917;
+      --text-muted: #57534e;
+      --text-dim: #78716c;
+      --accent-green: #336633;
+      --accent-green-dark: #254d25;
+      --accent-green-light: #e8f0e8;
+      --accent-gold: #996600;
+      --accent-gold-light: #fef3c7;
+      --accent-maroon: #993333;
+      --accent-navy: #333399;
+      --font-theme: "Trebuchet MS", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --shadow-card: 0 2px 8px rgba(153, 102, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 4px 14px rgba(153, 102, 0, 0.16);
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 10px;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0d121d;
+      --bg-card: #151d2d;
+      --bg-card-alt: #1c263b;
+      --bg-card-hover: #22304a;
+      --border-theme: #3d4f6e;
+      --border-theme-dark: #64748b;
+      --border-subtle: #25334c;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --accent-green: #22c55e;
+      --accent-green-dark: #16a34a;
+      --accent-green-light: rgba(34, 197, 94, 0.15);
+      --accent-gold: #f59e0b;
+      --accent-gold-light: rgba(245, 158, 11, 0.15);
+      --accent-maroon: #f87171;
+      --accent-navy: #60a5fa;
+      --shadow-card: 0 4px 10px rgba(0, 0, 0, 0.45);
+      --shadow-hover: 0 8px 18px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      background-image: url('_themes/sudhabin/nabkgnd.jpg');
+      background-repeat: repeat;
+      color: var(--text-main);
+      font-family: var(--font-theme);
+      line-height: 1.5;
+      padding: 16px 20px 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* BREADCRUMB & SITE TOP NAV */
+    .site-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 9px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
+      font-size: 13px;
+    }
+
+    .site-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .site-breadcrumbs a {
+      color: var(--accent-maroon);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .site-breadcrumbs a:hover {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
+
+    .site-breadcrumbs span.sep {
+      color: var(--border-theme-dark);
+    }
+
+    .site-quick-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn-chip {
+      background: var(--bg-card-alt);
+      color: var(--accent-green);
+      border: 1px solid var(--border-theme);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn-chip:hover {
+      background: var(--accent-green);
+      color: #ffffff;
+      border-color: var(--accent-green-dark);
+    }
+
+    /* THEME BANNER HEADER */
+    header.theme-header {
+      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+      border: 2px solid var(--border-theme-dark);
+      border-radius: var(--radius-md);
+      padding: 20px 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-titles h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-titles h1 span.badge {
+      background: var(--accent-gold);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid #ffd700;
+    }
+
+    .header-titles p {
+      color: #f7ede2;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button.btn-theme-action {
+      background: #fdfaf5;
+      color: var(--accent-green-dark);
+      border: 1px solid var(--border-theme-dark);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      font-family: var(--font-theme);
+    }
+
+    button.btn-theme-action:hover {
+      background: #ffffff;
+      color: var(--accent-gold);
+      border-color: #ffd700;
+      transform: translateY(-1px);
+    }
+
+    /* MAIN GRID LAYOUT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARD STYLING */
+    .theme-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-top: 3px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
+
+    .card-title .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      background: var(--accent-green-light);
+      color: var(--accent-green);
+      border: 1px solid var(--border-theme);
+    }
+
+    /* SEGMENTED BUTTON CONTROLS */
+    .segmented-control {
+      display: flex;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+
+    .btn-seg {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 7px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.15s;
+      font-family: var(--font-theme);
+      text-align: center;
+    }
+
+    .btn-seg:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-seg.active {
+      background: var(--accent-green);
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* FORMS & INPUTS */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 5px;
+    }
+
+    .form-label span.desc {
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border-theme);
+      color: #000000;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    [data-theme="dark"] input[type="number"], 
+    [data-theme="dark"] input[type="text"], 
+    [data-theme="dark"] select {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    input[type="number"]:focus, input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 3px rgba(51, 102, 51, 0.2);
+    }
+
+    .unit-addon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      pointer-events: none;
+      font-weight: 600;
+    }
+
+    /* PRESET CHIPS */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-theme);
+    }
+
+    .chip:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      background: #ffffff;
+    }
+
+    .chip.active {
+      background: var(--accent-green);
+      border-color: var(--accent-green-dark);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .chip.highlight {
+      border: 1.5px solid var(--accent-gold);
+      color: var(--accent-gold);
+      background: var(--accent-gold-light);
+      font-weight: 700;
+    }
+
+    .chip.highlight.active {
+      background: var(--accent-green);
+      border-color: var(--accent-gold);
+      color: #ffffff;
+    }
+
+    /* VIEW SELECTOR: SCHEMATIC / FREQUENCY RESPONSE / GROUP DELAY / BOM */
+    .view-selector-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
+
+    .view-group {
+      display: inline-flex;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+    }
+
+    .btn-view {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-theme);
+    }
+
+    .btn-view.active {
+      background: var(--accent-green);
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    /* DISPLAY VIEWPORT */
+    .display-viewport {
+      background: #fbf9f4;
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      min-height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    [data-theme="dark"] .display-viewport {
+      background: #090e17;
+      border-color: #334155;
+    }
+
+    .display-viewport svg {
+      max-width: 100%;
+      height: auto;
+      max-height: 420px;
+      user-select: none;
+    }
+
+    /* RESULTS SUMMARY BOXES */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .result-box {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      transition: all 0.15s;
+    }
+
+    .result-box:hover {
+      border-color: var(--accent-green);
+      background: #ffffff;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .result-title {
+      font-size: 11px;
+      color: var(--accent-green);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    .result-value-large {
+      font-size: 18px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+    }
+
+    .result-sub {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* SPECS TABLE */
+    table.specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 10px;
+      border: 1px solid var(--border-theme);
+    }
+
+    table.specs-table th, table.specs-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-theme);
+    }
+
+    table.specs-table th {
+      background: var(--accent-green);
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    table.specs-table tr:nth-child(even) td {
+      background: var(--bg-card-alt);
+    }
+
+    table.specs-table td.val-col {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* TOGGLE SWITCH */
+    .switch-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .switch-input {
+      appearance: none;
+      width: 34px;
+      height: 18px;
+      background: #cbd5e1;
+      border-radius: 9px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .switch-input:checked {
+      background: var(--accent-green);
+    }
+
+    .switch-input::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .switch-input:checked::after {
+      transform: translateX(16px);
+    }
+
+    /* FOOTER */
+    footer.site-footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-theme);
+      color: var(--text-dim);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+    }
+
+    footer.site-footer a {
+      color: var(--accent-maroon);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer.site-footer a:hover {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- SITE BREADCRUMB & NAV BAR -->
+  <div class="site-nav-bar">
+    <div class="site-breadcrumbs">
+      <a href="index.html">🏠 Home</a>
+      <span class="sep">&gt;</span>
+      <a href="microwave.htm">Microwave Planar Circuits</a>
+      <span class="sep">&gt;</span>
+      <span style="color: var(--text-main);">Filter Assistant</span>
+    </div>
+    <div class="site-quick-links">
+      <a href="microwave.htm" class="nav-btn-chip">⬅ Microwave Circuits</a>
+      <a href="match_assistant.htm" class="nav-btn-chip">Match Assistant</a>
+      <a href="transmission_line_calculator.htm" class="nav-btn-chip">Transmission Line Calc</a>
+      <a href="attenuator_designer.htm" class="nav-btn-chip">Attenuator Designer</a>
+    </div>
+  </div>
+
+  <!-- THEME BANNER HEADER -->
+  <header class="theme-header">
+    <div class="header-titles">
+      <h1>
+        <span>Filter Assistant</span>
+        <span class="badge">Microwave CAD</span>
+      </h1>
+      <p>Automated Synthesis of Butterworth, Chebyshev, Bessel &amp; Elliptic LC Ladder Filters</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-action" id="btnCopyReport" title="Copy filter design report to clipboard">
+        📋 Copy Report
+      </button>
+      <button class="btn-theme-action" id="btnExportSvg" title="Save current diagram as SVG">
+        💾 Export SVG
+      </button>
+      <button class="btn-theme-action" id="themeToggle" title="Toggle Light / Dark Workbench Mode">
+        🌓 Theme
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN INTERFACE GRID -->
+  <div class="main-grid">
+    <!-- LEFT COLUMN: FILTER SPECIFICATIONS -->
+    <div class="controls-column">
+      <div class="theme-card">
+        <div class="card-title">
+          <span>Filter Specifications</span>
+          <span class="tag">SYNTHESIS</span>
+        </div>
+
+        <!-- FILTER RESPONSE TYPE -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Filter Function</span>
+            <span class="desc">Frequency Selection</span>
+          </div>
+          <div class="segmented-control" id="segFilterType">
+            <button class="btn-seg active" data-type="LPF">Low-Pass</button>
+            <button class="btn-seg" data-type="HPF">High-Pass</button>
+            <button class="btn-seg" data-type="BPF">Band-Pass</button>
+            <button class="btn-seg" data-type="BSF">Notch (BSF)</button>
+          </div>
+        </div>
+
+        <!-- APPROXIMATION PROTOTYPE -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Approximation Prototype</span>
+            <span class="desc">Polynomial Shape</span>
+          </div>
+          <select id="selectPrototype">
+            <option value="BUTTERWORTH" selected>Butterworth (Maximally Flat Passband)</option>
+            <option value="CHEB_01">Chebyshev (0.1 dB Equiripple, Sharp Rolloff)</option>
+            <option value="CHEB_05">Chebyshev (0.5 dB Equiripple, Steeper Rolloff)</option>
+            <option value="CHEB_10">Chebyshev (1.0 dB Equiripple, Maximum Rolloff)</option>
+            <option value="BESSEL">Bessel-Thomson (Linear Phase, Flat Group Delay)</option>
+          </select>
+        </div>
+
+        <!-- FILTER ORDER N -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Filter Order (N)</span>
+            <span class="desc" id="lblOrderElements">5 Reactive Elements</span>
+          </div>
+          <div class="segmented-control" id="segOrder">
+            <button class="btn-seg" data-order="3">N = 3</button>
+            <button class="btn-seg active" data-order="5">N = 5</button>
+            <button class="btn-seg" data-order="7">N = 7</button>
+            <button class="btn-seg" data-order="9">N = 9</button>
+          </div>
+        </div>
+
+        <!-- TOPOLOGY: SHUNT-FIRST VS SERIES-FIRST -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Circuit Topology</span>
+            <span class="desc">Input Branch</span>
+          </div>
+          <div class="segmented-control" id="segTopology">
+            <button class="btn-seg active" data-topo="SHUNT_FIRST">Pi / Shunt-First (C-in)</button>
+            <button class="btn-seg" data-topo="SERIES_FIRST">T / Series-First (L-in)</button>
+          </div>
+        </div>
+
+        <!-- CUTOFF FREQUENCY (FOR LPF / HPF) -->
+        <div class="form-group" id="groupCutoffFreq">
+          <div class="form-label">
+            <span>Cutoff Frequency (fc)</span>
+            <span class="desc">-3 dB Band Edge</span>
+          </div>
+          <div class="input-row">
+            <div class="input-wrapper" style="flex: 2;">
+              <input type="number" id="inputFc" value="100.0" min="0.001" max="100000" step="5" />
+            </div>
+            <select id="selectFcUnit" style="flex: 1;">
+              <option value="MHZ" selected>MHz</option>
+              <option value="GHZ">GHz</option>
+              <option value="KHZ">kHz</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CENTER FREQ & BANDWIDTH (FOR BPF / BSF) -->
+        <div class="form-group" id="groupBandpassFreq" style="display: none;">
+          <div class="form-label">
+            <span>Center Frequency (f₀) &amp; Bandwidth</span>
+            <span class="desc">Band Edges</span>
+          </div>
+          <div class="input-row" style="margin-bottom: 8px;">
+            <div class="input-wrapper" style="flex: 2;">
+              <input type="number" id="inputF0" value="1000.0" min="0.001" max="100000" step="10" />
+            </div>
+            <select id="selectF0Unit" style="flex: 1;">
+              <option value="MHZ" selected>MHz</option>
+              <option value="GHZ">GHz</option>
+              <option value="KHZ">kHz</option>
+            </select>
+          </div>
+          <div class="input-row">
+            <div class="input-wrapper">
+              <input type="number" id="inputBw" value="200.0" min="0.001" max="50000" step="5" />
+              <span class="unit-addon">BW (MHz)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SYSTEM IMPEDANCE -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>System Impedance (Z₀)</span>
+            <span class="desc">Source &amp; Load</span>
+          </div>
+          <div class="input-row">
+            <div class="input-wrapper">
+              <input type="number" id="inputZ0" value="50.0" min="1" max="1000" step="1" />
+              <span class="unit-addon">Ω</span>
+            </div>
+          </div>
+          <div class="chip-container">
+            <button class="chip active" data-set-z0="50">50 Ω (RF Standard)</button>
+            <button class="chip" data-set-z0="75">75 Ω (Video / CATV)</button>
+            <button class="chip" data-set-z0="200">200 Ω (Differential)</button>
+          </div>
+        </div>
+
+        <!-- QUICK PRESETS -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>RF Engineering Presets</span>
+            <span class="desc">Standard Applications</span>
+          </div>
+          <div class="chip-container">
+            <button class="chip highlight" data-preset="FM_LPF">FM 108 MHz LPF (7th Cheb)</button>
+            <button class="chip" data-preset="HAM_2M">144 MHz 2m LPF (5th Butw)</button>
+            <button class="chip" data-preset="ISM_433">433 MHz ISM BPF (3rd Cheb)</button>
+            <button class="chip" data-preset="RFID_915">915 MHz RFID BPF (3rd Cheb)</button>
+            <button class="chip" data-preset="WIFI_2G4">2.45 GHz WiFi BPF (3rd Cheb)</button>
+            <button class="chip" data-preset="HAM_6M">50 MHz 6m LPF (7th Cheb)</button>
+            <button class="chip" data-preset="AM_HPF">1.8 MHz AM HPF (5th Cheb)</button>
+            <button class="chip" data-preset="NOTCH_100">100 MHz Notch (3rd Butw)</button>
+          </div>
+        </div>
+
+        <!-- REAL WORLD EVALUATION SWITCH -->
+        <div class="form-group" style="padding-top: 10px; border-top: 1px dashed var(--border-subtle);">
+          <label class="switch-label">
+            <input type="checkbox" id="chkUseE24" class="switch-input" />
+            <span>Simulate with nearest standard E24 components</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: SCHEMATIC, SWEEP, DELAY & BOM -->
+    <div class="display-column">
+      <div class="theme-card">
+        <!-- VIEW SELECTOR BAR -->
+        <div class="view-selector-bar">
+          <div style="font-weight: 700; font-size: 14px; color: var(--accent-green);" id="filterHeadline">
+            5th-Order Low-Pass Butterworth Filter (fc = 100.0 MHz, 50 Ω)
+          </div>
+          <div class="view-group">
+            <button class="btn-view active" data-view="SCHEMATIC">⚡ CAD Schematic</button>
+            <button class="btn-view" data-view="RESPONSE">📈 S21 &amp; S11 Sweep</button>
+            <button class="btn-view" data-view="DELAY">⏱️ Group Delay &amp; Phase</button>
+            <button class="btn-view" data-view="BOM">📋 Parts List (BOM)</button>
+          </div>
+        </div>
+
+        <!-- DISPLAY VIEWPORT -->
+        <div class="display-viewport" id="displayViewport">
+          <!-- Dynamic SVG or BOM injected here -->
+        </div>
+
+        <!-- PRIMARY METRICS -->
+        <div class="results-grid" id="metricsGrid">
+          <div class="result-box">
+            <div class="result-title">-3 dB Cutoff / Bandwidth</div>
+            <div class="result-value-large" id="resCutoff">100.0 MHz</div>
+            <div class="result-sub" id="resCutoffSub">Half-Power Frequency</div>
+          </div>
+          <div class="result-box">
+            <div class="result-title">Passband Insertion Loss (S21)</div>
+            <div class="result-value-large" style="color: var(--accent-green);" id="resIl">0.00 dB</div>
+            <div class="result-sub">Transmission Efficiency > 99%</div>
+          </div>
+          <div class="result-box">
+            <div class="result-title">Passband Return Loss (S11)</div>
+            <div class="result-value-large" id="resRl">> 35 dB</div>
+            <div class="result-sub" id="resVswrSub">VSWR &lt; 1.05 : 1</div>
+          </div>
+          <div class="result-box">
+            <div class="result-title">Stopband Rejection</div>
+            <div class="result-value-large" style="color: var(--accent-maroon);" id="resStopband">-30.1 dB</div>
+            <div class="result-sub" id="resStopbandSub">Atten @ 2.0 × fc</div>
+          </div>
+        </div>
+
+        <!-- COMPONENT DETAILS & SPECS TABLE -->
+        <table class="specs-table" id="specsTable">
+          <thead>
+            <tr>
+              <th>Ref / Element Role</th>
+              <th style="text-align: right;">Synthesized Value</th>
+              <th style="text-align: right;">Nearest Std (E24)</th>
+              <th style="text-align: right;">Reactance @ fc</th>
+              <th style="text-align: right;">Tolerance Error</th>
+            </tr>
+          </thead>
+          <tbody id="specsTableBody">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- RF DESIGN REFERENCE NOTES -->
+  <div class="theme-card" style="margin-top: 10px;">
+    <div class="card-title">
+      <span>Filter Design Theory &amp; RF Engineering Notes</span>
+      <span class="tag">PRINCIPLES</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 10px; font-size: 12px; color: var(--text-muted);">
+      <div style="background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 12px;">
+        <h4 style="color: var(--accent-green); margin-bottom: 4px;">⚡ Butterworth: Maximally Flat Passband</h4>
+        <p>Butterworth filters provide mathematically maximally flat response ($d^n|S_{21}|/d\omega^n = 0$) in the passband with no ripple. The insertion loss rolls off at $-20N\text{ dB/decade}$ ($-6N\text{ dB/octave}$). They are ideal for measurement equipment and audio/video signals requiring smooth passband gain.</p>
+      </div>
+
+      <div style="background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 12px;">
+        <h4 style="color: var(--accent-green); margin-bottom: 4px;">📐 Chebyshev: Maximum Cutoff Sharpness</h4>
+        <p>Chebyshev filters allow a small controlled ripple (e.g. 0.1 dB or 0.5 dB) in the passband to achieve significantly steeper transition into the stopband than Butterworth of the same order. Widely used in RF transmitter harmonic rejection and receiver preselectors where steep rolloff is paramount.</p>
+      </div>
+
+      <div style="background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 12px;">
+        <h4 style="color: var(--accent-green); margin-bottom: 4px;">⏱️ Bessel-Thomson: Linear Phase &amp; Constant Group Delay</h4>
+        <p>Bessel filters optimize maximally flat group delay ($d\phi/d\omega = \text{const}$). Unlike Chebyshev filters which exhibit ringing and overshoot on pulse edges, Bessel filters preserve rectangular RF digital pulses, radar chirps, and high-speed modulation envelopes without distortion.</p>
+      </div>
+
+      <div style="background: var(--bg-card-alt); border: 1px solid var(--border-theme); border-radius: var(--radius-sm); padding: 12px;">
+        <h4 style="color: var(--accent-green); margin-bottom: 4px;">📡 High Frequency Microstrip Realization</h4>
+        <p>At microwave frequencies above 1 GHz, lumped inductors and capacitors suffer from self-resonance. Richard's Transformation and Kuroda's Identities convert these lumped LC ladder values into commensurate distributed transmission line stubs (open and shorted microstrip lines).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div>
+      <a href="microwave.htm">Microwave Planar Circuits</a> &bull;
+      <a href="match_assistant.htm">Match Assistant</a> &bull;
+      <a href="transmission_line_calculator.htm">Transmission Line Calculator</a> &bull;
+      <a href="attenuator_designer.htm">Attenuator Designer</a> &bull;
+      <a href="index.html">Home</a>
+    </div>
+    <div>Filter Assistant &bull; Suitable for <a href="https://sudhabin.github.io/microwave.htm">sudhabin.github.io</a></div>
+  </footer>
+</div>
+
+<script>
+/**
+ * Filter Assistant Simulation & Synthesis Engine
+ */
+
+const E24_MULT = [1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1];
+
+function findNearestE24(val) {
+  if (val <= 0 || !isFinite(val)) return 0;
+  const exp = Math.floor(Math.log10(val));
+  let best = null;
+  let minDiff = Infinity;
+  for (let e = exp - 1; e <= exp + 1; e++) {
+    const factor = Math.pow(10, e);
+    for (const m of E24_MULT) {
+      const candidate = m * factor;
+      const diff = Math.abs(candidate - val);
+      if (diff < minDiff) {
+        minDiff = diff;
+        best = candidate;
+      }
+    }
+  }
+  return best;
+}
+
+function formatCompValue(type, val) {
+  if (type === 'C') {
+    const pF = val * 1e12;
+    if (pF < 1) return (val * 1e15).toFixed(1) + ' fF';
+    if (pF >= 1000) return (pF / 1000).toFixed(2) + ' nF';
+    return pF.toFixed(2) + ' pF';
+  } else if (type === 'L') {
+    const nH = val * 1e9;
+    if (nH < 1) return (val * 1e12).toFixed(1) + ' pH';
+    if (nH >= 1000) return (nH / 1000).toFixed(2) + ' µH';
+    return nH.toFixed(2) + ' nH';
+  }
+  return val.toFixed(2);
+}
+
+// Global State
+const state = {
+  type: 'LPF', // 'LPF', 'HPF', 'BPF', 'BSF'
+  proto: 'BUTTERWORTH', // 'BUTTERWORTH', 'CHEB_01', 'CHEB_05', 'CHEB_10', 'BESSEL'
+  order: 5,
+  topo: 'SHUNT_FIRST', // 'SHUNT_FIRST', 'SERIES_FIRST'
+  fcHz: 100e6,
+  f0Hz: 1000e6,
+  bwHz: 200e6,
+  Z0: 50.0,
+  useE24: false,
+  activeView: 'SCHEMATIC' // 'SCHEMATIC', 'RESPONSE', 'DELAY', 'BOM'
+};
+
+// DOM References
+const segFilterType = document.getElementById('segFilterType');
+const selectPrototype = document.getElementById('selectPrototype');
+const segOrder = document.getElementById('segOrder');
+const lblOrderElements = document.getElementById('lblOrderElements');
+const segTopology = document.getElementById('segTopology');
+const groupCutoffFreq = document.getElementById('groupCutoffFreq');
+const inputFc = document.getElementById('inputFc');
+const selectFcUnit = document.getElementById('selectFcUnit');
+const groupBandpassFreq = document.getElementById('groupBandpassFreq');
+const inputF0 = document.getElementById('inputF0');
+const selectF0Unit = document.getElementById('selectF0Unit');
+const inputBw = document.getElementById('inputBw');
+const inputZ0 = document.getElementById('inputZ0');
+const chkUseE24 = document.getElementById('chkUseE24');
+
+const filterHeadline = document.getElementById('filterHeadline');
+const displayViewport = document.getElementById('displayViewport');
+
+const resCutoff = document.getElementById('resCutoff');
+const resCutoffSub = document.getElementById('resCutoffSub');
+const resIl = document.getElementById('resIl');
+const resRl = document.getElementById('resRl');
+const resVswrSub = document.getElementById('resVswrSub');
+const resStopband = document.getElementById('resStopband');
+const resStopbandSub = document.getElementById('resStopbandSub');
+const specsTableBody = document.getElementById('specsTableBody');
+
+// Prototype G-values calculation
+function getPrototypeG(proto, N) {
+  const g = [1];
+  if (proto === 'BUTTERWORTH') {
+    for (let k = 1; k <= N; k++) {
+      g[k] = 2 * Math.sin(((2 * k - 1) * Math.PI) / (2 * N));
+    }
+    g[N + 1] = 1.0;
+  } else if (proto === 'BESSEL') {
+    // Standard Bessel g-values
+    const besselTables = {
+      3: [1, 0.3374, 0.9705, 2.2034, 1.0],
+      5: [1, 0.1743, 0.5072, 0.8040, 1.1110, 2.2582, 1.0],
+      7: [1, 0.1194, 0.3559, 0.5595, 0.7341, 0.9087, 1.1648, 2.2982, 1.0],
+      9: [1, 0.0903, 0.2727, 0.4300, 0.5646, 0.6908, 0.8174, 0.9632, 1.1965, 2.3211, 1.0]
+    };
+    const tbl = besselTables[N] || besselTables[5];
+    for (let k = 1; k <= N + 1; k++) {
+      g[k] = tbl[k] || 1.0;
+    }
+  } else {
+    // Chebyshev
+    let ripDb = 0.1;
+    if (proto === 'CHEB_05') ripDb = 0.5;
+    if (proto === 'CHEB_10') ripDb = 1.0;
+    const eps = Math.sqrt(Math.pow(10, ripDb / 10) - 1);
+    const beta = Math.asinh(1 / eps);
+    const gamma = Math.sinh(beta / (2 * N));
+    const a = [];
+    const b = [];
+    for (let k = 1; k <= N; k++) {
+      a[k] = Math.sin(((2 * k - 1) * Math.PI) / (2 * N));
+      b[k] = gamma * gamma + Math.pow(Math.sin((k * Math.PI) / N), 2);
+    }
+    g[1] = (2 * a[1]) / gamma;
+    for (let k = 2; k <= N; k++) {
+      g[k] = (4 * a[k - 1] * a[k]) / (b[k - 1] * g[k - 1]);
+    }
+    g[N + 1] = (N % 2 === 1) ? 1.0 : Math.pow(Math.cosh(beta / 2) / Math.sinh(beta / 2), 2);
+  }
+  return g;
+}
+
+// Synthesis of Filter Elements
+function synthesizeFilter() {
+  const N = state.order;
+  const Z0 = state.Z0;
+  const g = getPrototypeG(state.proto, N);
+  const elements = []; // each element describes a branch
+
+  if (state.type === 'LPF') {
+    const w_c = 2 * Math.PI * state.fcHz;
+    for (let k = 1; k <= N; k++) {
+      const isShunt = (state.topo === 'SHUNT_FIRST') ? (k % 2 === 1) : (k % 2 === 0);
+      if (isShunt) {
+        const val = g[k] / (Z0 * w_c);
+        const std = findNearestE24(val);
+        elements.push({
+          index: k,
+          role: `Shunt C${k}`,
+          type: 'C',
+          branch: 'SHUNT',
+          val,
+          std,
+          err: Math.abs(std - val) / val * 100,
+          label: formatCompValue('C', val),
+          stdLabel: formatCompValue('C', std),
+          reactance: -1 / (w_c * val)
+        });
+      } else {
+        const val = (g[k] * Z0) / w_c;
+        const std = findNearestE24(val);
+        elements.push({
+          index: k,
+          role: `Series L${k}`,
+          type: 'L',
+          branch: 'SERIES',
+          val,
+          std,
+          err: Math.abs(std - val) / val * 100,
+          label: formatCompValue('L', val),
+          stdLabel: formatCompValue('L', std),
+          reactance: w_c * val
+        });
+      }
+    }
+  } else if (state.type === 'HPF') {
+    const w_c = 2 * Math.PI * state.fcHz;
+    for (let k = 1; k <= N; k++) {
+      const isShunt = (state.topo === 'SHUNT_FIRST') ? (k % 2 === 1) : (k % 2 === 0);
+      if (isShunt) {
+        // Was shunt C, now shunt L
+        const val = (Z0) / (w_c * g[k]);
+        const std = findNearestE24(val);
+        elements.push({
+          index: k,
+          role: `Shunt L${k}`,
+          type: 'L',
+          branch: 'SHUNT',
+          val,
+          std,
+          err: Math.abs(std - val) / val * 100,
+          label: formatCompValue('L', val),
+          stdLabel: formatCompValue('L', std),
+          reactance: w_c * val
+        });
+      } else {
+        // Was series L, now series C
+        const val = 1 / (w_c * Z0 * g[k]);
+        const std = findNearestE24(val);
+        elements.push({
+          index: k,
+          role: `Series C${k}`,
+          type: 'C',
+          branch: 'SERIES',
+          val,
+          std,
+          err: Math.abs(std - val) / val * 100,
+          label: formatCompValue('C', val),
+          stdLabel: formatCompValue('C', std),
+          reactance: -1 / (w_c * val)
+        });
+      }
+    }
+  } else if (state.type === 'BPF') {
+    const w0 = 2 * Math.PI * state.f0Hz;
+    const delta = state.bwHz / state.f0Hz;
+    for (let k = 1; k <= N; k++) {
+      const isShunt = (state.topo === 'SHUNT_FIRST') ? (k % 2 === 1) : (k % 2 === 0);
+      if (isShunt) {
+        // Shunt parallel LC
+        const valC = g[k] / (w0 * Z0 * delta);
+        const valL = (delta * Z0) / (w0 * g[k]);
+        const stdC = findNearestE24(valC);
+        const stdL = findNearestE24(valL);
+        elements.push({
+          index: k,
+          role: `Shunt Resonator ${k}`,
+          type: 'LC_PARALLEL',
+          branch: 'SHUNT',
+          valC, valL, stdC, stdL,
+          err: Math.max(Math.abs(stdC - valC)/valC, Math.abs(stdL - valL)/valL) * 100,
+          label: `C: ${formatCompValue('C', valC)} ∥ L: ${formatCompValue('L', valL)}`,
+          stdLabel: `C: ${formatCompValue('C', stdC)} ∥ L: ${formatCompValue('L', stdL)}`,
+          reactance: 0
+        });
+      } else {
+        // Series series LC
+        const valL = (Z0 * g[k]) / (w0 * delta);
+        const valC = delta / (w0 * Z0 * g[k]);
+        const stdC = findNearestE24(valC);
+        const stdL = findNearestE24(valL);
+        elements.push({
+          index: k,
+          role: `Series Resonator ${k}`,
+          type: 'LC_SERIES',
+          branch: 'SERIES',
+          valC, valL, stdC, stdL,
+          err: Math.max(Math.abs(stdC - valC)/valC, Math.abs(stdL - valL)/valL) * 100,
+          label: `L: ${formatCompValue('L', valL)} + C: ${formatCompValue('C', valC)}`,
+          stdLabel: `L: ${formatCompValue('L', stdL)} + C: ${formatCompValue('C', stdC)}`,
+          reactance: 0
+        });
+      }
+    }
+  } else {
+    // Notch (BSF)
+    const w0 = 2 * Math.PI * state.f0Hz;
+    const delta = state.bwHz / state.f0Hz;
+    for (let k = 1; k <= N; k++) {
+      const isShunt = (state.topo === 'SHUNT_FIRST') ? (k % 2 === 1) : (k % 2 === 0);
+      if (isShunt) {
+        // Shunt series LC to ground
+        const valL = (Z0 * g[k]) / (w0 * delta);
+        const valC = delta / (w0 * Z0 * g[k]);
+        const stdC = findNearestE24(valC);
+        const stdL = findNearestE24(valL);
+        elements.push({
+          index: k,
+          role: `Shunt Notch ${k}`,
+          type: 'LC_SERIES',
+          branch: 'SHUNT',
+          valC, valL, stdC, stdL,
+          err: Math.max(Math.abs(stdC - valC)/valC, Math.abs(stdL - valL)/valL) * 100,
+          label: `L: ${formatCompValue('L', valL)} + C: ${formatCompValue('C', valC)}`,
+          stdLabel: `L: ${formatCompValue('L', stdL)} + C: ${formatCompValue('C', stdC)}`,
+          reactance: 0
+        });
+      } else {
+        // Series parallel LC in signal path
+        const valC = g[k] / (w0 * Z0 * delta);
+        const valL = (delta * Z0) / (w0 * g[k]);
+        const stdC = findNearestE24(valC);
+        const stdL = findNearestE24(valL);
+        elements.push({
+          index: k,
+          role: `Series Notch ${k}`,
+          type: 'LC_PARALLEL',
+          branch: 'SERIES',
+          valC, valL, stdC, stdL,
+          err: Math.max(Math.abs(stdC - valC)/valC, Math.abs(stdL - valL)/valL) * 100,
+          label: `C: ${formatCompValue('C', valC)} ∥ L: ${formatCompValue('L', valL)}`,
+          stdLabel: `C: ${formatCompValue('C', stdC)} ∥ L: ${formatCompValue('L', stdL)}`,
+          reactance: 0
+        });
+      }
+    }
+  }
+
+  return elements;
+}
+
+// Complex arithmetic & ABCD matrix solver
+function cMul(a, b) { return { r: a.r * b.r - a.i * b.i, i: a.r * b.i + a.i * b.r }; }
+function cAdd(a, b) { return { r: a.r + b.r, i: a.i + b.i }; }
+function abcdMul(m1, m2) {
+  return [
+    [ cAdd(cMul(m1[0][0], m2[0][0]), cMul(m1[0][1], m2[1][0])), cAdd(cMul(m1[0][0], m2[0][1]), cMul(m1[0][1], m2[1][1])) ],
+    [ cAdd(cMul(m1[1][0], m2[0][0]), cMul(m1[1][1], m2[1][0])), cAdd(cMul(m1[1][0], m2[0][1]), cMul(m1[1][1], m2[1][1])) ]
+  ];
+}
+
+function solveFilterSParams(elements, freq, useStd) {
+  const w = 2 * Math.PI * freq;
+  const Z0 = state.Z0;
+  let M = [[{ r: 1, i: 0 }, { r: 0, i: 0 }], [{ r: 0, i: 0 }, { r: 1, i: 0 }]];
+
+  elements.forEach(el => {
+    if (el.branch === 'SHUNT') {
+      let Y_i = 0;
+      if (el.type === 'C') {
+        const cVal = useStd ? el.std : el.val;
+        Y_i = w * cVal;
+      } else if (el.type === 'L') {
+        const lVal = useStd ? el.std : el.val;
+        Y_i = -1 / Math.max(1e-18, w * lVal);
+      } else if (el.type === 'LC_PARALLEL') {
+        const cVal = useStd ? el.stdC : el.valC;
+        const lVal = useStd ? el.stdL : el.valL;
+        Y_i = w * cVal - 1 / Math.max(1e-18, w * lVal);
+      } else if (el.type === 'LC_SERIES') {
+        const cVal = useStd ? el.stdC : el.valC;
+        const lVal = useStd ? el.stdL : el.valL;
+        const Z_branch_i = w * lVal - 1 / Math.max(1e-18, w * cVal);
+        Y_i = -1 / (Math.abs(Z_branch_i) < 1e-12 ? 1e-12 : Z_branch_i);
+      }
+      // Shunt admittance matrix [1 0; Y 1]
+      M = abcdMul(M, [[{ r: 1, i: 0 }, { r: 0, i: 0 }], [{ r: 0, i: Y_i }, { r: 1, i: 0 }]]);
+    } else {
+      // Series branch
+      let Z_i = 0;
+      if (el.type === 'L') {
+        const lVal = useStd ? el.std : el.val;
+        Z_i = w * lVal;
+      } else if (el.type === 'C') {
+        const cVal = useStd ? el.std : el.val;
+        Z_i = -1 / Math.max(1e-18, w * cVal);
+      } else if (el.type === 'LC_SERIES') {
+        const cVal = useStd ? el.stdC : el.valC;
+        const lVal = useStd ? el.stdL : el.valL;
+        Z_i = w * lVal - 1 / Math.max(1e-18, w * cVal);
+      } else if (el.type === 'LC_PARALLEL') {
+        const cVal = useStd ? el.stdC : el.valC;
+        const lVal = useStd ? el.stdL : el.valL;
+        const Y_branch_i = w * cVal - 1 / Math.max(1e-18, w * lVal);
+        Z_i = -1 / (Math.abs(Y_branch_i) < 1e-12 ? 1e-12 : Y_branch_i);
+      }
+      // Series impedance matrix [1 Z; 0 1]
+      M = abcdMul(M, [[{ r: 1, i: 0 }, { r: 0, i: Z_i }], [{ r: 0, i: 0 }, { r: 1, i: 0 }]]);
+    }
+  });
+
+  const A = M[0][0], B = M[0][1], C = M[1][0], D = M[1][1];
+  const denom = {
+    r: A.r + B.r / Z0 + C.r * Z0 + D.r,
+    i: A.i + B.i / Z0 + C.i * Z0 + D.i
+  };
+  const num_s11 = {
+    r: A.r + B.r / Z0 - C.r * Z0 - D.r,
+    i: A.i + B.i / Z0 - C.i * Z0 - D.i
+  };
+
+  const denMag = Math.sqrt(denom.r**2 + denom.i**2);
+  const s21_mag = 2 / Math.max(1e-12, denMag);
+  const s21_db = (s21_mag < 1e-4) ? -80 : 20 * Math.log10(s21_mag);
+  const s21_phase = Math.atan2(-denom.i, denom.r) * (180 / Math.PI);
+
+  const numMag = Math.sqrt(num_s11.r**2 + num_s11.i**2);
+  const s11_mag = numMag / Math.max(1e-12, denMag);
+  const s11_db = (s11_mag < 1e-4) ? 55 : -20 * Math.log10(s11_mag);
+  const vswr = (1 + s11_mag) / Math.max(1e-4, 1 - s11_mag);
+
+  return { s21_db, s11_db, s21_phase, vswr };
+}
+
+// Render CAD Schematic SVG
+function renderSchematicSvg(elements) {
+  const N = elements.length;
+  const w = 840;
+  const h = 320;
+  const ySig = 110;
+  const yGnd = 240;
+
+  const startX = 120;
+  const endX = 720;
+  const dx = (endX - startX) / (N + 1);
+
+  function hInd(x, y, label, stdLabel) {
+    return `
+      <g>
+        <line x1="${x - 35}" y1="${y}" x2="${x - 22}" y2="${y}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+        <path d="M ${x-22} ${y} a 7 8 0 0 1 11 0 a 7 8 0 0 1 11 0 a 7 8 0 0 1 11 0 a 7 8 0 0 1 11 0" fill="none" stroke="#d97706" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="${x + 22}" y1="${y}" x2="${x + 35}" y2="${y}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+        <rect x="${x - 50}" y="${y - 60}" width="100" height="34" rx="5" fill="#ffffff" stroke="#d97706" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="${x}" y="${y - 44}" fill="#b45309" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="middle">${label}</text>
+        <text x="${x}" y="${y - 32}" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Std: ${stdLabel}</text>
+      </g>
+    `;
+  }
+
+  function hCap(x, y, label, stdLabel) {
+    return `
+      <g>
+        <line x1="${x - 30}" y1="${y}" x2="${x - 7}" y2="${y}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="${x - 7}" y1="${y - 16}" x2="${x - 7}" y2="${y + 16}" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+        <line x1="${x + 7}" y1="${y - 16}" x2="${x + 7}" y2="${y + 16}" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+        <line x1="${x + 7}" y1="${y}" x2="${x + 30}" y2="${y}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+        <rect x="${x - 50}" y="${y - 60}" width="100" height="34" rx="5" fill="#ffffff" stroke="#059669" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="${x}" y="${y - 44}" fill="#059669" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="middle">${label}</text>
+        <text x="${x}" y="${y - 32}" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Std: ${stdLabel}</text>
+      </g>
+    `;
+  }
+
+  function vCap(x, y, label, stdLabel) {
+    return `
+      <g>
+        <line x1="${x}" y1="${y - 35}" x2="${x}" y2="${y - 7}" stroke="#1e293b" stroke-width="3"/>
+        <line x1="${x - 16}" y1="${y - 7}" x2="${x + 16}" y2="${y - 7}" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+        <line x1="${x - 16}" y1="${y + 7}" x2="${x + 16}" y2="${y + 7}" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+        <line x1="${x}" y1="${y + 7}" x2="${x}" y2="${y + 35}" stroke="#1e293b" stroke-width="3"/>
+        <rect x="${x + 16}" y="${y - 16}" width="95" height="34" rx="5" fill="#ffffff" stroke="#059669" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="${x + 63}" y="${y - 1}" fill="#059669" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="middle">${label}</text>
+        <text x="${x + 63}" y="${y + 11}" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Std: ${stdLabel}</text>
+      </g>
+    `;
+  }
+
+  function vInd(x, y, label, stdLabel) {
+    return `
+      <g>
+        <line x1="${x}" y1="${y - 35}" x2="${x}" y2="${y - 22}" stroke="#1e293b" stroke-width="3"/>
+        <path d="M ${x} ${y-22} a 7 6 0 0 1 0 11 a 7 6 0 0 1 0 11 a 7 6 0 0 1 0 11 a 7 6 0 0 1 0 11" fill="none" stroke="#d97706" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="${x}" y1="${y + 22}" x2="${x}" y2="${y + 35}" stroke="#1e293b" stroke-width="3"/>
+        <rect x="${x + 16}" y="${y - 16}" width="95" height="34" rx="5" fill="#ffffff" stroke="#d97706" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="${x + 63}" y="${y - 1}" fill="#b45309" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="middle">${label}</text>
+        <text x="${x + 63}" y="${y + 11}" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">Std: ${stdLabel}</text>
+      </g>
+    `;
+  }
+
+  function gnd(x, y) {
+    return `
+      <g>
+        <line x1="${x}" y1="${y}" x2="${x}" y2="${y + 12}" stroke="#64748b" stroke-width="3"/>
+        <line x1="${x - 12}" y1="${y + 12}" x2="${x + 12}" y2="${y + 12}" stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="${x - 8}" y1="${y + 16}" x2="${x + 8}" y2="${y + 16}" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="${x - 4}" y1="${y + 20}" x2="${x + 4}" y2="${y + 20}" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    `;
+  }
+
+  let circuit = '';
+  // Ground rail
+  circuit += `<line x1="80" y1="${yGnd}" x2="760" y2="${yGnd}" stroke="#64748b" stroke-width="2.5" stroke-dasharray="8 4"/>`;
+  circuit += gnd(420, yGnd);
+
+  let curX = startX;
+  elements.forEach((el, idx) => {
+    const nextX = startX + (idx + 1) * dx;
+    if (el.branch === 'SHUNT') {
+      // Shunt element at nextX
+      circuit += `<line x1="${curX}" y1="${ySig}" x2="${nextX}" y2="${ySig}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>`;
+      circuit += `<circle cx="${nextX}" cy="${ySig}" r="5" fill="#1e293b" stroke="#ffffff" stroke-width="1.5"/>`;
+      circuit += `<line x1="${nextX}" y1="${ySig}" x2="${nextX}" y2="${175 - 35}" stroke="#1e293b" stroke-width="3"/>`;
+      
+      const compLabel = state.useE24 ? el.stdLabel : el.label;
+      if (el.type === 'C') {
+        circuit += vCap(nextX, 175, `C${el.index}: ${compLabel}`, el.stdLabel);
+      } else if (el.type === 'L') {
+        circuit += vInd(nextX, 175, `L${el.index}: ${compLabel}`, el.stdLabel);
+      } else {
+        // LC combo
+        circuit += vCap(nextX - 14, 175, `C${el.index}`, '');
+        circuit += vInd(nextX + 14, 175, `L${el.index}`, '');
+        circuit += `<rect x="${nextX + 32}" y="${160}" width="105" height="32" rx="4" fill="#ffffff" stroke="#336633" stroke-width="1.5"/>`;
+        circuit += `<text x="${nextX + 84}" y="${174}" fill="#336633" font-family="'Trebuchet MS', sans-serif" font-size="10" font-weight="700" text-anchor="middle">Resonator ${el.index}</text>`;
+        circuit += `<text x="${nextX + 84}" y="${186}" fill="#64748b" font-family="monospace" font-size="9" text-anchor="middle">f₀ = ${(state.f0Hz/1e6).toFixed(0)}M</text>`;
+      }
+      circuit += `<line x1="${nextX}" y1="${175 + 35}" x2="${nextX}" y2="${yGnd}" stroke="#1e293b" stroke-width="3"/>`;
+      circuit += gnd(nextX, yGnd);
+      curX = nextX;
+    } else {
+      // Series element between curX and nextX
+      const midX = (curX + nextX) / 2;
+      circuit += `<line x1="${curX}" y1="${ySig}" x2="${midX - 35}" y2="${ySig}" stroke="#1e293b" stroke-width="3"/>`;
+      const compLabel = state.useE24 ? el.stdLabel : el.label;
+      if (el.type === 'L') {
+        circuit += hInd(midX, ySig, `L${el.index}: ${compLabel}`, el.stdLabel);
+      } else if (el.type === 'C') {
+        circuit += hCap(midX, ySig, `C${el.index}: ${compLabel}`, el.stdLabel);
+      } else {
+        circuit += hInd(midX - 16, ySig, `L${el.index}`, '');
+        circuit += hCap(midX + 16, ySig, `C${el.index}`, '');
+      }
+      circuit += `<line x1="${midX + 35}" y1="${ySig}" x2="${nextX}" y2="${ySig}" stroke="#1e293b" stroke-width="3"/>`;
+      curX = nextX;
+    }
+  });
+
+  // Final line to Port 2
+  circuit += `<line x1="${curX}" y1="${ySig}" x2="760" y2="${ySig}" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>`;
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="100%" height="100%">
+      <defs>
+        <pattern id="filterGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ede5d8" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#filterGrid)" rx="6"/>
+
+      <!-- Port 1 (IN) -->
+      <g>
+        <circle cx="80" cy="${ySig}" r="8" fill="#336633" stroke="#ffffff" stroke-width="2"/>
+        <rect x="15" y="${ySig - 38}" width="115" height="30" rx="5" fill="#ffffff" stroke="#336633" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="72" y="${ySig - 24}" fill="#336633" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="800" text-anchor="middle">PORT 1 (IN)</text>
+        <text x="72" y="${ySig - 12}" fill="#1c1917" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">Z₀ = ${state.Z0.toFixed(0)} Ω</text>
+      </g>
+
+      <!-- Port 2 (OUT) -->
+      <g>
+        <circle cx="760" cy="${ySig}" r="8" fill="#993333" stroke="#ffffff" stroke-width="2"/>
+        <rect x="710" y="${ySig - 38}" width="115" height="30" rx="5" fill="#ffffff" stroke="#993333" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.06))"/>
+        <text x="767" y="${ySig - 24}" fill="#993333" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="800" text-anchor="middle">PORT 2 (OUT)</text>
+        <text x="767" y="${ySig - 12}" fill="#1c1917" font-family="monospace" font-size="10" font-weight="700" text-anchor="middle">Z₀ = ${state.Z0.toFixed(0)} Ω</text>
+      </g>
+
+      ${circuit}
+
+      <!-- Bottom Watermark -->
+      <text x="${w - 18}" y="${h - 12}" fill="#854d0e" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700" text-anchor="end">FILTER ASSISTANT • CAD SCHEMATIC</text>
+    </svg>
+  `;
+}
+
+// Render Frequency Sweep SVG (S21 Transmission & S11 Return Loss)
+function renderFrequencySweepSvg(elements) {
+  const w = 780;
+  const h = 320;
+  const padLeft = 60;
+  const padRight = 50;
+  const padTop = 40;
+  const padBottom = 45;
+
+  const graphW = w - padLeft - padRight;
+  const graphH = h - padTop - padBottom;
+
+  let f_min, f_max;
+  if (state.type === 'LPF') {
+    f_min = state.fcHz * 0.1;
+    f_max = state.fcHz * 3.0;
+  } else if (state.type === 'HPF') {
+    f_min = state.fcHz * 0.2;
+    f_max = state.fcHz * 4.0;
+  } else {
+    // BPF / BSF
+    f_min = Math.max(state.f0Hz * 0.1, state.f0Hz - 2.5 * state.bwHz);
+    f_max = state.f0Hz + 2.5 * state.bwHz;
+  }
+
+  const numPts = 100;
+  let ptsS21 = [];
+  let ptsS11 = [];
+
+  for (let i = 0; i <= numPts; i++) {
+    const f = f_min + (i / numPts) * (f_max - f_min);
+    const sp = solveFilterSParams(elements, f, state.useE24);
+    const xPix = padLeft + (i / numPts) * graphW;
+
+    // S21 from 0 dB to -60 dB
+    const yS21 = padTop + (Math.min(60, Math.max(0, -sp.s21_db)) / 60) * graphH;
+    ptsS21.push(`${xPix.toFixed(1)},${yS21.toFixed(1)}`);
+
+    // S11 from 0 dB to 50 dB
+    const yS11 = padTop + (1 - Math.min(50, Math.max(0, sp.s11_db)) / 50) * graphH;
+    ptsS11.push(`${xPix.toFixed(1)},${yS11.toFixed(1)}`);
+  }
+
+  const y3dB = padTop + (3 / 60) * graphH;
+  const y20dB = padTop + (20 / 60) * graphH;
+  const y40dB = padTop + (40 / 60) * graphH;
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="100%" height="100%">
+      <rect width="100%" height="100%" fill="#ffffff" rx="6"/>
+
+      <!-- Header Title -->
+      <text x="${w / 2}" y="22" fill="#336633" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle">TRANSMISSION |S21| &amp; RETURN LOSS |S11| VS FREQUENCY</text>
+
+      <!-- Horizontal Threshold Grid Lines -->
+      <line x1="${padLeft}" y1="${y3dB}" x2="${w - padRight}" y2="${y3dB}" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text x="${w - padRight + 6}" y="${y3dB + 4}" fill="#dc2626" font-size="10" font-family="monospace" font-weight="700">-3 dB</text>
+
+      <line x1="${padLeft}" y1="${y20dB}" x2="${w - padRight}" y2="${y20dB}" stroke="#64748b" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="${w - padRight + 6}" y="${y20dB + 4}" fill="#64748b" font-size="10" font-family="monospace">-20 dB</text>
+
+      <line x1="${padLeft}" y1="${y40dB}" x2="${w - padRight}" y2="${y40dB}" stroke="#64748b" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="${w - padRight + 6}" y="${y40dB + 4}" fill="#64748b" font-size="10" font-family="monospace">-40 dB</text>
+
+      <!-- Grid lines 0 dB and -60 dB -->
+      <line x1="${padLeft}" y1="${padTop + graphH}" x2="${w - padRight}" y2="${padTop + graphH}" stroke="#64748b" stroke-width="1.5"/>
+      <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphH}" stroke="#64748b" stroke-width="1.5"/>
+
+      <text x="${padLeft - 8}" y="${padTop + 4}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">0 dB</text>
+      <text x="${padLeft - 8}" y="${y3dB + 4}" fill="#dc2626" font-size="10" font-family="monospace" font-weight="700" text-anchor="end">-3 dB</text>
+      <text x="${padLeft - 8}" y="${y20dB + 4}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">-20 dB</text>
+      <text x="${padLeft - 8}" y="${padTop + graphH + 4}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">-60 dB</text>
+
+      <!-- Frequency X-Axis Labels -->
+      <text x="${padLeft}" y="${h - 18}" fill="#64748b" font-size="10" font-family="monospace">${(f_min / 1e6).toFixed(1)} MHz</text>
+      <text x="${w / 2}" y="${h - 18}" fill="#336633" font-size="11" font-family="'Trebuchet MS', sans-serif" font-weight="800" text-anchor="middle">Center / Cutoff</text>
+      <text x="${w - padRight}" y="${h - 18}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">${(f_max / 1e6).toFixed(1)} MHz</text>
+
+      <!-- S21 Curve (Green) -->
+      <polyline points="${ptsS21.join(' ')}" fill="none" stroke="#15803d" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- S11 Curve (Blue dashed) -->
+      <polyline points="${ptsS11.join(' ')}" fill="none" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 2"/>
+
+      <!-- Legend -->
+      <g transform="translate(70, 50)">
+        <rect width="180" height="48" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <line x1="12" y1="18" x2="35" y2="18" stroke="#15803d" stroke-width="3"/>
+        <text x="42" y="22" fill="#15803d" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700">|S21| Transmission (dB)</text>
+        <line x1="12" y1="34" x2="35" y2="34" stroke="#2563eb" stroke-width="2" stroke-dasharray="4 2"/>
+        <text x="42" y="38" fill="#2563eb" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700">|S11| Return Loss (dB)</text>
+      </g>
+    </svg>
+  `;
+}
+
+// Render Group Delay & Phase SVG
+function renderGroupDelaySvg(elements) {
+  const w = 780;
+  const h = 320;
+  const padLeft = 60;
+  const padRight = 50;
+  const padTop = 40;
+  const padBottom = 45;
+
+  const graphW = w - padLeft - padRight;
+  const graphH = h - padTop - padBottom;
+
+  const f0 = (state.type === 'LPF' || state.type === 'HPF') ? state.fcHz : state.f0Hz;
+  const f_min = f0 * 0.2;
+  const f_max = f0 * 2.0;
+
+  const numPts = 80;
+  let ptsPhase = [];
+  let ptsDelay = [];
+  let maxDelayNs = 0.1;
+
+  // First pass to determine delay
+  const rawDelays = [];
+  for (let i = 0; i <= numPts; i++) {
+    const f = f_min + (i / numPts) * (f_max - f_min);
+    const df = f0 * 0.005;
+    const sp1 = solveFilterSParams(elements, f - df, state.useE24);
+    const sp2 = solveFilterSParams(elements, f + df, state.useE24);
+    const dPhiRad = (sp2.s21_phase - sp1.s21_phase) * (Math.PI / 180);
+    const dOmega = 2 * Math.PI * (2 * df);
+    const delayNs = Math.max(0, -dPhiRad / dOmega * 1e9);
+    rawDelays.push({ f, delayNs, phase: sp1.s21_phase });
+    if (delayNs > maxDelayNs && f <= f0 * 1.5) maxDelayNs = delayNs;
+  }
+
+  rawDelays.forEach((pt, i) => {
+    const xPix = padLeft + (i / numPts) * graphW;
+    // Delay from 0 to 1.5 * maxDelayNs
+    const yDelay = padTop + (1 - Math.min(1, pt.delayNs / (maxDelayNs * 1.4))) * graphH;
+    ptsDelay.push(`${xPix.toFixed(1)},${yDelay.toFixed(1)}`);
+    // Phase from +180 to -180
+    const yPhase = padTop + ((180 - pt.phase) / 360) * graphH;
+    ptsPhase.push(`${xPix.toFixed(1)},${yPhase.toFixed(1)}`);
+  });
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="100%" height="100%">
+      <rect width="100%" height="100%" fill="#ffffff" rx="6"/>
+
+      <!-- Title -->
+      <text x="${w / 2}" y="22" fill="#336633" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="800" text-anchor="middle">GROUP DELAY τg (ns) &amp; TRANSMISSION PHASE (deg)</text>
+
+      <!-- Axes -->
+      <line x1="${padLeft}" y1="${padTop + graphH}" x2="${w - padRight}" y2="${padTop + graphH}" stroke="#64748b" stroke-width="1.5"/>
+      <line x1="${padLeft}" y1="${padTop}" x2="${padLeft}" y2="${padTop + graphH}" stroke="#64748b" stroke-width="1.5"/>
+
+      <!-- Labels -->
+      <text x="${padLeft - 8}" y="${padTop + 4}" fill="#d97706" font-size="10" font-family="monospace" text-anchor="end">${(maxDelayNs*1.4).toFixed(1)} ns</text>
+      <text x="${padLeft - 8}" y="${padTop + graphH/2 + 4}" fill="#d97706" font-size="10" font-family="monospace" text-anchor="end">${(maxDelayNs*0.7).toFixed(1)} ns</text>
+      <text x="${padLeft - 8}" y="${padTop + graphH + 4}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">0 ns</text>
+
+      <text x="${padLeft}" y="${h - 18}" fill="#64748b" font-size="10" font-family="monospace">${(f_min / 1e6).toFixed(0)} MHz</text>
+      <text x="${w / 2}" y="${h - 18}" fill="#336633" font-size="11" font-family="'Trebuchet MS', sans-serif" font-weight="800" text-anchor="middle">f₀ = ${(f0 / 1e6).toFixed(0)} MHz</text>
+      <text x="${w - padRight}" y="${h - 18}" fill="#64748b" font-size="10" font-family="monospace" text-anchor="end">${(f_max / 1e6).toFixed(0)} MHz</text>
+
+      <!-- Group Delay Curve (Amber) -->
+      <polyline points="${ptsDelay.join(' ')}" fill="none" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Phase Curve (Purple dashed) -->
+      <polyline points="${ptsPhase.join(' ')}" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 2"/>
+
+      <!-- Legend -->
+      <g transform="translate(w - 220, 50)">
+        <rect width="160" height="48" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+        <line x1="12" y1="18" x2="35" y2="18" stroke="#d97706" stroke-width="3"/>
+        <text x="42" y="22" fill="#d97706" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700">Group Delay τg (ns)</text>
+        <line x1="12" y1="34" x2="35" y2="34" stroke="#7c3aed" stroke-width="2" stroke-dasharray="4 2"/>
+        <text x="42" y="38" fill="#7c3aed" font-family="'Trebuchet MS', sans-serif" font-size="11" font-weight="700">Phase ∠S21 (deg)</text>
+      </g>
+    </svg>
+  `;
+}
+
+// Render Bill of Materials HTML Table
+function renderBomHtml(elements) {
+  let rows = '';
+  elements.forEach((el) => {
+    rows += `
+      <tr>
+        <td><strong>${el.role}</strong></td>
+        <td class="val-col" style="color: var(--accent-green); font-size: 14px;">${el.label}</td>
+        <td class="val-col">${el.stdLabel}</td>
+        <td class="val-col">${Math.abs(el.reactance).toFixed(1)} Ω</td>
+        <td class="val-col" style="color: ${el.err > 5 ? '#dc2626' : '#15803d'};">${el.err.toFixed(1)}%</td>
+      </tr>
+    `;
+  });
+
+  return `
+    <div style="width: 100%; height: 100%; background: #ffffff; padding: 20px; overflow-y: auto;">
+      <h3 style="color: var(--accent-green); font-size: 16px; margin-bottom: 8px;">Bill of Materials &amp; Real-World Tolerance Report</h3>
+      <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 14px;">Component values synthesized for ${state.order}th-order ${state.type} filter at ${state.Z0} Ω impedance.</p>
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>Component Designation</th>
+            <th style="text-align: right;">Exact Synthesized</th>
+            <th style="text-align: right;">Standard E24 (5%)</th>
+            <th style="text-align: right;">Reactance @ Band Edge</th>
+            <th style="text-align: right;">Deviation (Δ)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// Master UI Update
+function updateUI() {
+  const elements = synthesizeFilter();
+
+  // Headline
+  const typeName = state.type === 'LPF' ? 'Low-Pass' : state.type === 'HPF' ? 'High-Pass' : state.type === 'BPF' ? 'Band-Pass' : 'Notch (Band-Stop)';
+  const protoName = selectPrototype.options[selectPrototype.selectedIndex].text.split(' (')[0];
+  const freqStr = (state.type === 'LPF' || state.type === 'HPF') 
+    ? `fc = ${(state.fcHz / 1e6).toFixed(1)} MHz`
+    : `f₀ = ${(state.f0Hz / 1e6).toFixed(1)} MHz, BW = ${(state.bwHz / 1e6).toFixed(1)} MHz`;
+  filterHeadline.textContent = `${state.order}th-Order ${typeName} ${protoName} (${freqStr}, ${state.Z0.toFixed(0)} Ω)`;
+
+  lblOrderElements.textContent = `${state.order} Reactive Elements`;
+
+  // Toggle visible frequency inputs
+  if (state.type === 'LPF' || state.type === 'HPF') {
+    groupCutoffFreq.style.display = 'block';
+    groupBandpassFreq.style.display = 'none';
+  } else {
+    groupCutoffFreq.style.display = 'none';
+    groupBandpassFreq.style.display = 'block';
+  }
+
+  // Render Viewport
+  if (state.activeView === 'SCHEMATIC') {
+    displayViewport.innerHTML = renderSchematicSvg(elements);
+  } else if (state.activeView === 'RESPONSE') {
+    displayViewport.innerHTML = renderFrequencySweepSvg(elements);
+  } else if (state.activeView === 'DELAY') {
+    displayViewport.innerHTML = renderGroupDelaySvg(elements);
+  } else {
+    displayViewport.innerHTML = renderBomHtml(elements);
+  }
+
+  // Metrics
+  const testFreq = (state.type === 'LPF' || state.type === 'HPF') ? state.fcHz : state.f0Hz;
+  const spCenter = solveFilterSParams(elements, testFreq, state.useE24);
+  const spStop = solveFilterSParams(elements, testFreq * 2.0, state.useE24);
+
+  if (state.type === 'LPF' || state.type === 'HPF') {
+    resCutoff.textContent = `${(state.fcHz / 1e6).toFixed(1)} MHz`;
+    resCutoffSub.textContent = `-3 dB Cutoff Frequency`;
+  } else {
+    resCutoff.textContent = `${(state.bwHz / 1e6).toFixed(1)} MHz`;
+    resCutoffSub.textContent = `Center: ${(state.f0Hz / 1e6).toFixed(1)} MHz`;
+  }
+
+  resIl.textContent = `${Math.abs(spCenter.s21_db).toFixed(2)} dB`;
+  resRl.textContent = spCenter.s11_db > 50 ? '> 50 dB' : `${spCenter.s11_db.toFixed(1)} dB`;
+  resVswrSub.textContent = `VSWR ${spCenter.vswr.toFixed(2)} : 1`;
+  resStopband.textContent = `${spStop.s21_db.toFixed(1)} dB`;
+  resStopbandSub.textContent = `Atten @ 2.0 × ${(testFreq / 1e6).toFixed(0)} MHz`;
+
+  // Specs Table
+  let rowsHtml = '';
+  elements.forEach((el) => {
+    rowsHtml += `
+      <tr>
+        <td><strong>${el.role}</strong></td>
+        <td class="val-col" style="color: var(--accent-green);">${el.label}</td>
+        <td class="val-col">${el.stdLabel}</td>
+        <td class="val-col">${Math.abs(el.reactance).toFixed(1)} Ω</td>
+        <td class="val-col" style="color: ${el.err > 5 ? '#dc2626' : '#15803d'};">${el.err.toFixed(1)}%</td>
+      </tr>
+    `;
+  });
+  specsTableBody.innerHTML = rowsHtml;
+}
+
+// Event Listeners
+segFilterType.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-seg');
+  if (btn) {
+    segFilterType.querySelectorAll('.btn-seg').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.type = btn.getAttribute('data-type');
+    updateUI();
+  }
+});
+
+selectPrototype.addEventListener('change', (e) => {
+  state.proto = e.target.value;
+  updateUI();
+});
+
+segOrder.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-seg');
+  if (btn) {
+    segOrder.querySelectorAll('.btn-seg').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.order = parseInt(btn.getAttribute('data-order'));
+    updateUI();
+  }
+});
+
+segTopology.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-seg');
+  if (btn) {
+    segTopology.querySelectorAll('.btn-seg').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.topo = btn.getAttribute('data-topo');
+    updateUI();
+  }
+});
+
+inputFc.addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  const u = selectFcUnit.value;
+  const mul = u === 'GHZ' ? 1e9 : u === 'MHZ' ? 1e6 : 1e3;
+  if (!isNaN(v) && v > 0) {
+    state.fcHz = v * mul;
+    updateUI();
+  }
+});
+
+selectFcUnit.addEventListener('change', () => {
+  const v = parseFloat(inputFc.value);
+  const u = selectFcUnit.value;
+  const mul = u === 'GHZ' ? 1e9 : u === 'MHZ' ? 1e6 : 1e3;
+  state.fcHz = v * mul;
+  updateUI();
+});
+
+inputF0.addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  const u = selectF0Unit.value;
+  const mul = u === 'GHZ' ? 1e9 : u === 'MHZ' ? 1e6 : 1e3;
+  if (!isNaN(v) && v > 0) {
+    state.f0Hz = v * mul;
+    updateUI();
+  }
+});
+
+selectF0Unit.addEventListener('change', () => {
+  const v = parseFloat(inputF0.value);
+  const u = selectF0Unit.value;
+  const mul = u === 'GHZ' ? 1e9 : u === 'MHZ' ? 1e6 : 1e3;
+  state.f0Hz = v * mul;
+  updateUI();
+});
+
+inputBw.addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v > 0) {
+    state.bwHz = v * 1e6;
+    updateUI();
+  }
+});
+
+inputZ0.addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value);
+  if (!isNaN(v) && v > 0) {
+    state.Z0 = v;
+    updateUI();
+  }
+});
+
+chkUseE24.addEventListener('change', (e) => {
+  state.useE24 = e.target.checked;
+  updateUI();
+});
+
+// Z0 Presets
+document.querySelectorAll('[data-set-z0]').forEach(b => {
+  b.addEventListener('click', () => {
+    const z = parseFloat(b.getAttribute('data-set-z0'));
+    inputZ0.value = z;
+    state.Z0 = z;
+    document.querySelectorAll('[data-set-z0]').forEach(btn => btn.classList.remove('active'));
+    b.classList.add('active');
+    updateUI();
+  });
+});
+
+// Presets
+document.querySelectorAll('[data-preset]').forEach(b => {
+  b.addEventListener('click', () => {
+    const p = b.getAttribute('data-preset');
+    if (p === 'FM_LPF') {
+      state.type = 'LPF';
+      state.proto = 'CHEB_01';
+      state.order = 7;
+      state.fcHz = 108e6;
+      inputFc.value = 108;
+      selectFcUnit.value = 'MHZ';
+    } else if (p === 'HAM_2M') {
+      state.type = 'LPF';
+      state.proto = 'BUTTERWORTH';
+      state.order = 5;
+      state.fcHz = 146e6;
+      inputFc.value = 146;
+      selectFcUnit.value = 'MHZ';
+    } else if (p === 'ISM_433') {
+      state.type = 'BPF';
+      state.proto = 'CHEB_05';
+      state.order = 3;
+      state.f0Hz = 433e6;
+      state.bwHz = 20e6;
+      inputF0.value = 433;
+      selectF0Unit.value = 'MHZ';
+      inputBw.value = 20;
+    } else if (p === 'RFID_915') {
+      state.type = 'BPF';
+      state.proto = 'CHEB_05';
+      state.order = 3;
+      state.f0Hz = 915e6;
+      state.bwHz = 30e6;
+      inputF0.value = 915;
+      selectF0Unit.value = 'MHZ';
+      inputBw.value = 30;
+    } else if (p === 'WIFI_2G4') {
+      state.type = 'BPF';
+      state.proto = 'CHEB_01';
+      state.order = 3;
+      state.f0Hz = 2450e6;
+      state.bwHz = 100e6;
+      inputF0.value = 2.45;
+      selectF0Unit.value = 'GHZ';
+      inputBw.value = 100;
+    } else if (p === 'HAM_6M') {
+      state.type = 'LPF';
+      state.proto = 'CHEB_01';
+      state.order = 7;
+      state.fcHz = 54e6;
+      inputFc.value = 54;
+      selectFcUnit.value = 'MHZ';
+    } else if (p === 'AM_HPF') {
+      state.type = 'HPF';
+      state.proto = 'CHEB_05';
+      state.order = 5;
+      state.fcHz = 1.8e6;
+      inputFc.value = 1.8;
+      selectFcUnit.value = 'MHZ';
+    } else if (p === 'NOTCH_100') {
+      state.type = 'BSF';
+      state.proto = 'BUTTERWORTH';
+      state.order = 3;
+      state.f0Hz = 100e6;
+      state.bwHz = 20e6;
+      inputF0.value = 100;
+      selectF0Unit.value = 'MHZ';
+      inputBw.value = 20;
+    }
+
+    // Sync UI elements
+    segFilterType.querySelectorAll('.btn-seg').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-type') === state.type);
+    });
+    selectPrototype.value = state.proto;
+    segOrder.querySelectorAll('.btn-seg').forEach(btn => {
+      btn.classList.toggle('active', parseInt(btn.getAttribute('data-order')) === state.order);
+    });
+    updateUI();
+  });
+});
+
+// View Toggle
+document.querySelectorAll('.btn-view').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.btn-view').forEach(btn => btn.classList.remove('active'));
+    b.classList.add('active');
+    state.activeView = b.getAttribute('data-view');
+    updateUI();
+  });
+});
+
+// Theme Toggle
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+});
+
+// Copy Report
+document.getElementById('btnCopyReport').addEventListener('click', () => {
+  const elements = synthesizeFilter();
+  let text = `=== FILTER ASSISTANT SYNTHESIS REPORT ===\n`;
+  text += `Filter Type: ${state.order}th-Order ${state.type} ${selectPrototype.value}\n`;
+  text += `Impedance Z0: ${state.Z0} Ω\n`;
+  if (state.type === 'LPF' || state.type === 'HPF') {
+    text += `Cutoff Frequency: ${(state.fcHz / 1e6).toFixed(2)} MHz\n\n`;
+  } else {
+    text += `Center Frequency: ${(state.f0Hz / 1e6).toFixed(2)} MHz, Bandwidth: ${(state.bwHz / 1e6).toFixed(2)} MHz\n\n`;
+  }
+  elements.forEach(el => {
+    text += `- ${el.role}: Exact ${el.label} (Std E24: ${el.stdLabel}, Error: ${el.err.toFixed(1)}%)\n`;
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btnCopyReport');
+    const old = btn.innerHTML;
+    btn.innerHTML = '✅ Copied!';
+    setTimeout(() => { btn.innerHTML = old; }, 2000);
+  });
+});
+
+// Export SVG
+document.getElementById('btnExportSvg').addEventListener('click', () => {
+  const curSvg = displayViewport.querySelector('svg');
+  if (!curSvg) return;
+  const blob = new Blob([curSvg.outerHTML], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `filter_assistant_${state.type}_N${state.order}.svg`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// Initial Render
+updateUI();
+</script>
+</body>
+</html>
