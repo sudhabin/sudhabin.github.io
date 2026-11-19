@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XChomp — Arcade Classic | Sudhabin</title>
+<meta name="Microsoft Theme" content="sudhabin 011, default">
+<meta name="description" content="Play XChomp, the 1990 X11 maze-chase arcade classic, as a self-contained JavaScript web port. Original game by Jerry J. Shekhel; web port by cluge.">
+<link rel="stylesheet" href="xchomp.css">
+</head>
+<body>
+<div class="container">
+  <div class="site-nav-bar">
+    <div class="site-breadcrumbs">
+      <a href="../index.html">🏠 Home</a><span class="sep">&gt;</span>
+      <a href="../softwares.htm">Software</a><span class="sep">&gt;</span>
+      <span style="color: var(--text-main);">XChomp</span>
+    </div>
+    <div class="site-quick-links">
+      <a href="../softwares.htm" class="nav-btn-chip">⬅ Software</a>
+      <a href="../mahjongg.htm" class="nav-btn-chip">🀄 Mahjongg</a>
+      <a href="../fortune.htm" class="nav-btn-chip">🥠 Fortune!</a>
+      <a href="../xgalaga/index.html" class="nav-btn-chip">🚀 XGalaga++</a>
+    </div>
+  </div>
+
+  <header class="theme-header">
+    <div class="header-titles">
+      <h1><span>XChomp</span><span class="badge">Arcade Classic</span></h1>
+      <p>Jerry J. Shekhel's 1990 X11 maze-chase arcade game, running in the browser through cluge's self-contained JavaScript port. Eat the dots, dodge the ghosts, clear six mazes.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-action" id="themeToggle">🌓 Theme</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="theme-card" aria-label="XChomp game">
+      <div class="card-title"><span>🕹️ XChomp</span><span class="tag">Click game to play</span></div>
+
+      <div class="toolbar">
+        <button class="btn-game primary" id="restartBtn">🔄 New Game</button>
+        <button class="btn-game" id="pauseBtn">⏸ Pause / Resume</button>
+        <button class="btn-game" id="titleBtn">⌂ Back to Title</button>
+        <span class="toolbar-spacer"></span>
+        <button class="btn-game" id="fullBtn">⛶ Fullscreen</button>
+      </div>
+
+      <div class="status-line" id="statusLine" role="status" aria-live="polite">
+        Press any key or tap the game to begin. Use <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> or <kbd>WASD</kbd> to steer.
+      </div>
+
+      <div class="cabinet">
+        <div class="xc-game" id="xcGame">
+          <div class="speed-control xc-theme-buttons" aria-label="Colour themes">
+            <button class="speed-btn btn-bw" type="button" title="Monochrome theme" aria-label="Monochrome theme"></button>
+            <button class="speed-btn btn-green" type="button" title="Green phosphor theme" aria-label="Green phosphor theme"></button>
+            <button class="speed-btn btn-material" type="button" title="Colour theme" aria-label="Colour theme"></button>
+          </div>
+
+          <div class="game-area">
+            <canvas id="gameCanvas" width="336" height="274" aria-label="XChomp game screen">Your browser needs Canvas support to play XChomp.</canvas>
+          </div>
+
+          <div class="speed-control xc-speed">
+            <button class="speed-btn" id="decSpeed" type="button" aria-label="Decrease speed">−</button>
+            <div id="delayDisplay" aria-label="Speed setting">033</div>
+            <button class="speed-btn" id="incSpeed" type="button" aria-label="Increase speed">+</button>
+          </div>
+
+          <img id="fontImage" src="font.png" alt="" style="display:none">
+        </div>
+      </div>
+
+      <div class="board-foot">
+        <div class="legend">
+          <span class="legend-item"><span class="dot-swatch pellet"></span> Dot · 10</span>
+          <span class="legend-item"><span class="dot-swatch power"></span> Power dot · 50</span>
+          <span class="legend-item"><span class="dot-swatch ghost"></span> Ghost · 200–1600</span>
+        </div>
+        <div class="hint-note">Space pause · Q quit to title</div>
+      </div>
+    </section>
+
+    <section class="theme-card">
+      <div class="card-title"><span>How to play</span><span class="tag">Quick guide</span></div>
+      <div class="info-grid">
+        <div class="info-box">
+          <h3>🎯 The objective</h3>
+          <p>Clear every dot from the maze to advance. Power dots turn the ghosts blue for a short time — chase them down for big points before they recover. Fruit appears twice per level for bonus points.</p>
+          <p style="margin-top:6px;">You start with <strong>3 lives</strong>; an extra life is awarded at <strong>10,000 points</strong>. Mazes cycle through six layouts as you progress.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>⌨️ Controls</h3>
+          <ul>
+            <li><kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — move</li>
+            <li><kbd>Space</kbd> — pause / resume</li>
+            <li><kbd>Q</kbd> — quit to title screen</li>
+            <li><strong>Touch:</strong> swipe to steer, tap to pause</li>
+            <li>The game buffers your last direction, so you can turn slightly early at a junction.</li>
+          </ul>
+          <p style="margin-top:6px;">Click or tap the arcade screen once so the keyboard goes to the game. The three colour buttons switch the original port's palettes.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>🏆 Scoring</h3>
+          <table class="score-table">
+            <tr><td>Regular dot</td><td>10</td></tr>
+            <tr><td>Power dot</td><td>50</td></tr>
+            <tr><td>Ghost (in sequence)</td><td>200–1600</td></tr>
+            <tr><td>Fruit (by level)</td><td>100 – 5000</td></tr>
+            <tr><td>Extra life</td><td>at 10,000</td></tr>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <h3>🏅 Credits &amp; original projects</h3>
+          <p><strong>XChomp</strong> was written by <strong>Jerry J. Shekhel</strong> in 1990 for X11 and released into the <strong>public domain</strong>.</p>
+          <p style="margin-top:6px;">This browser version is <strong>cluge's JavaScript/Canvas port</strong> (<code>xchomp-js</code>), also released into the public domain under the Unlicense. The port preserves the original ghost AI, sprites, status messages and game sequences.</p>
+          <div class="credit-row">
+            <a class="credit-chip" href="https://github.com/cluge/xchomp-js" target="_blank" rel="noopener noreferrer">⌨ xchomp-js source</a>
+            <a class="credit-chip" href="https://github.com/cluge/xchomp-js/tree/main/xchomp" target="_blank" rel="noopener noreferrer">🕹️ Original C source</a>
+            <a class="credit-chip" href="LICENSE.txt" target="_blank">📄 Unlicense</a>
+          </div>
+          <p style="margin-top:8px;">README credits also thank <strong>Karl Asha</strong> for the Linux compilation notes. This local copy keeps the game fully self-hosted: one HTML page, one stylesheet, one JavaScript file and the small font image.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <a href="../softwares.htm">Software</a> &bull;
+      <a href="../mahjongg.htm">Mahjongg</a> &bull;
+      <a href="../fortune.htm">Fortune!</a> &bull;
+      <a href="../index.html">Home</a>
+    </div>
+    <div>XChomp &bull; original by Jerry J. Shekhel &bull; web port by cluge &bull; <a href="https://sudhabin.github.io/">sudhabin.github.io</a></div>
+  </footer>
+</div>
+
+<script type="module" src="xchomp.js"></script>
+</body>
+</html>
