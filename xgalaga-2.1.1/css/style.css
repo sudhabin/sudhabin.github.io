@@ -78,6 +78,27 @@ canvas {
   padding: 0 12px;
 }
 
+#credits {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  text-align: center;
+  padding: 0 12px;
+  line-height: 1.5;
+}
+
+#credits a {
+  color: #8fb4ff;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(143, 180, 255, 0.55);
+}
+
+#credits a:hover {
+  color: #cfe0ff;
+  border-bottom-color: #cfe0ff;
+}
+
 #stage:fullscreen {
   width: 100vw;
   height: 100vh;

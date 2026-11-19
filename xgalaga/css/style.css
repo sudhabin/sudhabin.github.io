@@ -244,6 +244,45 @@ body.state-menu #toolbar { opacity: 0.92; }
   color: #9fa4d8;
 }
 
+/* ---------- credits dialog ---------- */
+
+.credits-dialog {
+  max-height: min(84vh, 620px);
+  overflow-y: auto;
+  padding-top: 22px;
+  touch-action: pan-y;
+}
+
+.credits-dialog h2 {
+  margin-bottom: 14px;
+  font-size: 26px;
+}
+
+.credits-copy {
+  margin: 0 0 10px;
+  color: #b9bce6;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.credits-copy strong { color: #ececff; }
+
+.credits-list {
+  margin: 12px 0 0;
+  padding-left: 16px;
+  color: #9fa4d8;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.credits-list a {
+  color: #8ff8ff;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(143, 248, 255, 0.5);
+}
+
+.credits-list a:hover { color: #fff; border-bottom-color: #fff; }
+
 @media (pointer: coarse) {
   #toolbar button { font-size: 9px; padding: 6px 7px; }
   #toolbar { opacity: 0.75; }

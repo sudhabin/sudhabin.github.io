@@ -15,6 +15,8 @@
   var canvas = document.getElementById('game');
   var ctx = canvas.getContext('2d', { alpha: false });
   var modalEl = document.getElementById('score-modal');
+  var creditsEl = document.getElementById('credits-modal');
+  var creditsClose = document.getElementById('credits-close');
   var scoreForm = document.getElementById('score-form');
   var finalScoreEl = document.getElementById('final-score');
   var pilotInput = document.getElementById('pilot-name');
@@ -46,6 +48,7 @@
   var pilot = 'PLAYER';
   var notice = null;
   var modalOpen = false;
+  var creditsOpen = false;
   var pendingScore = 0;
   var crt = false;
 
@@ -695,6 +698,20 @@
     notify('scanlines ' + (crt ? 'on' : 'off') + '  [V]');
   }
 
+  function openCredits() {
+    if (creditsOpen) return;
+    if (state === 'playing') togglePause();
+    creditsEl.hidden = false;
+    creditsOpen = true;
+    if (creditsClose) creditsClose.focus();
+  }
+
+  function closeCredits() {
+    if (!creditsOpen) return;
+    creditsEl.hidden = true;
+    creditsOpen = false;
+  }
+
   function toggleScores() {
     if (state === 'menu') {
       menuPage = menuPage === 'scores' ? 'help' : 'scores';
@@ -708,7 +725,7 @@
 
   window.addEventListener('keydown', function (event) {
     if (Sfx) Sfx.unlock();
-    if (modalOpen) return;
+    if (modalOpen || creditsOpen) return;
 
     var code = event.code;
     if (code === 'ArrowLeft' || code === 'ArrowRight' ||
@@ -791,7 +808,7 @@
 
   canvas.addEventListener('pointerdown', function (event) {
     if (Sfx) Sfx.unlock();
-    if (modalOpen) return;
+    if (modalOpen || creditsOpen) return;
     event.preventDefault();
 
     if (state === 'menu') {
@@ -851,6 +868,7 @@
         else notify('pause is available while playing');
       } else if (action === 'mute') toggleMute();
       else if (action === 'fullscreen') toggleFullscreen();
+      else if (action === 'credits') openCredits();
       button.blur();
     });
   });
@@ -863,6 +881,19 @@
       skipModalScore();
     }
   });
+
+  if (creditsClose) creditsClose.addEventListener('click', closeCredits);
+  if (creditsEl) {
+    creditsEl.addEventListener('click', function (event) {
+      if (event.target === creditsEl) closeCredits();
+    });
+    creditsEl.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeCredits();
+      }
+    });
+  }
 
   /* ------------------------------------------------------------------ */
   /* Boot                                                               */

@@ -91,6 +91,15 @@ dialog label { display: block; margin-bottom: 5px; }
 .filename input { width: 10ch; padding: 5px 7px; text-transform: uppercase; }
 dialog p { font-size: .875rem; color: var(--muted); margin-top: 8px; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.top-links { display: flex; align-items: center; gap: 16px; }
+.credits { margin-top: 14px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); font-size: .875rem; line-height: 1.6; color: var(--muted); }
+.credits h2 { margin-bottom: 8px; color: #e5ebec; font: 700 1rem var(--mono); letter-spacing: .05em; text-transform: uppercase; }
+.credits p + p { margin-top: 8px; }
+.credits strong { color: #e5ebec; }
+.credits code { font-family: var(--mono); color: var(--accent); }
+.credit-links { margin: 10px 0 0; padding-left: 18px; }
+.credit-links li + li { margin-top: 4px; }
+.credit-note { padding-top: 8px; border-top: 1px solid var(--line); font-size: .82rem; }
 @media (max-width: 900px) {
   .top-inner, main { width: min(100% - 28px, 720px); }
   .workspace { grid-template-columns: 1fr; }
@@ -100,6 +109,8 @@ dialog p { font-size: .875rem; color: var(--muted); margin-top: 8px; }
 }
 @media (max-width: 510px) {
   .subtitle { display: none; }
+  .top-inner { flex-wrap: wrap; padding-block: 8px; }
+  .top-links { gap: 12px; }
   .shortcuts { display: block; }
   .key-section:nth-of-type(2) { border-left: 0; border-top: 1px solid var(--line); }
   .filebar { gap: 8px 12px; }
@@ -120,7 +131,10 @@ dialog p { font-size: .875rem; color: var(--muted); margin-top: 8px; }
   <header class="top">
     <div class="top-inner">
       <div class="brand"><h1>PUFF<span> / </span>WEB</h1><span class="subtitle">Microwave circuit CAD</span></div>
-      <a class="manual" href="./Puff%20Manual.pdf" target="_blank" rel="noopener">Puff manual</a>
+      <div class="top-links">
+        <a class="manual" href="./Puff%20Manual.pdf" target="_blank" rel="noopener">Puff manual</a>
+        <a class="manual" href="#credits">Credits &amp; license</a>
+      </div>
     </div>
   </header>
 
@@ -223,6 +237,21 @@ dialog p { font-size: .875rem; color: var(--muted); margin-top: 8px; }
         </div>
       </aside>
     </div>
+
+    <section class="credits" id="credits" aria-labelledby="credits-heading">
+      <h2 id="credits-heading">Credits &amp; license</h2>
+      <p><strong>Puff 2.1</strong> was written by Scott W. Wedge, Richard C. Compton, Andreas Gerstlauer and David B. Rutledge at the California Institute of Technology. The program was released as free software under the <strong>GNU General Public License, version 3 (GPLv3)</strong> in 2010; the original copyright and license terms still apply.</p>
+      <p>This page runs the checksum-verified <strong>original DOS release</strong> inside a WebAssembly build of <strong>DOSBox</strong> (the js-dos <code>emulators</code> package, 8.5.3). Puff, the DOS emulator and this page are distributed without warranty, as described by their licenses.</p>
+      <ul class="credit-links">
+        <li><a href="https://www.gerstlauer.de/puff/" target="_blank" rel="noopener noreferrer">Puff 2.1 home page (Andreas Gerstlauer)</a> &mdash; original DOS release and manual</li>
+        <li><a href="https://www.pa3fwm.nl/software/puff/" target="_blank" rel="noopener noreferrer">Puff on Linux (PA3FWM)</a> &mdash; GPLv3 release, source code and manual</li>
+        <li><a href="./COPYING" target="_blank">GNU General Public License v3 &mdash; local copy</a> &middot; <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">license on gnu.org</a></li>
+        <li><a href="https://github.com/js-dos/emulators/tree/e6f4e5449a5b17ae3ea0fdccfd453c8d299e9ea5" target="_blank" rel="noopener noreferrer">js-dos emulator source</a> and <a href="https://github.com/js-dos/dosbox-x/tree/788fde99d3d451eab3621009186e5abe516f2b9c" target="_blank" rel="noopener noreferrer">DOSBox-X source</a> &mdash; emulator components (GPLv2)</li>
+        <li><a href="./README.md" target="_blank">README.md</a> &mdash; local build notes, sources and emulator credits</li>
+        <li><a href="./Puff%20Manual.pdf" target="_blank" rel="noopener">Puff 2.1 manual (PDF)</a> &mdash; bundled from the GPLv3 distribution</li>
+      </ul>
+      <p class="credit-note">Puff and the emulator are free software: you may redistribute and/or modify them under the terms of their licenses. Puff source code and the complete corresponding source for the GPL components are available from the links above.</p>
+    </section>
   </main>
 
   <dialog id="save-dialog" aria-labelledby="save-heading">

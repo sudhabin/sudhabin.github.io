@@ -39,6 +39,7 @@ The **Puff manual** is available from the header when the PDF is beside the HTML
 
 - Puff 2.1 is by Scott W. Wedge, Richard C. Compton, David B. Rutledge, and Andreas Gerstlauer. Puff Web embeds the checksum-verified [original DOS release](https://www.gerstlauer.de/puff/).
 - The manual and circuit examples come from the supplied Linux Puff distribution. [Puff on Linux](https://www.pa3fwm.nl/software/puff/)
-- The emulator assets are from the `emulators` npm release 8.5.3. See `DOSBox-License.txt`. [Emulator source](https://github.com/js-dos/emulators/tree/e6f4e5449a5b17ae3ea0fdccfd453c8d299e9ea5) · [DOSBox-X source](https://github.com/js-dos/dosbox-x/tree/788fde99d3d451eab3621009186e5abe516f2b9c)
+- The emulator assets are from the `emulators` npm release 8.5.3. The bundled emulator components are distributed under GPLv2; see the [js-dos emulator source](https://github.com/js-dos/emulators/tree/e6f4e5449a5b17ae3ea0fdccfd453c8d299e9ea5) and [DOSBox-X source](https://github.com/js-dos/dosbox-x/tree/788fde99d3d451eab3621009186e5abe516f2b9c).
+- Puff's GPLv3 license text is in [`COPYING`](COPYING). Puff is free software and comes with no warranty; the full source is available from the [PA3FWM GPL release](https://www.pa3fwm.nl/software/puff/).
 
 

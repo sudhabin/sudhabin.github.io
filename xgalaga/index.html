@@ -20,6 +20,7 @@
         <button type="button" data-action="pause" title="Pause / resume (P)">PAUSE</button>
         <button type="button" data-action="mute" title="Mute sound (M)">SOUND</button>
         <button type="button" data-action="fullscreen" title="Fullscreen (F)">FULL</button>
+        <button type="button" data-action="credits" title="Credits and license">CREDITS</button>
       </div>
     </div>
   </main>
@@ -35,6 +36,35 @@
         <button type="button" id="score-skip">SKIP</button>
       </div>
     </form>
+  </div>
+
+  <div id="credits-modal" class="modal" hidden>
+    <div class="dialog credits-dialog" role="dialog" aria-modal="true" aria-labelledby="credits-title">
+      <p class="eyebrow">ABOUT &amp; LICENSE</p>
+      <h2 id="credits-title">XGalaga<small>++</small></h2>
+      <p class="credits-copy">
+        <strong>XGalaga++ 0.9</strong> is &copy; 2003&ndash;2017 <strong>Marc Mongenet</strong>.
+        This browser edition is an unofficial fan port of his X11 arcade shooter.
+      </p>
+      <p class="credits-copy">
+        The sprites and artwork come from <strong>XGalaga 2.0.34</strong>,
+        &copy; 1995, 1998 <strong>Joe Rumsey</strong>.
+      </p>
+      <p class="credits-copy">
+        This port is distributed under the <strong>GNU General Public License,
+        version 2</strong>, matching the original project's license. It comes with
+        no warranty; see the license for details.
+      </p>
+      <ul class="credits-list">
+        <li><a href="http://marc.mongenet.ch/OSS/XGalaga/" target="_blank" rel="noopener noreferrer">XGalaga++ project page</a></li>
+        <li><a href="COPYING" target="_blank">GNU GPL v2 &mdash; local copy</a></li>
+        <li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank" rel="noopener noreferrer">GNU GPL v2 &mdash; gnu.org</a></li>
+        <li><a href="README.md" target="_blank">README and source notes</a></li>
+      </ul>
+      <div class="dialog-actions">
+        <button type="button" id="credits-close">CLOSE</button>
+      </div>
+    </div>
   </div>
 
   <noscript>
