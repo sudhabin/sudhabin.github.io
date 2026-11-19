@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" width="680" height="360">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#336633" />
+      <stop offset="100%" stop-color="#254d25" />
+    </linearGradient>
+    <pattern id="millimeterGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e7decb" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+
+  <!-- Background in Sudhabin Theme (Warm Paper / Cream) -->
+  <rect width="100%" height="100%" fill="#fcfaf6" rx="10"/>
+  <rect width="100%" height="100%" fill="url(#millimeterGrid)" rx="10"/>
+  <rect width="100%" height="100%" fill="none" stroke="#cc9966" stroke-width="2" rx="10"/>
+  <rect x="4" y="4" width="672" height="352" fill="none" stroke="#996600" stroke-width="1" rx="8" opacity="0.6"/>
+
+  <!-- Theme Header Banner -->
+  <g transform="translate(20, 16)">
+    <rect x="0" y="0" width="640" height="44" rx="6" fill="url(#headerGrad)" stroke="#996600" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5">BALANCED H-PAD ATTENUATOR</text>
+    <text x="20" y="37" fill="#ecd9b8" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11">Balanced Differential Network (Audio XLR / Twin-lead RF)</text>
+    <rect x="530" y="10" width="120" height="24" rx="4" fill="#254d25" stroke="#cc9966" stroke-width="1"/>
+    <text x="590" y="26" fill="#fef3c7" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle">MICROWAVE CAD</text>
+  </g>
+
+  <!-- Schematic Drawing Area -->
+  
+  <line x1="80" y1="100" x2="160" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+  <path d="M 160 100 h 10 L 175.83333333333334 88 L 187.5 112 L 199.16666666666669 88 L 210.83333333333334 112 L 222.50000000000003 88 L 234.16666666666669 112 L 240 100 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="250" y1="100" x2="340" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+  <line x1="340" y1="100" x2="430" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+  <path d="M 430 100 h 10 L 445.8333333333333 88 L 457.5 112 L 469.16666666666663 88 L 480.8333333333333 112 L 492.49999999999994 88 L 504.16666666666663 112 L 510 100 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="520" y1="100" x2="600" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+
+  <line x1="340" y1="100" x2="340" y2="140" stroke="#1c1917" stroke-width="2.5"/>
+  <path d="M 340 140 v 10 L 327 155 L 353 165 L 327 175 L 353 185 L 327 195 L 353 205 L 340 210 v 10" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="340" y1="220" x2="340" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+
+  <line x1="80" y1="260" x2="160" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+  <path d="M 160 260 h 10 L 175.83333333333334 248 L 187.5 272 L 199.16666666666669 248 L 210.83333333333334 272 L 222.50000000000003 248 L 234.16666666666669 272 L 240 260 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="250" y1="260" x2="340" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+  <line x1="340" y1="260" x2="430" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+  <path d="M 430 260 h 10 L 445.8333333333333 248 L 457.5 272 L 469.16666666666663 248 L 480.8333333333333 272 L 492.49999999999994 248 L 504.16666666666663 272 L 510 260 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="520" y1="260" x2="600" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+
+  <circle cx="340" cy="100" r="4.5" fill="#336633"/>
+  <circle cx="340" cy="260" r="4.5" fill="#336633"/>
+
+  <text x="205" y="80" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R1 / 2</text>
+  <text x="475" y="80" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R2 / 2</text>
+  <text x="205" y="295" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R1 / 2</text>
+  <text x="475" y="295" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R2 / 2</text>
+
+  <g transform="translate(390, 180)">
+    <rect x="-5" y="-12" width="75" height="24" rx="4" fill="#ffffff" stroke="#15803d" stroke-width="1.5"/>
+    <text x="32" y="4" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">R3 (Shunt)</text>
+  </g>
+
+  
+    <circle cx="80" cy="100" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="52" y="88" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="end">IN (+)</text>
+    <text x="52" y="106" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="end"></text>
+  
+  
+    <circle cx="80" cy="260" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="52" y="248" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="end">IN (-)</text>
+    <text x="52" y="266" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="end"></text>
+  
+  
+    <circle cx="600" cy="100" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="628" y="88" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start">OUT (+)</text>
+    <text x="628" y="106" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="start"></text>
+  
+  
+    <circle cx="600" cy="260" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="628" y="248" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start">OUT (-)</text>
+    <text x="628" y="266" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="start"></text>
+  
+  
+
+  <!-- Footer Watermark / Status -->
+  <line x1="20" y1="336" x2="660" y2="336" stroke="#cc9966" stroke-width="0.8"/>
+  <text x="24" y="350" fill="#854d0e" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="600">SUDHABIN.GITHUB.IO • MICROWAVE PLANAR CIRCUITS</text>
+  <text x="656" y="350" fill="#78716c" font-family="monospace" font-size="10" text-anchor="end">ATTENUATOR DESIGNER SCHEMATIC</text>
+</svg>

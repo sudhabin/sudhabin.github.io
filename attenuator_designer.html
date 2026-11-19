@@ -1,0 +1,2207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attenuator Designer — Microwave Planar Circuits</title>
+  <meta name="Microsoft Theme" content="sudhabin 011, default">
+  <style>
+    :root {
+      /* Theme: sudhabin 011 / Microwave Planar Circuits */
+      --bg-body: #faf7f2;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f7f3ec;
+      --bg-card-hover: #f3ebe0;
+      --border-theme: #cc9966;
+      --border-theme-dark: #996600;
+      --border-subtle: #e6dac8;
+      --text-main: #1c1917;
+      --text-muted: #57534e;
+      --text-dim: #78716c;
+      --accent-green: #336633;
+      --accent-green-dark: #254d25;
+      --accent-green-light: #e8f0e8;
+      --accent-gold: #996600;
+      --accent-gold-light: #fef3c7;
+      --accent-maroon: #993333;
+      --accent-navy: #333399;
+      --font-theme: "Trebuchet MS", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --shadow-card: 0 2px 6px rgba(153, 102, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 4px 12px rgba(153, 102, 0, 0.15);
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 10px;
+    }
+
+    [data-theme="dark"] {
+      --bg-body: #0d121d;
+      --bg-card: #151d2d;
+      --bg-card-alt: #1c263b;
+      --bg-card-hover: #22304a;
+      --border-theme: #3d4f6e;
+      --border-theme-dark: #64748b;
+      --border-subtle: #25334c;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-dim: #94a3b8;
+      --accent-green: #22c55e;
+      --accent-green-dark: #16a34a;
+      --accent-green-light: rgba(34, 197, 94, 0.15);
+      --accent-gold: #f59e0b;
+      --accent-gold-light: rgba(245, 158, 11, 0.15);
+      --accent-maroon: #f87171;
+      --accent-navy: #60a5fa;
+      --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.4);
+      --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      background-image: url('_themes/sudhabin/nabkgnd.jpg');
+      background-repeat: repeat;
+      color: var(--text-main);
+      font-family: var(--font-theme);
+      line-height: 1.5;
+      padding: 16px 20px 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* BREADCRUMB & SITE TOP NAV */
+    .site-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-card);
+      font-size: 13px;
+    }
+
+    .site-breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .site-breadcrumbs a {
+      color: var(--accent-maroon);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .site-breadcrumbs a:hover {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
+
+    .site-breadcrumbs span.sep {
+      color: var(--border-theme-dark);
+    }
+
+    .site-quick-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn-chip {
+      background: var(--bg-card-alt);
+      color: var(--accent-green);
+      border: 1px solid var(--border-theme);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn-chip:hover {
+      background: var(--accent-green);
+      color: #ffffff;
+      border-color: var(--accent-green-dark);
+    }
+
+    /* THEME BANNER HEADER */
+    header.theme-header {
+      background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-green-dark) 100%);
+      border: 2px solid var(--border-theme-dark);
+      border-radius: var(--radius-md);
+      padding: 20px 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-titles h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-titles h1 span.badge {
+      background: var(--accent-gold);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid #ffd700;
+    }
+
+    .header-titles p {
+      color: #f7ede2;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button.btn-theme-action {
+      background: #fdfaf5;
+      color: var(--accent-green-dark);
+      border: 1px solid var(--border-theme-dark);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      font-family: var(--font-theme);
+    }
+
+    button.btn-theme-action:hover {
+      background: #ffffff;
+      color: var(--accent-gold);
+      border-color: #ffd700;
+      transform: translateY(-1px);
+    }
+
+    /* TOPOLOGY NAVIGATION TABS */
+    .topology-nav {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease-in-out;
+      white-space: nowrap;
+      user-select: none;
+      font-family: var(--font-theme);
+    }
+
+    .tab-btn:hover {
+      background: var(--bg-card-alt);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+
+    .tab-btn.active {
+      background: var(--accent-green);
+      border-color: var(--accent-green-dark);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(51, 102, 51, 0.35);
+    }
+
+    .tab-btn .tab-icon {
+      font-family: var(--font-mono);
+      background: rgba(0, 0, 0, 0.08);
+      color: inherit;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tab-btn.active .tab-icon {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+
+    /* MAIN GRID LAYOUT */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARD STYLING */
+    .theme-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-top: 3px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-green);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
+
+    .card-title .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      background: var(--accent-green-light);
+      color: var(--accent-green);
+      border: 1px solid var(--border-theme);
+    }
+
+    /* FORMS & INPUTS */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-label span.desc {
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border-theme);
+      color: #000000;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    [data-theme="dark"] input[type="number"], 
+    [data-theme="dark"] input[type="text"], 
+    [data-theme="dark"] select {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    input[type="number"]:focus, input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 3px rgba(51, 102, 51, 0.2);
+    }
+
+    .unit-addon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 12px;
+      font-family: var(--font-mono);
+      pointer-events: none;
+      font-weight: 600;
+    }
+
+    .slider-row {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--border-theme);
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      transition: transform 0.1s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: var(--accent-gold);
+    }
+
+    /* PRESET CHIPS */
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-theme);
+    }
+
+    .chip:hover {
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      background: #ffffff;
+    }
+
+    .chip.active {
+      background: var(--accent-green);
+      border-color: var(--accent-green-dark);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .chip.highlight {
+      border: 1.5px solid var(--accent-gold);
+      color: var(--accent-gold);
+      background: var(--accent-gold-light);
+      font-weight: 700;
+    }
+
+    .chip.highlight.active {
+      background: var(--accent-green);
+      border-color: var(--accent-gold);
+      color: #ffffff;
+    }
+
+    /* ASYMMETRIC ALERT BOX */
+    .alert-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid var(--accent-gold);
+      color: #92400e;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px;
+      margin-top: 14px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .alert-box.visible {
+      display: flex;
+    }
+
+    .alert-btn {
+      background: var(--accent-gold);
+      color: #ffffff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* SCHEMATIC DISPLAY AREA */
+    .schematic-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-top: 3px solid var(--accent-green);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .schematic-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
+
+    .schematic-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-toggle-group {
+      display: inline-flex;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+    }
+
+    .btn-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font-theme);
+    }
+
+    .btn-toggle.active {
+      background: var(--accent-green);
+      color: #ffffff;
+    }
+
+    .schematic-viewport {
+      background: #fcfaf6;
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      position: relative;
+      min-height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 12px;
+    }
+
+    [data-theme="dark"] .schematic-viewport {
+      background: #090e17;
+      border-color: #334155;
+    }
+
+    .schematic-viewport svg, .schematic-viewport img {
+      max-width: 100%;
+      height: auto;
+      max-height: 400px;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08));
+    }
+
+    /* METRICS BANNER */
+    .metrics-banner {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .metric-item {
+      text-align: center;
+    }
+
+    .metric-title {
+      font-size: 11px;
+      color: var(--accent-green);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    .metric-value {
+      font-size: 17px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--accent-green-dark);
+    }
+
+    [data-theme="dark"] .metric-value {
+      color: var(--accent-green);
+    }
+
+    .metric-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* COMPONENT CARDS */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .component-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      transition: all 0.15s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .component-card:hover {
+      border-color: var(--accent-green);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+      border-bottom: 1px dashed var(--border-subtle);
+      padding-bottom: 4px;
+    }
+
+    .comp-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent-green);
+      font-family: var(--font-mono);
+    }
+
+    .comp-role {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .comp-val-large {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .comp-val-exact {
+      font-size: 11px;
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .comp-stats-table {
+      width: 100%;
+      font-size: 12px;
+      border-collapse: collapse;
+    }
+
+    .comp-stats-table td {
+      padding: 3px 0;
+    }
+
+    .comp-stats-table td:first-child {
+      color: var(--text-muted);
+    }
+
+    .comp-stats-table td:last-child {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* RESISTOR COLOR CODE BANDS */
+    .color-code-bar {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .resistor-graphic {
+      width: 48px;
+      height: 13px;
+      background: #e2b788;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 0 4px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .band {
+      width: 4px;
+      height: 100%;
+    }
+
+    .color-names {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* COMPARISON TABLE */
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table.compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+      border: 1px solid var(--border-theme);
+    }
+
+    table.compare-table th, table.compare-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-theme);
+    }
+
+    table.compare-table th {
+      background: var(--accent-green);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    table.compare-table tr:nth-child(even) td {
+      background: var(--bg-card-alt);
+    }
+
+    table.compare-table tr:hover td {
+      background: var(--accent-gold-light);
+    }
+
+    table.compare-table td.mono {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--accent-green-dark);
+    }
+
+    /* RF ENGINEERING NOTES */
+    .rf-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .rf-guide-box {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-theme);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+
+    .rf-guide-box h4 {
+      font-size: 13px;
+      color: var(--accent-green);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rf-guide-box p, .rf-guide-box li {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .rf-guide-box ul {
+      padding-left: 18px;
+      margin-top: 4px;
+    }
+
+    /* FOOTER */
+    footer.site-footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border-theme);
+      color: var(--text-dim);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+    }
+
+    footer.site-footer a {
+      color: var(--accent-maroon);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer.site-footer a:hover {
+      color: var(--accent-green);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- SITE BREADCRUMB & NAV BAR -->
+  <div class="site-nav-bar">
+    <div class="site-breadcrumbs">
+      <a href="index.html">🏠 Home</a>
+      <span class="sep">&gt;</span>
+      <a href="microwave.htm">Microwave Planar Circuits</a>
+      <span class="sep">&gt;</span>
+      <span style="color: var(--text-main);">Attenuator Designer</span>
+    </div>
+    <div class="site-quick-links">
+      <a href="microwave.htm" class="nav-btn-chip">⬅ Back to Microwave Circuits</a>
+      <a href="index.html" class="nav-btn-chip">Home</a>
+      <a href="interest.htm" class="nav-btn-chip">Interests</a>
+    </div>
+  </div>
+
+  <!-- THEME BANNER HEADER -->
+  <header class="theme-header">
+    <div class="header-titles">
+      <h1>
+        <span>Attenuator Designer</span>
+        <span class="badge">Microwave CAD</span>
+      </h1>
+      <p>Precision T-Pad, Pi-Pad (π), Bridged-T &amp; Balanced RF Resistive Matching Networks</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-theme-action" id="btnCopyBom" title="Copy Bill of Materials to clipboard">
+        📋 Copy BOM
+      </button>
+      <button class="btn-theme-action" id="btnDownloadSvg" title="Save schematic diagram as SVG">
+        💾 Export SVG
+      </button>
+      <button class="btn-theme-action" id="themeToggle" title="Toggle Light / Dark Workbench Mode">
+        🌓 Theme
+      </button>
+    </div>
+  </header>
+
+  <!-- TOPOLOGY TABS -->
+  <nav class="topology-nav" id="topologyTabs">
+    <button class="tab-btn active" data-topo="T">
+      <span class="tab-icon">T</span>
+      <span>T-Pad (Tee)</span>
+    </button>
+    <button class="tab-btn" data-topo="PI">
+      <span class="tab-icon">π</span>
+      <span>Pi-Pad (π)</span>
+    </button>
+    <button class="tab-btn" data-topo="BRIDGED_T">
+      <span class="tab-icon">BT</span>
+      <span>Bridged-T</span>
+    </button>
+    <button class="tab-btn" data-topo="BALANCED_H">
+      <span class="tab-icon">H</span>
+      <span>Balanced H-Pad</span>
+    </button>
+    <button class="tab-btn" data-topo="BALANCED_O">
+      <span class="tab-icon">O</span>
+      <span>Balanced O-Pad (π)</span>
+    </button>
+    <button class="tab-btn" data-topo="COMPARE">
+      <span class="tab-icon">📊</span>
+      <span>Side-by-Side Comparison</span>
+    </button>
+  </nav>
+
+  <!-- MAIN INTERFACE GRID -->
+  <div class="main-grid" id="designerMainGrid">
+    <!-- LEFT COLUMN: CONTROLS & INPUTS -->
+    <div class="controls-column">
+      <div class="theme-card">
+        <div class="card-title">
+          <span>Design Specifications</span>
+          <span class="tag" id="currentTopoTag">T-PAD (TEE)</span>
+        </div>
+
+        <!-- ATTENUATION (dB) -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Attenuation (A)</span>
+            <span class="desc">Loss in Decibels</span>
+          </div>
+          <div class="input-row">
+            <div class="input-wrapper">
+              <input type="number" id="inputAttn" value="3.0" min="0.1" max="60.0" step="0.1" />
+              <span class="unit-addon">dB</span>
+            </div>
+          </div>
+          <div class="slider-row">
+            <input type="range" id="sliderAttn" value="3.0" min="0.5" max="40.0" step="0.5" />
+          </div>
+          <!-- Quick Presets -->
+          <div class="chip-container">
+            <button class="chip" data-set-attn="1.0">1 dB</button>
+            <button class="chip" data-set-attn="2.0">2 dB</button>
+            <button class="chip highlight active" data-set-attn="3.0" title="Prompt specification">★ 3 dB</button>
+            <button class="chip" data-set-attn="6.0">6 dB</button>
+            <button class="chip" data-set-attn="10.0">10 dB</button>
+            <button class="chip" data-set-attn="15.0">15 dB</button>
+            <button class="chip" data-set-attn="20.0">20 dB</button>
+            <button class="chip" data-set-attn="30.0">30 dB</button>
+          </div>
+        </div>
+
+        <!-- IMPEDANCES Zin & Zout -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Input Impedance (Zin)</span>
+            <span class="desc">Port 1 Source</span>
+          </div>
+          <div class="input-wrapper">
+            <input type="number" id="inputZin" value="50" min="1" max="10000" step="1" />
+            <span class="unit-addon">Ω</span>
+          </div>
+          <div class="chip-container">
+            <button class="chip active" data-set-zin="50">50 Ω (RF)</button>
+            <button class="chip" data-set-zin="75">75 Ω (Video/CATV)</button>
+            <button class="chip" data-set-zin="600">600 Ω (Audio)</button>
+            <button class="chip" data-set-zin="110">110 Ω (AES)</button>
+            <button class="chip" data-set-zin="300">300 Ω (Twin)</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <span>Output Impedance (Zout)</span>
+            <span class="desc">Port 2 Load</span>
+          </div>
+          <div class="input-wrapper">
+            <input type="number" id="inputZout" value="50" min="1" max="10000" step="1" />
+            <span class="unit-addon">Ω</span>
+          </div>
+          <div class="chip-container">
+            <button class="chip active" data-set-zout="50">50 Ω</button>
+            <button class="chip" data-set-zout="75">75 Ω</button>
+            <button class="chip" data-set-zout="600">600 Ω</button>
+            <button class="chip" id="btnLinkZ" title="Keep Zin and Zout equal">🔗 Match Zin</button>
+          </div>
+        </div>
+
+        <!-- MINIMUM LOSS ASYMMETRIC ALERT -->
+        <div class="alert-box" id="asymAlertBox">
+          <div id="asymAlertText">Note: For 50Ω to 75Ω, minimum passive loss is 5.72 dB.</div>
+          <button class="alert-btn" id="btnFixMinLoss">Set Min Loss</button>
+        </div>
+
+        <!-- RESISTOR STANDARD SERIES -->
+        <div class="form-group" style="margin-top: 14px;">
+          <div class="form-label">
+            <span>Standard Resistor Series</span>
+            <span class="desc">E-Series Tolerance</span>
+          </div>
+          <select id="selectSeries">
+            <option value="EXACT">Theoretical Exact (Decimal)</option>
+            <option value="E96" selected>E96 Series (1% Precision — Standard)</option>
+            <option value="E24">E24 Series (5% Standard Hobbyist)</option>
+            <option value="E12">E12 Series (10% General Purpose)</option>
+            <option value="E192">E192 Series (0.5% Ultra-Precision RF)</option>
+          </select>
+        </div>
+
+        <!-- INPUT POWER LEVEL -->
+        <div class="form-group">
+          <div class="form-label">
+            <span>Input Power Rating (Pin)</span>
+            <span class="desc">For Resistor Wattage</span>
+          </div>
+          <div class="input-row">
+            <div class="input-wrapper" style="flex: 2;">
+              <input type="number" id="inputPin" value="1.0" min="0.001" max="1000" step="0.1" />
+            </div>
+            <select id="selectPowerUnit" style="flex: 1;">
+              <option value="W" selected>Watts (W)</option>
+              <option value="mW">mW</option>
+              <option value="dBm">dBm</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: SCHEMATIC & BOM & RF METRICS -->
+    <div class="display-column">
+      <div class="schematic-card">
+        <div class="schematic-header">
+          <div class="card-title" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">
+            <span id="schematicTitle">T-Pad Attenuator Schematic</span>
+          </div>
+          <div class="schematic-controls">
+            <div class="btn-toggle-group">
+              <button class="btn-toggle active" id="btnModeLive" title="Live interactive schematic with dynamically calculated values">⚡ Live Dynamic</button>
+              <button class="btn-toggle" id="btnModeVector" title="Theme engineering vector diagram image">📐 Standard Image</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCHEMATIC VIEWPORT -->
+        <div class="schematic-viewport" id="schematicViewport">
+          <!-- Live dynamic SVG or Vector Image SVG -->
+        </div>
+
+        <!-- RF PERFORMANCE METRICS BANNER -->
+        <div class="metrics-banner" id="metricsBanner">
+          <div class="metric-item">
+            <div class="metric-title">Actual Loss</div>
+            <div class="metric-value" id="dispActualLoss">3.00 dB</div>
+            <div class="metric-sub" id="dispLossErr">Δ: 0.00 dB</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Input Return Loss</div>
+            <div class="metric-value" id="dispRLIn">&gt; 60 dB</div>
+            <div class="metric-sub" id="dispZinAct">Zin: 50.0 Ω</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Input VSWR</div>
+            <div class="metric-value" id="dispVSWR">1.00 : 1</div>
+            <div class="metric-sub">S11 Match: Ideal</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-title">Output Power</div>
+            <div class="metric-value" id="dispPout">0.50 W</div>
+            <div class="metric-sub" id="dispPoutDbm">+27.0 dBm</div>
+          </div>
+        </div>
+
+        <!-- COMPONENT BOM CARDS -->
+        <div class="results-grid" id="componentCardsContainer">
+          <!-- Dynamically populated component cards -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE SECTION -->
+  <div class="theme-card" id="comparisonSection" style="display: none; margin-top: 20px;">
+    <div class="card-title">
+      <span>Side-by-Side Topology Comparison for <span id="compParamLabel" style="color: var(--accent-gold);">3.0 dB @ 50 Ω</span></span>
+      <span class="tag">Comparative RF Analysis</span>
+    </div>
+    <div class="comparison-table-wrapper">
+      <table class="compare-table" id="topologyCompareTable">
+        <thead>
+          <tr>
+            <th>Topology</th>
+            <th>Resistor 1</th>
+            <th>Resistor 2</th>
+            <th>Resistor 3 / Bridge</th>
+            <th>Max Resistor Pwr</th>
+            <th>RF Microwave Suitability</th>
+            <th>Best Applications</th>
+          </tr>
+        </thead>
+        <tbody id="compareTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RF ENGINEERING DESIGN GUIDELINES -->
+  <div class="theme-card" style="margin-top: 20px;">
+    <div class="card-title">
+      <span>Planar Circuit Design Guidelines &amp; Practical Notes</span>
+      <span class="tag">Engineering Reference</span>
+    </div>
+    <div class="rf-guide-grid">
+      <div class="rf-guide-box">
+        <h4>⚡ T-Pad vs Pi-Pad (π): When to Use Which?</h4>
+        <p><strong>Low Attenuations (1 dB – 6 dB):</strong> T-pads often feature smaller series resistor values and manageable shunt values, minimizing series parasitic inductances. For a 3 dB 50Ω pad: T uses 8.55Ω series and 142Ω shunt; Pi uses 292Ω shunts and 17.6Ω series.</p>
+        <p style="margin-top: 6px;"><strong>High Attenuations (10 dB – 30 dB):</strong> Pi-pads are standard in planar microstrip circuits because the series resistor value is high (easier to prevent unwanted capacitive RF coupling) while shunts remain close to 50Ω–60Ω.</p>
+      </div>
+
+      <div class="rf-guide-box">
+        <h4>📡 RF &amp; Microwave Parasitic Considerations</h4>
+        <ul>
+          <li><strong>Resistor Choice:</strong> Use 0603 or 0805 thin-film SMD chip resistors for VHF/UHF/Microwave (>100 MHz). Avoid wirewound resistors due to massive inductance.</li>
+          <li><strong>Lead &amp; Via Inductance:</strong> Ground vias have ~0.5–1.0 nH inductance each. In Pi and T shunts, use multiple parallel ground vias directly to the microstrip ground plane.</li>
+          <li><strong>Parallel Capacitance:</strong> High-value series resistors have ~0.05–0.1 pF parallel end-cap capacitance, causing high-frequency attenuation roll-off.</li>
+        </ul>
+      </div>
+
+      <div class="rf-guide-box">
+        <h4>🔥 Power Dissipation &amp; Resistor Wattage</h4>
+        <p>In passive attenuators, the input resistors absorb the vast majority of the RF power. Always apply a <strong>2× safety derating factor</strong>:</p>
+        <ul>
+          <li>If dissipated power is 160 mW, choose a 0.5 W or 1 W rated resistor.</li>
+          <li>In RF transmitters, sudden reflections or VSWR mismatch can double the voltage across shunt components.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div>
+      <a href="microwave.htm">Microwave Planar Circuits</a> &bull;
+      <a href="index.html">Home</a> &bull;
+      <a href="interest.htm">Interests</a> &bull;
+      <a href="photo.htm">Photo Album</a>
+    </div>
+    <div>Attenuator Designer &bull; Suitable for <a href="https://sudhabin.github.io/microwave.htm">sudhabin.github.io</a></div>
+  </footer>
+</div>
+
+<script>
+/**
+ * RF & Audio Attenuator Designer Engine
+ * Integrated with sudhabin 011 Theme
+ */
+
+// Resistor Series Multipliers
+const E12_MULT = [1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2];
+const E24_MULT = [1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1];
+const E96_MULT = [
+  1.00, 1.02, 1.05, 1.07, 1.10, 1.13, 1.15, 1.18, 1.21, 1.24, 1.27, 1.30, 1.33, 1.37, 1.40, 1.43,
+  1.47, 1.50, 1.54, 1.58, 1.62, 1.65, 1.69, 1.74, 1.78, 1.82, 1.87, 1.91, 1.96, 2.00, 2.05, 2.10,
+  2.15, 2.21, 2.26, 2.32, 2.37, 2.43, 2.49, 2.55, 2.61, 2.67, 2.74, 2.80, 2.87, 2.94, 3.01, 3.09,
+  3.16, 3.24, 3.32, 3.40, 3.48, 3.57, 3.65, 3.74, 3.83, 3.92, 4.02, 4.12, 4.22, 4.32, 4.42, 4.53,
+  4.64, 4.75, 4.87, 4.99, 5.11, 5.23, 5.36, 5.49, 5.62, 5.76, 5.90, 6.04, 6.19, 6.34, 6.49, 6.65,
+  6.81, 6.98, 7.15, 7.32, 7.50, 7.68, 7.87, 8.06, 8.25, 8.45, 8.66, 8.87, 9.09, 9.31, 9.53, 9.76
+];
+const E192_MULT = (function() {
+  const vals = [];
+  for (let i = 0; i < 192; i++) {
+    vals.push(parseFloat(Math.pow(10, i / 192).toFixed(2)));
+  }
+  return vals;
+})();
+
+function buildPool(mults, minExp = -1, maxExp = 5) {
+  const pool = [];
+  for (let e = minExp; e <= maxExp; e++) {
+    const factor = Math.pow(10, e);
+    for (const m of mults) {
+      const v = Math.round(m * factor * 100) / 100;
+      if (!pool.includes(v)) pool.push(v);
+    }
+  }
+  return pool.sort((a, b) => a - b);
+}
+
+const E24_POOL = buildPool(E24_MULT);
+const E96_POOL = buildPool(E96_MULT);
+
+function findNearestStandard(val, seriesName) {
+  if (val <= 0 || !isFinite(val)) return 0;
+  if (seriesName === 'EXACT') return val;
+  let mults = E96_MULT;
+  if (seriesName === 'E12') mults = E12_MULT;
+  else if (seriesName === 'E24') mults = E24_MULT;
+  else if (seriesName === 'E192') mults = E192_MULT;
+
+  const exp = Math.floor(Math.log10(val));
+  let best = null;
+  let minDiff = Infinity;
+  for (let e = exp - 1; e <= exp + 1; e++) {
+    const factor = Math.pow(10, e);
+    for (const m of mults) {
+      const candidate = Math.round(m * factor * 100) / 100;
+      const diff = Math.abs(candidate - val);
+      if (diff < minDiff) {
+        minDiff = diff;
+        best = candidate;
+      }
+    }
+  }
+  return best;
+}
+
+function findDualCombination(target, pool = E24_POOL) {
+  let bestP = null;
+  let minPDiff = Infinity;
+  for (let i = 0; i < pool.length; i++) {
+    const r1 = pool[i];
+    if (r1 <= target) continue;
+    for (let j = i; j < pool.length; j++) {
+      const r2 = pool[j];
+      const eff = (r1 * r2) / (r1 + r2);
+      const diff = Math.abs(eff - target);
+      if (diff < minPDiff) {
+        minPDiff = diff;
+        bestP = { type: '∥', r1, r2, val: eff, errPct: (diff / target) * 100 };
+      }
+    }
+  }
+
+  let bestS = null;
+  let minSDiff = Infinity;
+  for (let i = 0; i < pool.length; i++) {
+    const r1 = pool[i];
+    if (r1 >= target) break;
+    for (let j = i; j < pool.length; j++) {
+      const r2 = pool[j];
+      const eff = r1 + r2;
+      const diff = Math.abs(eff - target);
+      if (diff < minSDiff) {
+        minSDiff = diff;
+        bestS = { type: '+', r1, r2, val: eff, errPct: (diff / target) * 100 };
+      }
+    }
+  }
+
+  if (bestP && bestS) {
+    return bestP.errPct <= bestS.errPct ? bestP : bestS;
+  }
+  return bestP || bestS;
+}
+
+const RES_COLORS = ['#0f172a', '#854d0e', '#dc2626', '#ea580c', '#ca8a04', '#16a34a', '#2563eb', '#9333ea', '#4b5563', '#f8fafc'];
+const RES_COLOR_NAMES = ['Blk', 'Brn', 'Red', 'Org', 'Yel', 'Grn', 'Blu', 'Vio', 'Gry', 'Whi'];
+
+function getResistorColorBands(val) {
+  if (val <= 0 || !isFinite(val)) return null;
+  const exp = Math.floor(Math.log10(val));
+  const normalized = val / Math.pow(10, exp - 2);
+  const rounded = Math.round(normalized);
+  const str = rounded.toString().padStart(3, '0');
+  const d1 = parseInt(str[0]) || 0;
+  const d2 = parseInt(str[1]) || 0;
+  const d3 = parseInt(str[2]) || 0;
+  const multExp = exp - 2;
+
+  let multColor = '#e2e8f0';
+  let multName = 'Silv';
+  if (multExp === -2) { multColor = '#cbd5e1'; multName = 'Silv'; }
+  else if (multExp === -1) { multColor = '#eab308'; multName = 'Gold'; }
+  else if (multExp >= 0 && multExp <= 9) { multColor = RES_COLORS[multExp]; multName = RES_COLOR_NAMES[multExp]; }
+
+  return {
+    bands: [
+      { color: RES_COLORS[d1], name: RES_COLOR_NAMES[d1] },
+      { color: RES_COLORS[d2], name: RES_COLOR_NAMES[d2] },
+      { color: RES_COLORS[d3], name: RES_COLOR_NAMES[d3] },
+      { color: multColor, name: multName },
+      { color: '#854d0e', name: '1%' }
+    ]
+  };
+}
+
+// Global Application State
+const state = {
+  topo: 'T',
+  viewMode: 'live',
+  A: 3.0,
+  Zin: 50.0,
+  Zout: 50.0,
+  series: 'E96',
+  PinWatts: 1.0,
+  powerUnit: 'W'
+};
+
+// DOM References
+const inputAttn = document.getElementById('inputAttn');
+const sliderAttn = document.getElementById('sliderAttn');
+const inputZin = document.getElementById('inputZin');
+const inputZout = document.getElementById('inputZout');
+const selectSeries = document.getElementById('selectSeries');
+const inputPin = document.getElementById('inputPin');
+const selectPowerUnit = document.getElementById('selectPowerUnit');
+const schematicViewport = document.getElementById('schematicViewport');
+const schematicTitle = document.getElementById('schematicTitle');
+const currentTopoTag = document.getElementById('currentTopoTag');
+const asymAlertBox = document.getElementById('asymAlertBox');
+const asymAlertText = document.getElementById('asymAlertText');
+const btnFixMinLoss = document.getElementById('btnFixMinLoss');
+const btnLinkZ = document.getElementById('btnLinkZ');
+const btnModeLive = document.getElementById('btnModeLive');
+const btnModeVector = document.getElementById('btnModeVector');
+const componentCardsContainer = document.getElementById('componentCardsContainer');
+const comparisonSection = document.getElementById('comparisonSection');
+const designerMainGrid = document.getElementById('designerMainGrid');
+const compareTableBody = document.getElementById('compareTableBody');
+const compParamLabel = document.getElementById('compParamLabel');
+
+const dispActualLoss = document.getElementById('dispActualLoss');
+const dispLossErr = document.getElementById('dispLossErr');
+const dispRLIn = document.getElementById('dispRLIn');
+const dispZinAct = document.getElementById('dispZinAct');
+const dispVSWR = document.getElementById('dispVSWR');
+const dispPout = document.getElementById('dispPout');
+const dispPoutDbm = document.getElementById('dispPoutDbm');
+
+const SVG_FILES = {
+  T: 't_attenuator_schematic.svg',
+  PI: 'pi_attenuator_schematic.svg',
+  BRIDGED_T: 'bridged_t_schematic.svg',
+  BALANCED_H: 'balanced_h_schematic.svg',
+  BALANCED_O: 'o_pad_schematic.svg'
+};
+
+function calcMinLoss(Z1, Z2) {
+  if (Math.abs(Z1 - Z2) < 0.001) return 0;
+  const Zh = Math.max(Z1, Z2);
+  const Zl = Math.min(Z1, Z2);
+  const r = Zh / Zl;
+  const kMin = 2 * r - 1 + 2 * Math.sqrt(r * (r - 1));
+  return 10 * Math.log10(kMin);
+}
+
+function solveAttenuator(topo, A_dB, Z1, Z2, seriesName, PinW) {
+  const K = Math.pow(10, A_dB / 20);
+  const k = Math.pow(10, A_dB / 10);
+  const minLoss = calcMinLoss(Z1, Z2);
+  const isAsym = Math.abs(Z1 - Z2) > 0.001;
+  const isLossTooLow = isAsym && (A_dB < minLoss - 0.01);
+
+  const res = {
+    topo,
+    A_req: A_dB,
+    Z1,
+    Z2,
+    minLoss,
+    isAsym,
+    isLossTooLow,
+    components: [],
+    A_actual: A_dB,
+    RL_in: 99.9,
+    VSWR_in: 1.0,
+    Zin_actual: Z1,
+    Zout_actual: Z2,
+    PoutW: PinW / k
+  };
+
+  if (topo === 'T') {
+    let R1_ideal, R2_ideal, R3_ideal;
+    if (!isAsym) {
+      R1_ideal = Z1 * (K - 1) / (K + 1);
+      R2_ideal = R1_ideal;
+      R3_ideal = Z1 * (2 * K) / (K * K - 1);
+    } else {
+      R3_ideal = (2 * K * Math.sqrt(Z1 * Z2)) / (K * K - 1);
+      R1_ideal = Z1 * ((K * K + 1) / (K * K - 1)) - R3_ideal;
+      R2_ideal = Z2 * ((K * K + 1) / (K * K - 1)) - R3_ideal;
+    }
+
+    const R1_std = findNearestStandard(Math.max(0, R1_ideal), seriesName);
+    const R2_std = findNearestStandard(Math.max(0, R2_ideal), seriesName);
+    const R3_std = findNearestStandard(Math.max(0, R3_ideal), seriesName);
+
+    const Zin_act = R1_std + (R3_std * (R2_std + Z2)) / (R3_std + R2_std + Z2);
+    const Zout_act = R2_std + (R3_std * (R1_std + Z1)) / (R3_std + R1_std + Z1);
+    const Vs = 2 * Math.sqrt(PinW * Z1);
+    const V1 = Vs * Zin_act / (Z1 + Zin_act);
+    const I1 = V1 / Zin_act;
+    const P_R1 = Math.pow(I1, 2) * R1_std;
+    const Vj = V1 - I1 * R1_std;
+    const P_R3 = Math.pow(Vj, 2) / (R3_std || 1);
+    const I2 = Vj / (R2_std + Z2);
+    const P_R2 = Math.pow(I2, 2) * R2_std;
+    const VL = I2 * Z2;
+    const P_out = Math.pow(VL, 2) / Z2;
+    const Pav = PinW;
+    const A_act = 10 * Math.log10(Math.max(0.00001, Pav / P_out));
+    const Gamma_in = Math.abs((Zin_act - Z1) / (Zin_act + Z1));
+    const RL = Gamma_in < 1e-5 ? 99.9 : -20 * Math.log10(Gamma_in);
+    const VSWR = (1 + Gamma_in) / Math.max(0.00001, 1 - Gamma_in);
+
+    res.A_actual = A_act;
+    res.RL_in = RL;
+    res.VSWR_in = VSWR;
+    res.Zin_actual = Zin_act;
+    res.Zout_actual = Zout_act;
+    res.PoutW = P_out;
+
+    res.components = [
+      buildCompObj('R1', 'Series (Input)', R1_ideal, R1_std, P_R1, PinW),
+      buildCompObj('R2', 'Series (Output)', R2_ideal, R2_std, P_R2, PinW),
+      buildCompObj('R3', 'Shunt to GND', R3_ideal, R3_std, P_R3, PinW)
+    ];
+  } else if (topo === 'PI') {
+    let R1_ideal, R2_ideal, R3_ideal;
+    if (!isAsym) {
+      R1_ideal = Z1 * (K + 1) / (K - 1);
+      R2_ideal = R1_ideal;
+      R3_ideal = Z1 * (K * K - 1) / (2 * K);
+    } else {
+      R3_ideal = Math.sqrt(Z1 * Z2) * (K * K - 1) / (2 * K);
+      const G1 = ((K * K + 1) / Z1 - (2 * K) / Math.sqrt(Z1 * Z2)) / (K * K - 1);
+      const G2 = ((K * K + 1) / Z2 - (2 * K) / Math.sqrt(Z1 * Z2)) / (K * K - 1);
+      R1_ideal = G1 > 0 ? 1 / G1 : 1e9;
+      R2_ideal = G2 > 0 ? 1 / G2 : 1e9;
+    }
+
+    const R1_std = findNearestStandard(R1_ideal, seriesName);
+    const R2_std = findNearestStandard(R2_ideal, seriesName);
+    const R3_std = findNearestStandard(R3_ideal, seriesName);
+
+    const R2L = (R2_std * Z2) / (R2_std + Z2);
+    const Rser = R3_std + R2L;
+    const Zin_act = (R1_std * Rser) / (R1_std + Rser);
+    const R1S = (R1_std * Z1) / (R1_std + Z1);
+    const Zout_act = (R2_std * (R3_std + R1S)) / (R2_std + R3_std + R1S);
+
+    const Vs = 2 * Math.sqrt(PinW * Z1);
+    const V1 = Vs * Zin_act / (Z1 + Zin_act);
+    const P_R1 = Math.pow(V1, 2) / (R1_std || 1);
+    const VL = V1 * (R2L / (R3_std + R2L));
+    const P_R3 = Math.pow(V1 - VL, 2) / (R3_std || 1);
+    const P_R2 = Math.pow(VL, 2) / (R2_std || 1);
+    const P_out = Math.pow(VL, 2) / Z2;
+    const Pav = PinW;
+    const A_act = 10 * Math.log10(Math.max(0.00001, Pav / P_out));
+    const Gamma_in = Math.abs((Zin_act - Z1) / (Zin_act + Z1));
+    const RL = Gamma_in < 1e-5 ? 99.9 : -20 * Math.log10(Gamma_in);
+    const VSWR = (1 + Gamma_in) / Math.max(0.00001, 1 - Gamma_in);
+
+    res.A_actual = A_act;
+    res.RL_in = RL;
+    res.VSWR_in = VSWR;
+    res.Zin_actual = Zin_act;
+    res.Zout_actual = Zout_act;
+    res.PoutW = P_out;
+
+    res.components = [
+      buildCompObj('R1', 'Shunt (Input)', R1_ideal, R1_std, P_R1, PinW),
+      buildCompObj('R3', 'Series Bridge', R3_ideal, R3_std, P_R3, PinW),
+      buildCompObj('R2', 'Shunt (Output)', R2_ideal, R2_std, P_R2, PinW)
+    ];
+  } else if (topo === 'BRIDGED_T') {
+    const R0 = Z1;
+    const R_bridge_ideal = Z1 * (K - 1);
+    const R_shunt_ideal = Z1 / (K - 1);
+
+    const R_bridge_std = findNearestStandard(R_bridge_ideal, seriesName);
+    const R_shunt_std = findNearestStandard(R_shunt_ideal, seriesName);
+    const R0_std = findNearestStandard(R0, seriesName);
+
+    const P_bridge = PinW * Math.pow((K - 1) / (K + 1), 2) * 0.5;
+    const P_shunt = PinW * Math.pow(2 / (K + 1), 2) * 0.5;
+    const P_series = PinW * 0.25;
+
+    res.A_actual = A_dB;
+    res.RL_in = 99.9;
+    res.VSWR_in = 1.0;
+    res.Zin_actual = Z1;
+    res.Zout_actual = Z2;
+    res.PoutW = PinW / k;
+
+    res.components = [
+      buildCompObj('R_bridge', 'Bridge Path (R4)', R_bridge_ideal, R_bridge_std, P_bridge, PinW),
+      buildCompObj('R_shunt', 'Shunt to GND (R3)', R_shunt_ideal, R_shunt_std, P_shunt, PinW),
+      buildCompObj('R0 (x2)', 'Fixed Series Pair', R0, R0_std, P_series, PinW)
+    ];
+  } else if (topo === 'BALANCED_H') {
+    const R1_half_ideal = (Z1 * (K - 1) / (K + 1)) / 2;
+    const R2_half_ideal = R1_half_ideal;
+    const R3_ideal = Z1 * (2 * K) / (K * K - 1);
+
+    const R1_half_std = findNearestStandard(R1_half_ideal, seriesName);
+    const R2_half_std = findNearestStandard(R2_half_ideal, seriesName);
+    const R3_std = findNearestStandard(R3_ideal, seriesName);
+
+    const P_total_ser = PinW * 0.3;
+    const P_shunt = PinW * 0.4;
+
+    res.A_actual = A_dB;
+    res.RL_in = 99.9;
+    res.VSWR_in = 1.0;
+    res.Zin_actual = Z1;
+    res.Zout_actual = Z2;
+    res.PoutW = PinW / k;
+
+    res.components = [
+      buildCompObj('R1/2 (x2)', 'Input Differential Series', R1_half_ideal, R1_half_std, P_total_ser / 2, PinW),
+      buildCompObj('R2/2 (x2)', 'Output Differential Series', R2_half_ideal, R2_half_std, P_total_ser / 2, PinW),
+      buildCompObj('R3', 'Center Shunt Resistor', R3_ideal, R3_std, P_shunt, PinW)
+    ];
+  } else if (topo === 'BALANCED_O') {
+    const R1_ideal = Z1 * (K + 1) / (K - 1);
+    const R2_ideal = R1_ideal;
+    const R3_half_ideal = (Z1 * (K * K - 1) / (2 * K)) / 2;
+
+    const R1_std = findNearestStandard(R1_ideal, seriesName);
+    const R3_half_std = findNearestStandard(R3_half_ideal, seriesName);
+
+    res.A_actual = A_dB;
+    res.RL_in = 99.9;
+    res.VSWR_in = 1.0;
+    res.Zin_actual = Z1;
+    res.Zout_actual = Z2;
+    res.PoutW = PinW / k;
+
+    res.components = [
+      buildCompObj('R1', 'Input Shunt Across ±', R1_ideal, R1_std, PinW * 0.25, PinW),
+      buildCompObj('R3/2 (x2)', 'Top & Bottom Series', R3_half_ideal, R3_half_std, PinW * 0.15, PinW),
+      buildCompObj('R2', 'Output Shunt Across ±', R2_ideal, R1_std, PinW * 0.15, PinW)
+    ];
+  }
+
+  return res;
+}
+
+function buildCompObj(name, role, ideal, std, powerW, totalPinW) {
+  const errPct = ideal > 0 ? (Math.abs(std - ideal) / ideal) * 100 : 0;
+  const pwrPct = totalPinW > 0 ? (powerW / totalPinW) * 100 : 0;
+  const ratingNeeded = powerW * 2;
+  let recRating = '1/8 W (0.125W)';
+  if (ratingNeeded > 5) recRating = Math.ceil(ratingNeeded) + ' W High-Pwr';
+  else if (ratingNeeded > 2) recRating = '5 W Cement/Metal';
+  else if (ratingNeeded > 1) recRating = '2 W Power Resistor';
+  else if (ratingNeeded > 0.5) recRating = '1 W Resistor';
+  else if (ratingNeeded > 0.25) recRating = '1/2 W (0.5W)';
+  else if (ratingNeeded > 0.125) recRating = '1/4 W (0.25W)';
+
+  const colors = getResistorColorBands(std);
+  const dual = findDualCombination(ideal);
+
+  return {
+    name,
+    role,
+    ideal,
+    std,
+    errPct,
+    powerW,
+    pwrPct,
+    recRating,
+    colors,
+    dual
+  };
+}
+
+// Generate Theme CAD Live SVG Schematic
+function renderLiveSvg(calcData) {
+  const { topo, components, Zin, Zout, A_req } = calcData;
+  const cMap = {};
+  components.forEach(c => { cMap[c.name] = c; });
+
+  const w = 680;
+  const h = 360;
+
+  function hRes(x1, y1, len = 70, h = 12, cycles = 3) {
+    const lead = 10;
+    const bodyLen = len - 2 * lead;
+    const numPeaks = cycles * 2;
+    const dx = bodyLen / numPeaks;
+    let d = `M ${x1} ${y1} h ${lead}`;
+    let curX = x1 + lead;
+    for (let i = 0; i < cycles; i++) {
+      d += ` L ${curX + dx * 0.5} ${y1 - h} L ${curX + dx * 1.5} ${y1 + h}`;
+      curX += dx * 2;
+    }
+    d += ` L ${x1 + len - lead} ${y1} h ${lead}`;
+    return d;
+  }
+
+  function vRes(x1, y1, len = 70, w = 12, cycles = 3) {
+    const lead = 10;
+    const bodyLen = len - 2 * lead;
+    const numPeaks = cycles * 2;
+    const dy = bodyLen / numPeaks;
+    let d = `M ${x1} ${y1} v ${lead}`;
+    let curY = y1 + lead;
+    for (let i = 0; i < cycles; i++) {
+      d += ` L ${x1 - w} ${curY + dy * 0.5} L ${x1 + w} ${curY + dy * 1.5}`;
+      curY += dy * 2;
+    }
+    d += ` L ${x1} ${y1 + len - lead} v ${lead}`;
+    return d;
+  }
+
+  function gnd(x, y) {
+    return `
+      <line x1="${x}" y1="${y}" x2="${x}" y2="${y + 14}" stroke="#78716c" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="${x - 14}" y1="${y + 14}" x2="${x + 14}" y2="${y + 14}" stroke="#78716c" stroke-width="3" stroke-linecap="round"/>
+      <line x1="${x - 9}" y1="${y + 19}" x2="${x + 9}" y2="${y + 19}" stroke="#78716c" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="${x - 4}" y1="${y + 24}" x2="${x + 4}" y2="${y + 24}" stroke="#78716c" stroke-width="2" stroke-linecap="round"/>
+    `;
+  }
+
+  function port(x, y, name, zLabel, dir = 1) {
+    const off = dir * 26;
+    return `
+      <circle cx="${x}" cy="${y}" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+      <text x="${x + off}" y="${y - 10}" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="${dir > 0 ? 'start' : 'end'}">${name}</text>
+      <text x="${x + off}" y="${y + 7}" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="${dir > 0 ? 'start' : 'end'}">${zLabel}</text>
+    `;
+  }
+
+  let circuitMarkup = '';
+
+  if (topo === 'T') {
+    const r1 = cMap['R1'] || { std: 8.55, ideal: 8.55, powerW: 0.16 };
+    const r2 = cMap['R2'] || { std: 8.55, ideal: 8.55, powerW: 0.16 };
+    const r3 = cMap['R3'] || { std: 143, ideal: 141.9, powerW: 0.25 };
+
+    circuitMarkup = `
+      <!-- Ground line -->
+      <line x1="80" y1="280" x2="600" y2="280" stroke="#78716c" stroke-width="2.5"/>
+      ${gnd(340, 280)}
+
+      <!-- Signal Wires -->
+      <line x1="80" y1="130" x2="160" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(160, 130, 90, 13, 3)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="250" y1="130" x2="430" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(430, 130, 90, 13, 3)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="520" y1="130" x2="600" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+
+      <!-- Shunt Wire -->
+      <line x1="340" y1="130" x2="340" y2="165" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${vRes(340, 165, 80, 13, 3)}" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="340" y1="245" x2="340" y2="280" stroke="#1c1917" stroke-width="2.5"/>
+
+      <circle cx="340" cy="130" r="4.5" fill="#336633"/>
+      <circle cx="340" cy="280" r="4.5" fill="#336633"/>
+
+      <!-- Live Calculated Labels -->
+      <g transform="translate(205, 90)">
+        <rect x="-55" y="-28" width="110" height="38" rx="5" fill="#ffffff" stroke="#b45309" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="0" y="-12" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R1: ${r1.std} Ω</text>
+        <text x="0" y="3" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r1.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="205" y="165" fill="#b45309" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="middle">P: ${r1.powerW.toFixed(2)} W</text>
+
+      <g transform="translate(475, 90)">
+        <rect x="-55" y="-28" width="110" height="38" rx="5" fill="#ffffff" stroke="#b45309" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="0" y="-12" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R2: ${r2.std} Ω</text>
+        <text x="0" y="3" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r2.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="475" y="165" fill="#b45309" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="middle">P: ${r2.powerW.toFixed(2)} W</text>
+
+      <g transform="translate(410, 205)">
+        <rect x="-8" y="-20" width="120" height="42" rx="5" fill="#ffffff" stroke="#15803d" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="52" y="-3" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R3: ${r3.std} Ω</text>
+        <text x="52" y="12" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r3.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="290" y="210" fill="#15803d" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="end">P: ${r3.powerW.toFixed(2)} W</text>
+
+      ${port(80, 130, 'IN (Port 1)', `${Zin} Ω`, -1)}
+      ${port(600, 130, 'OUT (Port 2)', `${Zout} Ω`, 1)}
+    `;
+  } else if (topo === 'PI') {
+    const r1 = cMap['R1'] || { std: 294, ideal: 292.4, powerW: 0.17 };
+    const r3 = cMap['R3'] || { std: 17.8, ideal: 17.6, powerW: 0.35 };
+    const r2 = cMap['R2'] || { std: 294, ideal: 292.4, powerW: 0.17 };
+
+    circuitMarkup = `
+      <line x1="80" y1="280" x2="600" y2="280" stroke="#78716c" stroke-width="2.5"/>
+      ${gnd(200, 280)}
+      ${gnd(480, 280)}
+
+      <line x1="80" y1="130" x2="275" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(275, 130, 130, 14, 4)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="405" y1="130" x2="600" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+
+      <line x1="200" y1="130" x2="200" y2="165" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${vRes(200, 165, 80, 13, 3)}" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="200" y1="245" x2="200" y2="280" stroke="#1c1917" stroke-width="2.5"/>
+
+      <line x1="480" y1="130" x2="480" y2="165" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${vRes(480, 165, 80, 13, 3)}" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="480" y1="245" x2="480" y2="280" stroke="#1c1917" stroke-width="2.5"/>
+
+      <circle cx="200" cy="130" r="4.5" fill="#336633"/>
+      <circle cx="480" cy="130" r="4.5" fill="#336633"/>
+
+      <!-- R3 Series Bridge -->
+      <g transform="translate(340, 90)">
+        <rect x="-60" y="-28" width="120" height="38" rx="5" fill="#ffffff" stroke="#b45309" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="0" y="-12" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R3: ${r3.std} Ω</text>
+        <text x="0" y="3" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r3.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="340" y="165" fill="#b45309" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="middle">P: ${r3.powerW.toFixed(2)} W</text>
+
+      <!-- R1 Shunt -->
+      <g transform="translate(130, 205)">
+        <rect x="-55" y="-20" width="110" height="42" rx="5" fill="#ffffff" stroke="#15803d" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="0" y="-3" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R1: ${r1.std} Ω</text>
+        <text x="0" y="12" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r1.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="215" y="210" fill="#15803d" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="start">P: ${r1.powerW.toFixed(2)} W</text>
+
+      <!-- R2 Shunt -->
+      <g transform="translate(550, 205)">
+        <rect x="-55" y="-20" width="110" height="42" rx="5" fill="#ffffff" stroke="#15803d" stroke-width="1.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"/>
+        <text x="0" y="-3" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R2: ${r2.std} Ω</text>
+        <text x="0" y="12" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${r2.ideal.toFixed(2)} Ω</text>
+      </g>
+      <text x="465" y="210" fill="#15803d" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="700" text-anchor="end">P: ${r2.powerW.toFixed(2)} W</text>
+
+      ${port(80, 130, 'IN (Port 1)', `${Zin} Ω`, -1)}
+      ${port(600, 130, 'OUT (Port 2)', `${Zout} Ω`, 1)}
+    `;
+  } else if (topo === 'BRIDGED_T') {
+    const rB = cMap['R_bridge'] || { std: 20.5, ideal: 20.6 };
+    const rS = cMap['R_shunt'] || { std: 121, ideal: 121.3 };
+    const r0 = cMap['R0 (x2)'] || { std: 50, ideal: 50 };
+
+    circuitMarkup = `
+      <line x1="80" y1="280" x2="600" y2="280" stroke="#78716c" stroke-width="2.5"/>
+      ${gnd(340, 280)}
+
+      <!-- Bridge Wire -->
+      <line x1="160" y1="150" x2="160" y2="90" stroke="#333399" stroke-width="2.5"/>
+      <line x1="160" y1="90" x2="275" y2="90" stroke="#333399" stroke-width="2.5"/>
+      <path d="${hRes(275, 90, 130, 13, 4)}" fill="none" stroke="#333399" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="405" y1="90" x2="520" y2="90" stroke="#333399" stroke-width="2.5"/>
+      <line x1="520" y1="90" x2="520" y2="150" stroke="#333399" stroke-width="2.5"/>
+
+      <g transform="translate(340, 56)">
+        <rect x="-65" y="-18" width="130" height="34" rx="5" fill="#ffffff" stroke="#333399" stroke-width="1.5"/>
+        <text x="0" y="-3" fill="#1e1b4b" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R_bridge: ${rB.std} Ω</text>
+        <text x="0" y="10" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${rB.ideal.toFixed(2)} Ω</text>
+      </g>
+
+      <!-- Main Path -->
+      <line x1="80" y1="150" x2="200" y2="150" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(200, 150, 80, 12, 3)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="280" y1="150" x2="400" y2="150" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(400, 150, 80, 12, 3)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="480" y1="150" x2="600" y2="150" stroke="#1c1917" stroke-width="2.5"/>
+
+      <text x="240" y="180" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">R0 = ${r0.std} Ω</text>
+      <text x="440" y="180" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">R0 = ${r0.std} Ω</text>
+
+      <!-- Shunt -->
+      <line x1="340" y1="150" x2="340" y2="185" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${vRes(340, 185, 65, 12, 3)}" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="340" y1="250" x2="340" y2="280" stroke="#1c1917" stroke-width="2.5"/>
+
+      <g transform="translate(415, 220)">
+        <rect x="-8" y="-18" width="120" height="34" rx="5" fill="#ffffff" stroke="#15803d" stroke-width="1.5"/>
+        <text x="52" y="-3" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R_shunt: ${rS.std} Ω</text>
+        <text x="52" y="10" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="10" font-weight="600" text-anchor="middle">Ideal: ${rS.ideal.toFixed(2)} Ω</text>
+      </g>
+
+      ${port(80, 150, 'IN', `${Zin} Ω`, -1)}
+      ${port(600, 150, 'OUT', `${Zout} Ω`, 1)}
+    `;
+  } else {
+    const comp1 = components[0] || { std: 4.28, ideal: 4.28 };
+    const comp2 = components[1] || { std: 142, ideal: 141.9 };
+
+    circuitMarkup = `
+      <line x1="80" y1="100" x2="275" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(275, 100, 130, 12, 4)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="405" y1="100" x2="600" y2="100" stroke="#1c1917" stroke-width="2.5"/>
+
+      <line x1="80" y1="260" x2="275" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${hRes(275, 260, 130, 12, 4)}" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="405" y1="260" x2="600" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+
+      <line x1="340" y1="100" x2="340" y2="140" stroke="#1c1917" stroke-width="2.5"/>
+      <path d="${vRes(340, 140, 80, 13, 3)}" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="340" y1="220" x2="340" y2="260" stroke="#1c1917" stroke-width="2.5"/>
+
+      <g transform="translate(340, 68)">
+        <rect x="-55" y="-16" width="110" height="30" rx="4" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+        <text x="0" y="4" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">${comp1.name}: ${comp1.std} Ω</text>
+      </g>
+      <g transform="translate(410, 180)">
+        <rect x="-8" y="-16" width="110" height="30" rx="4" fill="#ffffff" stroke="#15803d" stroke-width="1.5"/>
+        <text x="47" y="4" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R_shunt: ${comp2.std} Ω</text>
+      </g>
+
+      ${port(80, 100, 'IN (+)', '', -1)}
+      ${port(80, 260, 'IN (-)', '', -1)}
+      ${port(600, 100, 'OUT (+)', '', 1)}
+      ${port(600, 260, 'OUT (-)', '', 1)}
+    `;
+  }
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="100%" height="100%" id="activeLiveSvg">
+      <defs>
+        <pattern id="millimeterGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#eedec8" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="#fcfaf6" rx="6"/>
+      <rect width="100%" height="100%" fill="url(#millimeterGrid)" rx="6"/>
+      <rect width="100%" height="100%" fill="none" stroke="#cc9966" stroke-width="1.5" rx="6"/>
+
+      <!-- Top Title Tag -->
+      <g transform="translate(16, 14)">
+        <rect x="0" y="0" width="${w - 32}" height="32" rx="4" fill="#336633" stroke="#254d25" stroke-width="1"/>
+        <circle cx="16" cy="16" r="4" fill="#ffd700"/>
+        <text x="28" y="20" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700">${topo}-PAD ATTENUATOR: ${A_req} dB @ ${Zin} Ω</text>
+        <text x="${w - 48}" y="20" fill="#ecd9b8" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="end">LIVE INTERACTIVE SCHEMATIC</text>
+      </g>
+
+      ${circuitMarkup}
+    </svg>
+  `;
+}
+
+// Update UI
+function updateUI() {
+  const calcData = solveAttenuator(state.topo, state.A, state.Zin, state.Zout, state.series, state.PinWatts);
+
+  const topoNames = {
+    T: 'T-PAD (TEE)',
+    PI: 'PI-PAD (π)',
+    BRIDGED_T: 'BRIDGED-T',
+    BALANCED_H: 'BALANCED H-PAD',
+    BALANCED_O: 'BALANCED O-PAD'
+  };
+  currentTopoTag.textContent = topoNames[state.topo] || state.topo;
+  schematicTitle.textContent = `${topoNames[state.topo] || state.topo} Circuit Schematic`;
+
+  if (calcData.isAsym) {
+    asymAlertBox.classList.add('visible');
+    if (calcData.isLossTooLow) {
+      asymAlertText.innerHTML = `⚠️ <strong>Loss Too Low:</strong> Minimum passive attenuation for ${state.Zin}Ω to ${state.Zout}Ω is <strong>${calcData.minLoss.toFixed(2)} dB</strong> (entered: ${state.A} dB). Lower loss requires negative resistance.`;
+      btnFixMinLoss.style.display = 'inline-block';
+    } else {
+      asymAlertText.innerHTML = `ℹ️ <strong>Asymmetrical Matching:</strong> ${state.Zin}Ω to ${state.Zout}Ω. (Theoretical minimum loss is ${calcData.minLoss.toFixed(2)} dB).`;
+      btnFixMinLoss.style.display = 'none';
+    }
+  } else {
+    asymAlertBox.classList.remove('visible');
+  }
+
+  // Viewport Rendering
+  if (state.viewMode === 'live') {
+    schematicViewport.innerHTML = renderLiveSvg(calcData);
+  } else {
+    const svgFile = SVG_FILES[state.topo] || 't_attenuator_schematic.svg';
+    schematicViewport.innerHTML = `<img src="${svgFile}" alt="${state.topo} Attenuator Engineering Schematic" />`;
+  }
+
+  // RF Performance Banner
+  dispActualLoss.textContent = `${calcData.A_actual.toFixed(2)} dB`;
+  const errLoss = calcData.A_actual - state.A;
+  dispLossErr.textContent = `Δ: ${errLoss >= 0 ? '+' : ''}${errLoss.toFixed(2)} dB`;
+  dispRLIn.textContent = calcData.RL_in > 60 ? '> 60 dB' : `${calcData.RL_in.toFixed(1)} dB`;
+  dispZinAct.textContent = `Zin: ${calcData.Zin_actual.toFixed(1)} Ω`;
+  dispVSWR.textContent = `${calcData.VSWR_in.toFixed(3)} : 1`;
+
+  const pOutW = calcData.PoutW;
+  dispPout.textContent = pOutW >= 1 ? `${pOutW.toFixed(2)} W` : `${(pOutW * 1000).toFixed(1)} mW`;
+  const pOutDbm = 10 * Math.log10(pOutW * 1000);
+  dispPoutDbm.textContent = `${pOutDbm.toFixed(1)} dBm`;
+
+  // Component BOM Cards
+  let cardsHtml = '';
+  calcData.components.forEach(c => {
+    let colorBandsHtml = '';
+    if (c.colors) {
+      const bandDivs = c.colors.bands.map(b => `<div class="band" style="background: ${b.color};" title="${b.name}"></div>`).join('');
+      const bandNames = c.colors.bands.map(b => b.name).join(' ');
+      colorBandsHtml = `
+        <div class="color-code-bar">
+          <div class="resistor-graphic">
+            ${bandDivs}
+          </div>
+          <div class="color-names">${bandNames}</div>
+        </div>
+      `;
+    }
+
+    let dualHtml = '';
+    if (c.dual && c.errPct > 0.3) {
+      dualHtml = `
+        <tr>
+          <td>Precision Pair</td>
+          <td style="color: var(--accent-green); font-weight: 700;">${c.dual.r1} ${c.dual.type} ${c.dual.r2} Ω (${c.dual.val.toFixed(2)} Ω, ${c.dual.errPct.toFixed(2)}% err)</td>
+        </tr>
+      `;
+    }
+
+    cardsHtml += `
+      <div class="component-card">
+        <div class="comp-header">
+          <div class="comp-name">${c.name}</div>
+          <div class="comp-role">${c.role}</div>
+        </div>
+        <div class="comp-val-large">${c.std} <span style="font-size: 14px; font-weight: normal; color: var(--text-dim);">Ω</span></div>
+        <div class="comp-val-exact">Ideal: ${c.ideal.toFixed(3)} Ω &bull; Tol Error: ${c.errPct.toFixed(2)}%</div>
+        <table class="comp-stats-table">
+          <tr>
+            <td>Power Dissipated</td>
+            <td>${c.powerW >= 1 ? c.powerW.toFixed(2) + ' W' : (c.powerW * 1000).toFixed(1) + ' mW'} (${c.pwrPct.toFixed(1)}% Pin)</td>
+          </tr>
+          <tr>
+            <td>Recommended Rating</td>
+            <td style="color: var(--accent-maroon);">${c.recRating}</td>
+          </tr>
+          ${dualHtml}
+        </table>
+        ${colorBandsHtml}
+      </div>
+    `;
+  });
+  componentCardsContainer.innerHTML = cardsHtml;
+
+  updateComparisonTable();
+}
+
+function updateComparisonTable() {
+  const K = Math.pow(10, state.A / 20);
+  const Z0 = state.Zin;
+  compParamLabel.textContent = `${state.A.toFixed(1)} dB @ ${state.Zin} Ω`;
+
+  const t_r1 = Z0 * (K - 1) / (K + 1);
+  const t_r3 = Z0 * (2 * K) / (K * K - 1);
+  const pi_r1 = Z0 * (K + 1) / (K - 1);
+  const pi_r3 = Z0 * (K * K - 1) / (2 * K);
+  const bt_bridge = Z0 * (K - 1);
+  const bt_shunt = Z0 / (K - 1);
+
+  compareTableBody.innerHTML = `
+    <tr>
+      <td><strong>T-Pad (Tee)</strong></td>
+      <td class="mono">R1 = ${t_r1.toFixed(2)} Ω</td>
+      <td class="mono">R2 = ${t_r1.toFixed(2)} Ω</td>
+      <td class="mono">R3 = ${t_r3.toFixed(2)} Ω</td>
+      <td>${(state.PinWatts * 0.45).toFixed(2)} W</td>
+      <td><span style="color: var(--accent-green); font-weight: 700;">Excellent for 1–6 dB</span></td>
+      <td>General RF, audio, low attenuation step stages</td>
+    </tr>
+    <tr>
+      <td><strong>Pi-Pad (π)</strong></td>
+      <td class="mono">R1 = ${pi_r1.toFixed(2)} Ω</td>
+      <td class="mono">R2 = ${pi_r1.toFixed(2)} Ω</td>
+      <td class="mono">R3 = ${pi_r3.toFixed(2)} Ω</td>
+      <td>${(state.PinWatts * 0.35).toFixed(2)} W</td>
+      <td><span style="color: var(--accent-green); font-weight: 700;">Preferred for 10–30 dB</span></td>
+      <td>Planar microstrip pads, RF modules</td>
+    </tr>
+    <tr>
+      <td><strong>Bridged-T</strong></td>
+      <td class="mono">R0 = ${Z0} Ω</td>
+      <td class="mono">R0 = ${Z0} Ω</td>
+      <td class="mono">R_br = ${bt_bridge.toFixed(2)} Ω, R_sh = ${bt_shunt.toFixed(2)} Ω</td>
+      <td>${(state.PinWatts * 0.30).toFixed(2)} W</td>
+      <td><span style="color: var(--accent-navy); font-weight: 700;">Variable Step Attenuators</span></td>
+      <td>Step attenuators where two series resistors remain 50 Ω</td>
+    </tr>
+    <tr>
+      <td><strong>Balanced H-Pad</strong></td>
+      <td class="mono">R1/2 = ${(t_r1 / 2).toFixed(2)} Ω (x2)</td>
+      <td class="mono">R2/2 = ${(t_r1 / 2).toFixed(2)} Ω (x2)</td>
+      <td class="mono">R3 = ${t_r3.toFixed(2)} Ω</td>
+      <td>${(state.PinWatts * 0.25).toFixed(2)} W</td>
+      <td>Balanced differential lines</td>
+      <td>Professional audio (600Ω XLR), AES3 (110Ω), Twin-lead</td>
+    </tr>
+  `;
+}
+
+// Event Listeners
+inputAttn.addEventListener('input', (e) => {
+  const val = parseFloat(e.target.value);
+  if (!isNaN(val) && val >= 0.1 && val <= 80) {
+    state.A = val;
+    sliderAttn.value = val;
+    updateUI();
+  }
+});
+
+sliderAttn.addEventListener('input', (e) => {
+  const val = parseFloat(e.target.value);
+  state.A = val;
+  inputAttn.value = val.toFixed(1);
+  updateUI();
+});
+
+inputZin.addEventListener('input', (e) => {
+  const val = parseFloat(e.target.value);
+  if (!isNaN(val) && val > 0) {
+    state.Zin = val;
+    updateUI();
+  }
+});
+
+inputZout.addEventListener('input', (e) => {
+  const val = parseFloat(e.target.value);
+  if (!isNaN(val) && val > 0) {
+    state.Zout = val;
+    updateUI();
+  }
+});
+
+selectSeries.addEventListener('change', (e) => {
+  state.series = e.target.value;
+  updateUI();
+});
+
+inputPin.addEventListener('input', (e) => {
+  const val = parseFloat(e.target.value);
+  if (!isNaN(val) && val > 0) {
+    recalcPowerWatts(val, selectPowerUnit.value);
+    updateUI();
+  }
+});
+
+selectPowerUnit.addEventListener('change', (e) => {
+  const unit = e.target.value;
+  state.powerUnit = unit;
+  recalcPowerWatts(parseFloat(inputPin.value) || 1.0, unit);
+  updateUI();
+});
+
+function recalcPowerWatts(val, unit) {
+  if (unit === 'W') state.PinWatts = val;
+  else if (unit === 'mW') state.PinWatts = val / 1000;
+  else if (unit === 'dBm') state.PinWatts = Math.pow(10, (val - 30) / 10);
+}
+
+document.querySelectorAll('[data-set-attn]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const val = parseFloat(btn.getAttribute('data-set-attn'));
+    state.A = val;
+    inputAttn.value = val.toFixed(1);
+    sliderAttn.value = val;
+    document.querySelectorAll('[data-set-attn]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateUI();
+  });
+});
+
+document.querySelectorAll('[data-set-zin]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const val = parseFloat(btn.getAttribute('data-set-zin'));
+    state.Zin = val;
+    inputZin.value = val;
+    document.querySelectorAll('[data-set-zin]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateUI();
+  });
+});
+
+document.querySelectorAll('[data-set-zout]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const val = parseFloat(btn.getAttribute('data-set-zout'));
+    state.Zout = val;
+    inputZout.value = val;
+    document.querySelectorAll('[data-set-zout]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateUI();
+  });
+});
+
+btnLinkZ.addEventListener('click', () => {
+  state.Zout = state.Zin;
+  inputZout.value = state.Zin;
+  updateUI();
+});
+
+btnFixMinLoss.addEventListener('click', () => {
+  const minL = calcMinLoss(state.Zin, state.Zout);
+  state.A = Math.ceil(minL * 100) / 100;
+  inputAttn.value = state.A.toFixed(2);
+  sliderAttn.value = state.A;
+  updateUI();
+});
+
+btnModeLive.addEventListener('click', () => {
+  state.viewMode = 'live';
+  btnModeLive.classList.add('active');
+  btnModeVector.classList.remove('active');
+  updateUI();
+});
+
+btnModeVector.addEventListener('click', () => {
+  state.viewMode = 'vector';
+  btnModeVector.classList.add('active');
+  btnModeLive.classList.remove('active');
+  updateUI();
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const topo = btn.getAttribute('data-topo');
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (topo === 'COMPARE') {
+      designerMainGrid.style.display = 'none';
+      comparisonSection.style.display = 'block';
+    } else {
+      designerMainGrid.style.display = 'grid';
+      comparisonSection.style.display = 'none';
+      state.topo = topo;
+      updateUI();
+    }
+  });
+});
+
+// Theme Toggle (Light / Dark)
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const target = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', target);
+});
+
+// Export SVG Schematic
+document.getElementById('btnDownloadSvg').addEventListener('click', () => {
+  let svgContent = '';
+  const liveSvg = document.getElementById('activeLiveSvg');
+  if (liveSvg && state.viewMode === 'live') {
+    svgContent = liveSvg.outerHTML;
+  } else {
+    const file = SVG_FILES[state.topo] || 't_attenuator_schematic.svg';
+    window.open(file, '_blank');
+    return;
+  }
+  const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${state.topo.toLowerCase()}_attenuator_${state.A}dB_${state.Zin}ohm.svg`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+// Copy BOM to Clipboard
+document.getElementById('btnCopyBom').addEventListener('click', () => {
+  const calcData = solveAttenuator(state.topo, state.A, state.Zin, state.Zout, state.series, state.PinWatts);
+  let bomText = `=== MICROWAVE PLANAR CIRCUITS: ATTENUATOR REPORT ===\n`;
+  bomText += `Topology: ${state.topo}-Pad\n`;
+  bomText += `Attenuation: ${state.A} dB (Actual: ${calcData.A_actual.toFixed(2)} dB)\n`;
+  bomText += `Impedance: Zin = ${state.Zin} Ω, Zout = ${state.Zout} Ω\n`;
+  bomText += `Return Loss: ${calcData.RL_in.toFixed(1)} dB | VSWR: ${calcData.VSWR_in.toFixed(3)}:1\n`;
+  bomText += `Input Power: ${state.PinWatts} W\n\n`;
+  bomText += `BILL OF MATERIALS:\n`;
+  calcData.components.forEach(c => {
+    bomText += `- ${c.name} (${c.role}): Standard ${c.std} Ω (Ideal: ${c.ideal.toFixed(2)} Ω, Err: ${c.errPct.toFixed(2)}%) | Dissipation: ${c.powerW.toFixed(2)} W | Rec: ${c.recRating}\n`;
+    if (c.dual) {
+      bomText += `  Dual Synthesis: ${c.dual.r1} ${c.dual.type} ${c.dual.r2} Ω\n`;
+    }
+  });
+  navigator.clipboard.writeText(bomText).then(() => {
+    const btn = document.getElementById('btnCopyBom');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✅ Copied!';
+    setTimeout(() => { btn.innerHTML = original; }, 2000);
+  });
+});
+
+// Initialize
+updateUI();
+</script>
+</body>
+</html>

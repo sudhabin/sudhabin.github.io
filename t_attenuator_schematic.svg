@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" width="680" height="360">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#336633" />
+      <stop offset="100%" stop-color="#254d25" />
+    </linearGradient>
+    <pattern id="millimeterGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e7decb" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+
+  <!-- Background in Sudhabin Theme (Warm Paper / Cream) -->
+  <rect width="100%" height="100%" fill="#fcfaf6" rx="10"/>
+  <rect width="100%" height="100%" fill="url(#millimeterGrid)" rx="10"/>
+  <rect width="100%" height="100%" fill="none" stroke="#cc9966" stroke-width="2" rx="10"/>
+  <rect x="4" y="4" width="672" height="352" fill="none" stroke="#996600" stroke-width="1" rx="8" opacity="0.6"/>
+
+  <!-- Theme Header Banner -->
+  <g transform="translate(20, 16)">
+    <rect x="0" y="0" width="640" height="44" rx="6" fill="url(#headerGrad)" stroke="#996600" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5">T-PAD ATTENUATOR (TEE TOPOLOGY)</text>
+    <text x="20" y="37" fill="#ecd9b8" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11">Symmetrical / Asymmetrical RF Resistive Matching Network</text>
+    <rect x="530" y="10" width="120" height="24" rx="4" fill="#254d25" stroke="#cc9966" stroke-width="1"/>
+    <text x="590" y="26" fill="#fef3c7" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle">MICROWAVE CAD</text>
+  </g>
+
+  <!-- Schematic Drawing Area -->
+  
+  <!-- Ground reference rail -->
+  <line x1="80" y1="280" x2="600" y2="280" stroke="#78716c" stroke-width="2.5"/>
+  <line x1="80" y1="280" x2="80" y2="295" stroke="#78716c" stroke-width="2"/>
+  <line x1="600" y1="280" x2="600" y2="295" stroke="#78716c" stroke-width="2"/>
+  <circle cx="80" cy="295" r="3.5" fill="#78716c"/>
+  <circle cx="600" cy="295" r="3.5" fill="#78716c"/>
+  <text x="75" y="318" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="end">GND (IN)</text>
+  <text x="605" y="318" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600">GND (OUT)</text>
+
+  <!-- Central Ground -->
+  
+    <line x1="340" y1="280" x2="340" y2="296" stroke="#78716c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="324" y1="296" x2="356" y2="296" stroke="#78716c" stroke-width="3" stroke-linecap="round"/>
+    <line x1="330" y1="302" x2="350" y2="302" stroke="#78716c" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="336" y1="308" x2="344" y2="308" stroke="#78716c" stroke-width="2" stroke-linecap="round"/>
+  
+
+  <!-- Signal Path -->
+  <line x1="80" y1="130" x2="160" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+  <!-- R1 (Series 1) -->
+  <path d="M 160 130 h 10 L 175.83333333333334 116 L 187.5 144 L 199.16666666666669 116 L 210.83333333333334 144 L 222.50000000000003 116 L 234.16666666666669 144 L 240 130 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="250" y1="130" x2="340" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+  
+  <line x1="340" y1="130" x2="430" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+  <!-- R2 (Series 2) -->
+  <path d="M 430 130 h 10 L 445.8333333333333 116 L 457.5 144 L 469.16666666666663 116 L 480.8333333333333 144 L 492.49999999999994 116 L 504.16666666666663 144 L 510 130 h 10" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="520" y1="130" x2="600" y2="130" stroke="#1c1917" stroke-width="2.5"/>
+
+  <!-- Junction down to R3 -->
+  <line x1="340" y1="130" x2="340" y2="165" stroke="#1c1917" stroke-width="2.5"/>
+  <!-- R3 (Shunt) -->
+  <path d="M 340 165 v 10 L 326 180 L 354 190 L 326 200 L 354 210 L 326 220 L 354 230 L 340 235 v 10" fill="none" stroke="#15803d" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="340" y1="245" x2="340" y2="280" stroke="#1c1917" stroke-width="2.5"/>
+
+  <!-- Junction Dots -->
+  <circle cx="340" cy="130" r="4.5" fill="#336633"/>
+  <circle cx="340" cy="280" r="4.5" fill="#336633"/>
+
+  <!-- Component Callouts & Labels -->
+  <!-- R1 -->
+  <g transform="translate(205, 95)">
+    <rect x="-46" y="-14" width="92" height="26" rx="5" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+    <text x="0" y="4" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R1 (Series)</text>
+  </g>
+  <text x="205" y="165" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="middle">Z₀ · (K-1)/(K+1)</text>
+
+  <!-- R2 -->
+  <g transform="translate(475, 95)">
+    <rect x="-46" y="-14" width="92" height="26" rx="5" fill="#ffffff" stroke="#b45309" stroke-width="1.5"/>
+    <text x="0" y="4" fill="#9a3412" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R2 (Series)</text>
+  </g>
+  <text x="475" y="165" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="middle">Z₀ · (K-1)/(K+1)</text>
+
+  <!-- R3 -->
+  <g transform="translate(395, 205)">
+    <rect x="-6" y="-13" width="92" height="26" rx="5" fill="#ffffff" stroke="#15803d" stroke-width="1.5"/>
+    <text x="40" y="4" fill="#166534" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">R3 (Shunt)</text>
+    <text x="40" y="24" fill="#78716c" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="middle">2·K·Z₀/(K²-1)</text>
+  </g>
+
+  <!-- Ports -->
+  
+    <circle cx="80" cy="130" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="52" y="118" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="end">PORT 1</text>
+    <text x="52" y="136" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="end">IN (Zin)</text>
+  
+  
+    <circle cx="600" cy="130" r="5" fill="#336633" stroke="#996600" stroke-width="2"/>
+    <text x="628" y="118" fill="#1c1917" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start">PORT 2</text>
+    <text x="628" y="136" fill="#993333" font-family="'Trebuchet MS', monospace" font-size="11" font-weight="600" text-anchor="start">OUT (Zout)</text>
+  
+
+  <!-- Direction Arrows -->
+  <polygon points="120,126 128,130 120,134" fill="#336633"/>
+  <polygon points="560,126 568,130 560,134" fill="#336633"/>
+  
+
+  <!-- Footer Watermark / Status -->
+  <line x1="20" y1="336" x2="660" y2="336" stroke="#cc9966" stroke-width="0.8"/>
+  <text x="24" y="350" fill="#854d0e" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="600">SUDHABIN.GITHUB.IO • MICROWAVE PLANAR CIRCUITS</text>
+  <text x="656" y="350" fill="#78716c" font-family="monospace" font-size="10" text-anchor="end">ATTENUATOR DESIGNER SCHEMATIC</text>
+</svg>
