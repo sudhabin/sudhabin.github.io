@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" width="640" height="270">
+  <defs>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#336633" />
+      <stop offset="100%" stop-color="#254d25" />
+    </linearGradient>
+    <linearGradient id="copperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="substrateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d6d3d1" />
+      <stop offset="100%" stop-color="#a8a29e" />
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e7decb" stroke-width="0.8"/>
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#78716c"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#fcfaf6" rx="8"/>
+  <rect width="100%" height="100%" fill="url(#grid)" rx="8"/>
+  <rect width="100%" height="100%" fill="none" stroke="#cc9966" stroke-width="2" rx="8"/>
+
+  <!-- Header Banner -->
+  <g transform="translate(16, 12)">
+    <rect x="0" y="0" width="608" height="36" rx="5" fill="url(#headerGrad)" stroke="#996600" stroke-width="1"/>
+    <text x="16" y="23" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="14" font-weight="700">STRIPLINE CROSS-SECTION</text>
+    <text x="592" y="23" fill="#ecd9b8" font-family="'Trebuchet MS', monospace" font-size="11" text-anchor="end">TEM Mode Conductor Enclosed Symmetrically by Two Ground Planes</text>
+  </g>
+
+  
+  <g transform="translate(60, 65)">
+    <!-- Top Ground Plane -->
+    <rect x="60" y="30" width="400" height="12" rx="2" fill="url(#copperGrad)" stroke="#78350f" stroke-width="1.5"/>
+    <text x="260" y="39" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle">TOP GROUND PLANE</text>
+
+    <!-- Substrate -->
+    <rect x="60" y="42" width="400" height="110" rx="2" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+    <text x="140" y="100" fill="#475569" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700">Dielectric (εr)</text>
+
+    <!-- Center Strip -->
+    <rect x="200" y="90" width="120" height="14" rx="2" fill="url(#copperGrad)" stroke="#78350f" stroke-width="1.5"/>
+    <text x="260" y="101" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">STRIP</text>
+
+    <!-- Bottom Ground Plane -->
+    <rect x="60" y="152" width="400" height="12" rx="2" fill="url(#copperGrad)" stroke="#78350f" stroke-width="1.5"/>
+    <text x="260" y="161" fill="#ffffff" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="700" text-anchor="middle">BOTTOM GROUND PLANE</text>
+
+    <!-- Dimension W -->
+    <line x1="200" y1="78" x2="320" y2="78" stroke="#78716c" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="260" y="73" fill="#993333" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" font-weight="700" text-anchor="middle">Width (W)</text>
+
+    <!-- Dimension b (Ground Spacing) -->
+    <line x1="485" y1="42" x2="485" y2="152" stroke="#78716c" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <line x1="478" y1="42" x2="492" y2="42" stroke="#78716c" stroke-width="1"/>
+    <line x1="478" y1="152" x2="492" y2="152" stroke="#78716c" stroke-width="1"/>
+    <text x="498" y="100" fill="#993333" font-family="'Trebuchet MS', Arial, sans-serif" font-size="13" font-weight="700">Spacing (b)</text>
+  </g>
+  
+
+  <text x="624" y="262" fill="#854d0e" font-family="'Trebuchet MS', Arial, sans-serif" font-size="10" font-weight="600" text-anchor="end">SUDHABIN.GITHUB.IO • TRANSMISSION LINE CALCULATOR</text>
+</svg>
