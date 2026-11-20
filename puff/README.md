@@ -33,7 +33,7 @@ Click inside the VGA display to type. Use the sidebar if your browser or keyboar
 | Alt+S | Open the large Smith chart in Plot |
 | Tab | Toggle the view or board type in the current window |
 
-The **Puff manual** is available from the header when the PDF is beside the HTML. Printer and plotter commands depend on the emulated DOS hardware.
+The **Puff manual** is available from the header when the PDF is beside the HTML. Printer and plotter commands depend on the emulated DOS hardware. A step-by-step **Windows 7 Puff 2.1 tutorial** (2013, English) is also linked for download from the header and the credits section; it is a third-party document, not part of the Puff distribution.
 
 ## Sources
 
